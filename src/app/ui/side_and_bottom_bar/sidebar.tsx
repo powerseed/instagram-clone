@@ -1,9 +1,11 @@
 import { logo, sidebar_buttons_group1, sidebar_buttons_group2 } from "./buttons";
+import MoreMenu from "./more_menu";
 import './style.css';
 
 export default function Sidebar() {
     return (
         <div className="hidden md:flex flex-col pt-[8px] pb-[20px] px-[12px] border-r-[1px] h-screen w-[72px] xl:w-[244px]">
+            <MoreMenu />
             <div className="h-[92px] mt-[14px]">
                 <div className="button p-[12px] rounded-lg hover:bg-gray-200 transition-colors xl:hidden">
                     <img className="transition-transform" src={`/side_and_bottom_bar/${logo.image_icon}`} alt="Instagram" width="24" height="24" />
