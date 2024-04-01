@@ -3,7 +3,7 @@ export let logo = {
     text_icon: `/instagram-logo.svg`
 }
 
-export let buttons_group1 = [
+export let sidebar_buttons_group1 = [
     {
         text: 'Home',
         svg: `/home.svg`
@@ -38,7 +38,7 @@ export let buttons_group1 = [
     }
 ];
 
-export let buttons_group2 = [
+export let sidebar_buttons_group2 = [
     {
         text: 'Threads',
         svg: `/threads.svg`
@@ -47,4 +47,13 @@ export let buttons_group2 = [
         text: 'More',
         svg: `/more.svg`
     }
+]
+
+export let bottom_bar_buttons = [
+    'Home',
+    'Explore',
+    'Reels',
+    'Create',
+    'Messages',
+    'Profile'
 ]

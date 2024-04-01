@@ -1,4 +1,4 @@
-import { logo, buttons_group1, buttons_group2 } from "./buttons";
+import { logo, sidebar_buttons_group1, sidebar_buttons_group2 } from "./buttons";
 import './style.css';
 
 export default function Sidebar() {
@@ -15,7 +15,7 @@ export default function Sidebar() {
             </div>
 
             <div className="grow flex-col space-y-2">
-                {buttons_group1.map(button => {
+                {sidebar_buttons_group1.map(button => {
                     return (
                         <div className="button flex rounded-lg hover:bg-gray-200 transition-colors">
                             <div className="p-[12px]">
@@ -28,7 +28,7 @@ export default function Sidebar() {
             </div>
 
             <div className="flex-col space-y-2">
-                {buttons_group2.map(button => {
+                {sidebar_buttons_group2.map(button => {
                     return (
                         <div className="button flex rounded-lg hover:bg-gray-200 transition-colors">
                             <div className="p-[12px]">
