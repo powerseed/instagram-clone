@@ -10,7 +10,7 @@ export default function BottomBar() {
                 }
 
                 return (
-                    <div className="button p-[12px]">
+                    <div className="button cursor-pointer p-[12px]" key={button.text}>
                         <img className="transition-transform" src={`/side_and_bottom_bar/${button.svg}`} alt={button.text} width='24' height='24' />
                     </div>
                 )

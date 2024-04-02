@@ -38,17 +38,6 @@ export let sidebar_buttons_group1 = [
     }
 ];
 
-export let sidebar_buttons_group2 = [
-    {
-        text: 'Threads',
-        svg: `/threads.svg`
-    },
-    {
-        text: 'More',
-        svg: `/more.svg`
-    }
-]
-
 export let bottom_bar_buttons = [
     'Home',
     'Explore',
