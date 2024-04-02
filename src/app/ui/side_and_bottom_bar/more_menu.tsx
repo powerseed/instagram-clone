@@ -2,7 +2,7 @@ import { more_menu_buttons } from "./buttons";
 
 export default function MoreMenu() {
     return (
-        <div className="text-[14px] h-[425px] w-[266px] p-[8px] rounded-2xl shadow-[0px_0.5px_10px_0.5px_rgba(0,0,0,0.3)]">
+        <div className="bg-white text-[14px] h-[425px] w-[266px] p-[8px] rounded-2xl shadow-[0px_0.5px_10px_0.5px_rgba(0,0,0,0.3)]">
             <div>
                 {more_menu_buttons.map(button => {
                     return (
