@@ -1,0 +1,9 @@
+.links a:hover {
+    text-decoration: underline
+}
+
+.links a:not(:last-child):after {
+    content: '\00B7';
+    margin: 0 .25em 0 .25em;
+}
+
