@@ -1,15 +1,69 @@
+'use client';
+
 import './style.css';
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import { slides } from './content';
 
 export default function Home() {
+  const SliderNavigationButton = (
+    props: {
+      children: JSX.Element;
+      slideCount?: number;
+      currentSlide?: number;
+    }
+  ) => {
+    const { children, currentSlide, slideCount, ...others } = props;
+    return (
+      <span {...others}>
+        {children}
+      </span>
+    );
+  };
+
+  const settings = {
+    dots: false,
+    speed: 500,
+    slidesToShow: 8,
+    slidesToScroll: 4,
+    infinite: false,
+    autoplay: false
+  };
+
   return (
     <div className="flex justify-center w-full">
-      <div className="mt-[16px] bg-black max-w-[630px] w-full">
-        <div>
+      <div className="mt-[16px] max-w-[630px] w-full">
+        <Slider {...settings}
+          prevArrow={
+            <SliderNavigationButton>
+              <div className="next-slick-arrow">
+              </div>
+            </SliderNavigationButton>
+          }
+          nextArrow={
+            <SliderNavigationButton>
+              <div className="next-slick-arrow">
+              </div>
+            </SliderNavigationButton>
+          }
+        >
+          {slides.map(slide => {
+            return (
+              <div key={slide.text} className='!flex flex-col items-center space-y-1 !w-[70px]'>
+                <div className='avatar-container flex justify-center items-center'>
+                  <img className='avatar' src={`/home/${slide.img}`} alt={slide.text}/>
+                </div>
 
-        </div>
+                <div className='flex justify-center w-full'>
+                  <p className='text-[11px] truncate'>{slide.text}</p>
+                </div>
+              </div>
+            )
+          })}
+        </Slider>
 
-        <div>
-
+        <div className='flex-row space-x-3'>
         </div>
       </div>
 

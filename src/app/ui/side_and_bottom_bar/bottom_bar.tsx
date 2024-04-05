@@ -1,4 +1,4 @@
-import { sidebar_buttons_group1, bottom_bar_buttons } from "./buttons";
+import { sidebar_buttons_group1, bottom_bar_buttons } from "./content";
 import './style.css';
 
 export default function BottomBar() {

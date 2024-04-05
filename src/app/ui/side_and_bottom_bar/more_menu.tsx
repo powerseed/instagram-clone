@@ -1,4 +1,4 @@
-import { more_menu_buttons } from "./buttons";
+import { more_menu_buttons } from "./content";
 
 export default function MoreMenu() {
     return (

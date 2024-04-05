@@ -1,7 +1,7 @@
 'use client';
 
-import { useRef, useState } from "react";
-import { logo, sidebar_buttons_group1 } from "./buttons";
+import { useEffect, useRef, useState } from "react";
+import { logo, sidebar_buttons_group1 } from "./content";
 import MoreMenu from "./more_menu";
 import './style.css';
 
@@ -14,11 +14,13 @@ export default function Sidebar() {
         setIsMoreMenuOpen(!isMoreMenuOpen);
     }
 
-    document.addEventListener('click', (event) => {
-        if (isMoreMenuOpen && !moreMenu.current?.contains(event.target as Node) && !moreButton.current?.contains(event.target as Node)) {
-            setIsMoreMenuOpen(false);
-        }
-    });
+    useEffect(() => {
+        document.addEventListener('click', (event) => {
+            if (isMoreMenuOpen && !moreMenu.current?.contains(event.target as Node) && !moreButton.current?.contains(event.target as Node)) {
+                setIsMoreMenuOpen(false);
+            }
+        });
+    })
 
     return (
         <div className="hidden md:flex flex-col pt-[8px] pb-[20px] px-[12px] border-r-[1px] h-screen w-[72px] xl:w-[244px]">
