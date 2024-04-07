@@ -38,18 +38,3 @@
     opacity: 1 !important;
     font-size: 25px !important;
 }
-
-.avatar-container {
-    width: 65.5px;
-    height: 65.5px;
-    background: linear-gradient(to right top, yellow, red, #d580ff);
-    border-radius: 9999px;
-}
-
-.avatar {
-    width: 62px;
-    height: 62px;
-    background: white;
-    padding: 2px;
-    border-radius: 9999px;
-}

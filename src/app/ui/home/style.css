@@ -1,0 +1,5 @@
+.create-date:before {
+    content: '\00B7';
+    font-weight: 1000;
+    margin: 0 .25em 0 0;
+}

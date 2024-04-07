@@ -1,10 +1,12 @@
 'use client';
 
 import './style.css';
+import './globals.css';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { slides } from './content';
+import MediaCard from './ui/home/media_card';
 
 export default function Home() {
   const SliderNavigationButton = (
@@ -34,36 +36,45 @@ export default function Home() {
   return (
     <div className="flex justify-center w-full">
       <div className="mt-[16px] max-w-[630px] w-full">
-        <Slider {...settings}
-          prevArrow={
-            <SliderNavigationButton>
-              <div className="next-slick-arrow">
-              </div>
-            </SliderNavigationButton>
-          }
-          nextArrow={
-            <SliderNavigationButton>
-              <div className="next-slick-arrow">
-              </div>
-            </SliderNavigationButton>
-          }
-        >
-          {slides.map(slide => {
-            return (
-              <div key={slide.text} className='!flex flex-col items-center space-y-1 !w-[70px]'>
-                <div className='avatar-container flex justify-center items-center'>
-                  <img className='avatar' src={`/home/${slide.img}`} alt={slide.text}/>
+        <div className='py-[8px] mb-[24px]'>
+          <Slider {...settings}
+            prevArrow={
+              <SliderNavigationButton>
+                <div className="next-slick-arrow">
                 </div>
-
-                <div className='flex justify-center w-full'>
-                  <p className='text-[11px] truncate'>{slide.text}</p>
+              </SliderNavigationButton>
+            }
+            nextArrow={
+              <SliderNavigationButton>
+                <div className="next-slick-arrow">
                 </div>
-              </div>
-            )
-          })}
-        </Slider>
+              </SliderNavigationButton>
+            }
+          >
+            {slides.map(slide => {
+              return (
+                <div key={slide.text} className='!flex flex-col items-center space-y-1 !w-[70px]'>
+                  <div className='avatar-container flex justify-center items-center w-[65.5px] h-[65.5px]'>
+                    <img className='avatar' src={`/home/${slide.img}`} alt={slide.text} width={62} height={62}/>
+                  </div>
 
-        <div className='flex-row space-x-3'>
+                  <div className='flex justify-center w-full'>
+                    <p className='text-[11px] truncate'>{slide.text}</p>
+                  </div>
+                </div>
+              )
+            })}
+          </Slider>
+        </div>
+
+        <div className='flex flex-col space-y-3 items-center w-full'>
+          <MediaCard
+            avatar='voompla.jpg'
+            username='voompla'
+            isVerified={true}
+            created_on={new Date('April 6, 2024 03:24:00')}
+            annotation="Original audio"
+          />
         </div>
       </div>
 
