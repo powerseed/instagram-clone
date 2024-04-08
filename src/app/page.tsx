@@ -74,6 +74,7 @@ export default function Home() {
             isVerified={true}
             created_on={new Date('April 6, 2024 03:24:00')}
             annotation="Original audio"
+            images = {["voompla-1.jpg", "voompla-2.jpg", "voompla-3.jpg"]}
           />
         </div>
       </div>

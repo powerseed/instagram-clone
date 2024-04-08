@@ -2,20 +2,47 @@ import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
 import ReactTimeAgo from 'react-time-ago';
 import './style.css'
+import Slider from 'react-slick';
 
 type MediaCardProps = {
     avatar: string,
     username: string,
     isVerified: boolean,
     created_on: Date,
-    annotation: string | undefined
+    annotation: string | undefined,
+    images: string[]
 }
 
 export default function MediaCard(props: MediaCardProps) {
     TimeAgo.addDefaultLocale(en);
 
+    const SliderNavigationButton = (
+        props: {
+            children: JSX.Element;
+            slideCount?: number;
+            currentSlide?: number;
+        }
+    ) => {
+        const { children, currentSlide, slideCount, ...others } = props;
+        return (
+            <span {...others}>
+                {children}
+            </span>
+        );
+    };
+
+    const settings = {
+        dots: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        infinite: false,
+        autoplay: false,
+        className: "bg-black rounded"
+    };
+
     return (
-        <div className="flex w-[450px] h-[850px]">
+        <div className="flex flex-col space-y-3 w-[450px] h-[850px]">
             <div className="flex justify-between w-full h-min">
                 <div className="flex space-x-2">
                     <div className="avatar-container flex items-center justify-center w-[42px] h-[42px]">
@@ -51,11 +78,34 @@ export default function MediaCard(props: MediaCardProps) {
                 </div>
 
                 <div className="flex items-center">
-                    <img src="/home/three-dot-button.svg" alt="more" width={24} height={24}/>
+                    <img src="/home/three-dot-button.svg" alt="more" width={24} height={24} />
                 </div>
             </div>
 
-            <div></div>
+            <div>
+                <Slider {...settings}
+                    prevArrow={
+                        <SliderNavigationButton>
+                            <div className="next-slick-arrow">
+                            </div>
+                        </SliderNavigationButton>
+                    }
+                    nextArrow={
+                        <SliderNavigationButton>
+                            <div className="next-slick-arrow">
+                            </div>
+                        </SliderNavigationButton>
+                    }
+                >
+                    {props.images.map((image, index) => {
+                        return (
+                            <div key={index} className='mb-[-7px]'>
+                                <img className='rounded' src={`/home/${image}`} alt={index.toString()} />
+                            </div>
+                        )
+                    })}
+                </Slider>
+            </div>
         </div>
     )
 }
