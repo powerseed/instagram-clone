@@ -1,9 +1,14 @@
+'use client';
+
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
 import ReactTimeAgo from 'react-time-ago';
 import './style.css'
 import Slider from 'react-slick';
-import { MouseEvent } from 'react';
+import { MouseEvent, useRef, useState } from 'react';
+import TextareaAutosize from 'react-textarea-autosize';
+import data from '@emoji-mart/data'
+import Picker from '@emoji-mart/react'
 
 type MediaCardProps = {
     avatar: string,
@@ -22,6 +27,9 @@ enum OperationsOnButtonsForPost {
 export default function MediaCard(props: MediaCardProps) {
     TimeAgo.setDefaultLocale(en.locale);
     TimeAgo.addLocale(en);
+
+    let emojiPicker = useRef<HTMLDivElement>(null);
+    let [comment, setComment] = useState('');
 
     const SliderNavigationButton = (
         props: {
@@ -71,8 +79,38 @@ export default function MediaCard(props: MediaCardProps) {
         }
     }
 
+    function onEmojiButtonClick(event: MouseEvent) {
+        if (emojiPicker.current!.style.display == 'block') {
+            emojiPicker.current!.style.display = 'none';
+        }
+        else {
+            emojiPicker.current!.style.display = 'block';
+
+            let button: HTMLElement = event.target as HTMLElement;
+            let emojiPickerHeight = emojiPicker.current!.offsetHeight;
+            let space = window.innerHeight - button.getBoundingClientRect().bottom;
+
+            if (space > emojiPickerHeight) {
+                emojiPicker.current!.style.top = '100%';
+                emojiPicker.current!.style.bottom = 'unset';
+            }
+            else {
+                emojiPicker.current!.style.top = 'unset';
+                emojiPicker.current!.style.bottom = '100%';
+            }
+        }
+    }
+
+    function onEmojiSelect(emojiObject: any) {
+        let sym = emojiObject.unified.split("-");
+        let codesArray: number[] = [];
+        sym.forEach((el: string) => codesArray.push(Number("0x" + el)));
+        let emoji = String.fromCodePoint(...codesArray);
+        setComment(comment + emoji);
+    }
+
     return (
-        <div className="flex flex-col space-y-3 w-[450px] h-[850px]">
+        <div className="flex flex-col space-y-3 w-[450px] h-max-[850px]">
             <div className="flex justify-between w-full h-min">
                 <div className="flex space-x-2">
                     <div className="avatar-container flex items-center justify-center w-[42px] h-[42px]">
@@ -161,6 +199,44 @@ export default function MediaCard(props: MediaCardProps) {
                     />
                 </div>
             </div>
+
+            <div className='text-[14px]'>
+                Liked by <span className='font-medium'>benjaminmaxgalarza</span> and <span className='font-medium'>others</span>
+            </div>
+
+            <div className='text-[13px] text-gray-500 !mt-[5px]'>
+                View all 218 comments
+            </div>
+
+            <div className='flex justify-between items-center !mt-[5px] text-[14px] space-x-3'>
+                <TextareaAutosize
+                    value={comment}
+                    className='w-full focus:outline-none resize-none'
+                    placeholder='Add a comment...'
+                    maxRows={4}
+                    onChange={(e) => setComment(e.target.value)}
+                />
+
+                {
+                    comment && <div className='text-sky-600 hover:text-black cursor-pointer font-medium'>
+                        Post
+                    </div>
+                }
+
+                <div className='flex relative'>
+                    <button className='self-center' onClick={(event) => onEmojiButtonClick(event)}>
+                        <img id="emoji" src="/home/emoji.svg" alt="Emoji" width={24} height={24}
+                            onMouseOver={(event) => onButtonsForPostHoverOrLeave(event, OperationsOnButtonsForPost.HOVER)}
+                            onMouseLeave={(event) => onButtonsForPostHoverOrLeave(event, OperationsOnButtonsForPost.LEAVE)}
+                        />
+                    </button>
+
+                    <div ref={emojiPicker} className='hidden absolute z-10'>
+                        <Picker data={data} onEmojiSelect={onEmojiSelect} />
+                    </div>
+                </div>
+            </div>
+            <hr />
         </div>
     )
 }

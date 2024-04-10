@@ -55,7 +55,7 @@ export default function Home() {
               return (
                 <div key={slide.text} className='!flex flex-col items-center space-y-1 !w-[70px]'>
                   <div className='avatar-container flex justify-center items-center w-[65.5px] h-[65.5px]'>
-                    <img className='avatar' src={`/home/${slide.img}`} alt={slide.text} width={62} height={62}/>
+                    <img className='avatar' src={`/home/${slide.img}`} alt={slide.text} width={62} height={62} />
                   </div>
 
                   <div className='flex justify-center w-full'>
@@ -67,14 +67,30 @@ export default function Home() {
           </Slider>
         </div>
 
-        <div className='flex flex-col space-y-3 items-center w-full'>
+        <div className='flex flex-col space-y-5 items-center w-full'>
           <MediaCard
             avatar='voompla.jpg'
             username='voompla'
             isVerified={true}
             created_on={new Date('April 6, 2024 03:24:00')}
             annotation="Original audio"
-            images = {["voompla-1.jpg", "voompla-2.jpg", "voompla-3.jpg"]}
+            images={["voompla-1.jpg", "voompla-2.jpg", "voompla-3.jpg"]}
+          />
+          <MediaCard
+            avatar='voompla.jpg'
+            username='voompla'
+            isVerified={true}
+            created_on={new Date('April 6, 2024 03:24:00')}
+            annotation="Original audio"
+            images={["voompla-1.jpg", "voompla-2.jpg", "voompla-3.jpg"]}
+          />
+          <MediaCard
+            avatar='voompla.jpg'
+            username='voompla'
+            isVerified={true}
+            created_on={new Date('April 6, 2024 03:24:00')}
+            annotation="Original audio"
+            images={["voompla-1.jpg", "voompla-2.jpg", "voompla-3.jpg"]}
           />
         </div>
       </div>

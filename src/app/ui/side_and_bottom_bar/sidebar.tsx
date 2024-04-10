@@ -23,7 +23,7 @@ export default function Sidebar() {
     })
 
     return (
-        <div className="hidden md:flex flex-col pt-[8px] pb-[20px] px-[12px] border-r-[1px] h-screen w-[72px] xl:w-[244px]">
+        <div className="hidden md:flex flex-col pt-[8px] pb-[20px] px-[12px] border-r-[1px] h-screen w-[72px] xl:w-[280px]">
             <div className="h-[92px] mt-[14px]">
                 <div className="button cursor-pointer p-[12px] rounded-lg hover:bg-gray-200 transition-colors xl:hidden">
                     <img className="transition-transform" src={`/side_and_bottom_bar/${logo.image_icon}`} alt="Instagram" width="24" height="24" />
