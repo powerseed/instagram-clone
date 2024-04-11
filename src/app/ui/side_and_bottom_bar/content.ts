@@ -1,9 +1,9 @@
-export let logo = {
+export const logo = {
     image_icon: `/instagram-icon.svg`,
     text_icon: `/instagram-logo.svg`
 }
 
-export let sidebar_buttons_group1 = [
+export const sidebar_buttons_group1 = [
     {
         text: 'Home',
         svg: `/home.svg`
@@ -38,7 +38,7 @@ export let sidebar_buttons_group1 = [
     }
 ];
 
-export let bottom_bar_buttons = [
+export const bottom_bar_buttons = [
     'Home',
     'Explore',
     'Reels',
@@ -47,7 +47,7 @@ export let bottom_bar_buttons = [
     'Profile'
 ]
 
-export let more_menu_buttons = [
+export const more_menu_buttons = [
     {
         text: 'Settings',
         svg: `/settings.svg`

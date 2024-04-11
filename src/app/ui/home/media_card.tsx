@@ -16,7 +16,9 @@ type MediaCardProps = {
     isVerified: boolean,
     created_on: Date,
     annotation: string | undefined,
-    images: string[]
+    images: string[],
+    likedBy: string,
+    commentNumber: number
 }
 
 enum OperationsOnButtonsForPost {
@@ -201,11 +203,11 @@ export default function MediaCard(props: MediaCardProps) {
             </div>
 
             <div className='text-[14px]'>
-                Liked by <span className='font-medium'>benjaminmaxgalarza</span> and <span className='font-medium'>others</span>
+                Liked by <span className='font-medium'>{props.likedBy}</span> and <span className='font-medium'>others</span>
             </div>
 
             <div className='text-[13px] text-gray-500 !mt-[5px]'>
-                View all 218 comments
+                View all {props.commentNumber} comments
             </div>
 
             <div className='flex justify-between items-center !mt-[5px] text-[14px] space-x-3'>

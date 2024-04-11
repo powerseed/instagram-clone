@@ -5,7 +5,7 @@ import './globals.css';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { slides } from './content';
+import { slides, posts } from './content';
 import MediaCard from './ui/home/media_card';
 
 export default function Home() {
@@ -68,30 +68,24 @@ export default function Home() {
         </div>
 
         <div className='flex flex-col space-y-5 items-center w-full'>
-          <MediaCard
-            avatar='voompla.jpg'
-            username='voompla'
-            isVerified={true}
-            created_on={new Date('April 6, 2024 03:24:00')}
-            annotation="Original audio"
-            images={["voompla-1.jpg", "voompla-2.jpg", "voompla-3.jpg"]}
-          />
-          <MediaCard
-            avatar='voompla.jpg'
-            username='voompla'
-            isVerified={true}
-            created_on={new Date('April 6, 2024 03:24:00')}
-            annotation="Original audio"
-            images={["voompla-1.jpg", "voompla-2.jpg", "voompla-3.jpg"]}
-          />
-          <MediaCard
-            avatar='voompla.jpg'
-            username='voompla'
-            isVerified={true}
-            created_on={new Date('April 6, 2024 03:24:00')}
-            annotation="Original audio"
-            images={["voompla-1.jpg", "voompla-2.jpg", "voompla-3.jpg"]}
-          />
+          {
+            posts.map((post, index) => {
+              return (
+                <MediaCard
+                  key={index}
+                  avatar={post.avatar}
+                  username={post.username}
+                  isVerified={post.isVerified}
+                  created_on={post.created_on}
+                  annotation={post.annotation}
+                  images={post.images}
+                  likedBy={post.likedBy}
+                  commentNumber={post.commentNumber}
+                />
+              )
+
+            })
+          }
         </div>
       </div>
 
