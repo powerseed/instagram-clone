@@ -35,3 +35,19 @@ body {
   padding: 2px;
   border-radius: 9999px;
 }
+
+.main {
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .main {
+    width: calc(100% - 72px);
+  }
+}
+
+@media (min-width: 1280px) {
+  .main {
+    width: calc(100% - 280px);
+  }
+}

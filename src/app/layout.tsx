@@ -21,7 +21,9 @@ export default function RootLayout({
       <body className={inter.className}>
         <div className="flex">
           <Sidebar />
-          {children}
+          <div className="main ml-auto">
+            {children}
+          </div>
         </div>
         <BottomBar />
       </body>

@@ -35,7 +35,7 @@ export default function Home() {
 
   return (
     <div className="flex justify-center w-full">
-      <div className="mt-[16px] max-w-[630px] w-full">
+      <div className="mt-[16px] w-[630px]">
         <div className='py-[8px] mb-[24px]'>
           <Slider {...settings}
             prevArrow={
