@@ -5,11 +5,11 @@ import en from 'javascript-time-ago/locale/en';
 import ReactTimeAgo from 'react-time-ago';
 import './style.css'
 import Slider from 'react-slick';
-import { MouseEvent, useRef, useState } from 'react';
+import { MouseEvent, useEffect, useRef, useState } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 import data from '@emoji-mart/data'
-import Picker from '@emoji-mart/react'
 import MoreMenu from './more_menu';
+import EmojiPicker from './emoji_picker';
 
 type MediaCardProps = {
     avatar: string,
@@ -31,9 +31,27 @@ export default function MediaCard(props: MediaCardProps) {
     TimeAgo.setDefaultLocale(en.locale);
     TimeAgo.addLocale(en);
 
-    let emojiPicker = useRef<HTMLDivElement>(null);
+    let emojiPickerRef = useRef<HTMLDivElement>(null);
+    let emojiButtonRef = useRef<HTMLButtonElement>(null);
     let [comment, setComment] = useState('');
+    let [isEmojiPenalOpen, setIsEmojiPenalOpen] = useState(false);
     let [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
+
+    useEffect(() => {
+        if (isEmojiPenalOpen) {
+            let emojiPickerHeight = emojiPickerRef.current!.offsetHeight;
+            let space = window.innerHeight - emojiButtonRef.current!.getBoundingClientRect().bottom;
+
+            if (space > emojiPickerHeight) {
+                emojiPickerRef.current!.style.top = '100%';
+                emojiPickerRef.current!.style.bottom = 'unset';
+            }
+            else {
+                emojiPickerRef.current!.style.top = 'unset';
+                emojiPickerRef.current!.style.bottom = '100%';
+            }
+        }
+    }, [isEmojiPenalOpen])
 
     const SliderNavigationButton = (
         props: {
@@ -83,26 +101,8 @@ export default function MediaCard(props: MediaCardProps) {
         }
     }
 
-    function onEmojiButtonClick(event: MouseEvent) {
-        if (emojiPicker.current!.style.display == 'block') {
-            emojiPicker.current!.style.display = 'none';
-        }
-        else {
-            emojiPicker.current!.style.display = 'block';
-
-            let button: HTMLElement = event.target as HTMLElement;
-            let emojiPickerHeight = emojiPicker.current!.offsetHeight;
-            let space = window.innerHeight - button.getBoundingClientRect().bottom;
-
-            if (space > emojiPickerHeight) {
-                emojiPicker.current!.style.top = '100%';
-                emojiPicker.current!.style.bottom = 'unset';
-            }
-            else {
-                emojiPicker.current!.style.top = 'unset';
-                emojiPicker.current!.style.bottom = '100%';
-            }
-        }
+    function onEmojiButtonClick() {
+        setIsEmojiPenalOpen(!isEmojiPenalOpen);
     }
 
     function onEmojiSelect(emojiObject: any) {
@@ -233,16 +233,18 @@ export default function MediaCard(props: MediaCardProps) {
                     }
 
                     <div className='flex relative'>
-                        <button className='self-center' onClick={(event) => onEmojiButtonClick(event)}>
+                        <button ref={emojiButtonRef} className='self-center' onClick={onEmojiButtonClick}>
                             <img id="emoji" src="/home/emoji.svg" alt="Emoji" width={24} height={24}
                                 onMouseOver={(event) => onButtonsForPostHoverOrLeave(event, OperationsOnButtonsForPost.HOVER)}
                                 onMouseLeave={(event) => onButtonsForPostHoverOrLeave(event, OperationsOnButtonsForPost.LEAVE)}
                             />
                         </button>
 
-                        <div ref={emojiPicker} className='hidden absolute z-10'>
-                            <Picker data={data} onEmojiSelect={onEmojiSelect} />
-                        </div>
+                        {
+                            isEmojiPenalOpen && <div ref={emojiPickerRef} className='absolute z-10'>
+                                <EmojiPicker data={data} onEmojiSelect={onEmojiSelect} closePenal={onEmojiButtonClick} />
+                            </div>
+                        }
                     </div>
                 </div>
                 <hr />

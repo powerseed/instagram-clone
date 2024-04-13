@@ -7,8 +7,8 @@ import './style.css';
 
 export default function Sidebar() {
     let [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
-    const moreMenu = useRef<HTMLInputElement>(null);
-    const moreButton = useRef<HTMLInputElement>(null);
+    const moreMenuRef = useRef<HTMLInputElement>(null);
+    const moreButtonRef = useRef<HTMLInputElement>(null);
 
     function handleMoreClick() {
         setIsMoreMenuOpen(!isMoreMenuOpen);
@@ -16,7 +16,7 @@ export default function Sidebar() {
 
     useEffect(() => {
         document.addEventListener('click', (event) => {
-            if (isMoreMenuOpen && !moreMenu.current?.contains(event.target as Node) && !moreButton.current?.contains(event.target as Node)) {
+            if (isMoreMenuOpen && !moreMenuRef.current?.contains(event.target as Node) && !moreButtonRef.current?.contains(event.target as Node)) {
                 setIsMoreMenuOpen(false);
             }
         });
@@ -57,12 +57,12 @@ export default function Sidebar() {
 
                 <div>
                     {isMoreMenuOpen &&
-                        <div ref={moreMenu} className="absolute left-[60px] bottom-[20px] xl:left-[12px] xl:bottom-[72px]">
+                        <div ref={moreMenuRef} className="absolute left-[60px] bottom-[20px] xl:left-[12px] xl:bottom-[72px]">
                             <MoreMenu />
                         </div>
                     }
 
-                    <div ref={moreButton} className="button cursor-pointer flex rounded-lg hover:bg-gray-200 transition-colors" onClick={handleMoreClick}>
+                    <div ref={moreButtonRef} className="button cursor-pointer flex rounded-lg hover:bg-gray-200 transition-colors" onClick={handleMoreClick}>
                         <div className="p-[12px]">
                             <img className="transition-transform" src={`/side_and_bottom_bar/more.svg`} alt="More" width='24' height='24' />
                         </div>
