@@ -36,6 +36,8 @@ export default function MediaCard(props: MediaCardProps) {
     let [comment, setComment] = useState('');
     let [isEmojiPenalOpen, setIsEmojiPenalOpen] = useState(false);
     let [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
+    let [isLiked, setIsLiked] = useState(false);
+    let [isSaved, setIsSaved] = useState(false);
 
     useEffect(() => {
         if (isEmojiPenalOpen) {
@@ -80,25 +82,34 @@ export default function MediaCard(props: MediaCardProps) {
 
     function onButtonsForPostHoverOrLeave(event: MouseEvent, operation: OperationsOnButtonsForPost) {
         let img = event.target! as HTMLImageElement;
-        let newSrc;
 
-        switch (operation) {
-            case OperationsOnButtonsForPost.HOVER:
-                newSrc = `/home/${img.id}-hover.svg`;
-                break;
-            case OperationsOnButtonsForPost.LEAVE:
-                newSrc = `/home/${img.id}.svg`;
-                break;
+        if ((img.id === 'like' && isLiked) || (img.id === 'save' && isSaved)) {
+            return;
         }
 
-        img.src = newSrc;
+        if (true) {
+            let newSrc;
+            switch (operation) {
+                case OperationsOnButtonsForPost.HOVER:
+                    newSrc = `/home/${img.id}-hover.svg`;
+                    break;
+                case OperationsOnButtonsForPost.LEAVE:
+                    newSrc = `/home/${img.id}.svg`;
+                    break;
+            }
+            img.src = newSrc;
 
-        if (operation === OperationsOnButtonsForPost.LEAVE && img.id === 'like') {
-            img.style.scale = '1.2';
-            setTimeout(() => {
-                img.style.scale = '1';
-            }, 100)
+            if (operation === OperationsOnButtonsForPost.LEAVE && img.id === 'like') {
+                scaleImgUpThenDown(img);
+            }
         }
+    }
+
+    function scaleImgUpThenDown(img: HTMLImageElement) {
+        img.style.scale = '1.2';
+        setTimeout(() => {
+            img.style.scale = '1';
+        }, 100)
     }
 
     function onEmojiButtonClick() {
@@ -115,6 +126,15 @@ export default function MediaCard(props: MediaCardProps) {
 
     function handleCloseMoreMenu() {
         setIsMoreMenuOpen(false);
+    }
+
+    function onLikeClick(event: MouseEvent) {
+        setIsLiked(!isLiked);
+        scaleImgUpThenDown(event.target as HTMLImageElement);
+    }
+
+    function onSaveClick() {
+        setIsSaved(!isSaved);
     }
 
     return (
@@ -186,9 +206,10 @@ export default function MediaCard(props: MediaCardProps) {
 
                 <div className='flex justify-between'>
                     <div className='flex space-x-4'>
-                        <img id="like" className='transition-all' src="/home/like.svg" alt="Like" width={24} height={24}
+                        <img id="like" className='transition-all' src={isLiked ? `/home/like-selected.svg` : `/home/like.svg`} alt="Like" width={24} height={24}
                             onMouseOver={(event) => onButtonsForPostHoverOrLeave(event, OperationsOnButtonsForPost.HOVER)}
                             onMouseLeave={(event) => onButtonsForPostHoverOrLeave(event, OperationsOnButtonsForPost.LEAVE)}
+                            onClick={(event) => onLikeClick(event)}
                         />
 
                         <img id="comment" src="/home/comment.svg" alt="Comment" width={24} height={24}
@@ -202,9 +223,10 @@ export default function MediaCard(props: MediaCardProps) {
                     </div>
 
                     <div>
-                        <img id="save" src="/home/save.svg" alt="Save" width={24} height={24}
+                        <img id="save" src={isSaved ? `/home/save-selected.svg` : `/home/save.svg`} alt="Save" width={24} height={24}
                             onMouseOver={(event) => onButtonsForPostHoverOrLeave(event, OperationsOnButtonsForPost.HOVER)}
                             onMouseLeave={(event) => onButtonsForPostHoverOrLeave(event, OperationsOnButtonsForPost.LEAVE)}
+                            onClick={onSaveClick}
                         />
                     </div>
                 </div>
