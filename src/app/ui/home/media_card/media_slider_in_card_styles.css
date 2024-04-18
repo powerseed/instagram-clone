@@ -1,0 +1,56 @@
+.media-slider-in-card {
+    .slick-arrow {
+        top: 50% !important;
+        transform: translate(0%, -50%) !important;
+        z-index: 10;
+    }
+
+    .slick-prev,
+    .slick-next {
+        width: 25px;
+        height: 25px;
+    }
+
+    .slick-prev {
+        left: 10px !important;
+    }
+
+    .slick-prev.slick-disabled {
+        display: none !important;
+    }
+
+    .slick-next {
+        right: 10px !important;
+    }
+
+    .slick-prev::before,
+    .slick-next::before {
+        opacity: 0.8 !important;
+        font-size: 25px !important;
+    }
+
+    .slick-next.slick-disabled {
+        display: none !important;
+    }
+
+    .slick-dots {
+        position: absolute;
+        bottom: 15px;
+    }
+
+    .slick-dots li {
+        height: 10px;
+        width: 10px;
+        margin: 0px;
+    }
+
+    .slick-dots li button::before {
+        color: white;
+        opacity: 0.5;
+    }
+
+    .slick-dots li.slick-active button::before {
+        color: white;
+        opacity: 1;
+    }
+}

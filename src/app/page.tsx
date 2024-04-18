@@ -1,12 +1,11 @@
 'use client';
 
-import './style.css';
+import styles from './styles.module.css';
+import './user_slider_styles.css'
 import './globals.css';
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import { slides, posts } from './content';
-import MediaCard from './ui/home/media_card';
+import MediaCard from './ui/home/media_card/media_card';
+import Slider from "react-slick";
 
 export default function Home() {
   const SliderNavigationButton = (
@@ -30,14 +29,15 @@ export default function Home() {
     slidesToShow: 8,
     slidesToScroll: 4,
     infinite: false,
-    autoplay: false
+    autoplay: false,
+    draggable: false,
   };
 
   return (
     <div className="flex flex-col justify-center w-full">
       <div className='flex justify-center mb-10'>
         <div className="mt-[16px] w-[630px]">
-          <div className='py-[8px] mb-[24px]'>
+          <div className="user-slider py-[8px] mb-[24px]">
             <Slider {...settings}
               prevArrow={
                 <SliderNavigationButton>
@@ -52,19 +52,21 @@ export default function Home() {
                 </SliderNavigationButton>
               }
             >
-              {slides.map(slide => {
-                return (
-                  <div key={slide.text} className='!flex flex-col items-center space-y-1 !w-[70px]'>
-                    <div className='avatar-container flex justify-center items-center w-[65.5px] h-[65.5px]'>
-                      <img className='avatar' src={`/home/${slide.img}`} alt={slide.text} width={62} height={62} />
-                    </div>
+              {
+                slides.map(slide => {
+                  return (
+                    <div key={slide.text} className='swiper-slide !flex flex-col items-center space-y-1 !w-[70px]'>
+                      <div className='avatar-container flex justify-center items-center w-[65.5px] h-[65.5px]'>
+                        <img className='avatar' src={`/home/${slide.img}`} alt={slide.text} width={62} height={62} />
+                      </div>
 
-                    <div className='flex justify-center w-full'>
-                      <p className='text-[11px] truncate'>{slide.text}</p>
+                      <div className='flex justify-center w-full'>
+                        <p className='text-[11px] truncate'>{slide.text}</p>
+                      </div>
                     </div>
-                  </div>
-                )
-              })}
+                  )
+                })
+              }
             </Slider>
           </div>
 
@@ -208,7 +210,7 @@ export default function Home() {
           </div>
 
           <div className="text-slate-300 text-[12px]">
-            <div className='mb-[16px] links flex flex-wrap'>
+            <div className={`${styles.links} mb-[16px] flex flex-wrap`}>
               <a href="">About</a>
               <a href="">Help</a>
               <a href="">Press</a>

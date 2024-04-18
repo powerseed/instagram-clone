@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { logo, sidebar_buttons_group1 } from "./content";
 import MoreMenu from "./more_menu";
-import './style.css';
+import styles from './styles.module.css';
 
 export default function Sidebar() {
     let [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
@@ -25,7 +25,7 @@ export default function Sidebar() {
     return (
         <div className="fixed hidden md:flex flex-col pt-[8px] pb-[20px] px-[12px] border-r-[1px] h-screen w-[72px] xl:w-[280px]">
             <div className="h-[92px] mt-[14px]">
-                <div className="button cursor-pointer p-[12px] rounded-lg hover:bg-gray-200 transition-colors xl:hidden">
+                <div className={`${styles.button} cursor-pointer p-[12px] rounded-lg hover:bg-gray-200 transition-colors xl:hidden`}>
                     <img className="transition-transform" src={`/side_and_bottom_bar/${logo.image_icon}`} alt="Instagram" width="24" height="24" />
                 </div>
 
@@ -37,7 +37,7 @@ export default function Sidebar() {
             <div className="grow flex-col space-y-2">
                 {sidebar_buttons_group1.map(button => {
                     return (
-                        <div className="button cursor-pointer flex rounded-lg hover:bg-gray-200 transition-colors" key={button.text}>
+                        <div className={`${styles.button} cursor-pointer flex rounded-lg hover:bg-gray-200 transition-colors`} key={button.text}>
                             <div className="p-[12px]">
                                 <img className="transition-transform" src={`/side_and_bottom_bar/${button.svg}`} alt={button.text} width='24' height='24' />
                             </div>
@@ -48,7 +48,7 @@ export default function Sidebar() {
             </div>
 
             <div className="flex-col space-y-2">
-                <div className="button cursor-pointer flex rounded-lg hover:bg-gray-200 transition-colors">
+                <div className={`${styles.button} cursor-pointer flex rounded-lg hover:bg-gray-200 transition-colors`}>
                     <div className="p-[12px]">
                         <img className="transition-transform" src={`/side_and_bottom_bar/threads.svg`} alt="Threads" width='24' height='24' />
                     </div>
@@ -62,7 +62,7 @@ export default function Sidebar() {
                         </div>
                     }
 
-                    <div ref={moreButtonRef} className="button cursor-pointer flex rounded-lg hover:bg-gray-200 transition-colors" onClick={handleMoreClick}>
+                    <div ref={moreButtonRef} className={`${styles.button} cursor-pointer flex rounded-lg hover:bg-gray-200 transition-colors`} onClick={handleMoreClick}>
                         <div className="p-[12px]">
                             <img className="transition-transform" src={`/side_and_bottom_bar/more.svg`} alt="More" width='24' height='24' />
                         </div>
