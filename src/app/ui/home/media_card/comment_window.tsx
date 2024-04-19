@@ -24,8 +24,10 @@ export default function CommentWindow(props: CommentProps) {
     let textareaRef = useRef<TextareaHandle>(null);
 
     useEffect(() => {
-        let closeCommentEventListener = (event: Event) => {
-            if (!commentRef.current?.contains(event.target as Node)) {
+        let closeCommentEventListener = (event: MouseEvent) => {
+            var clickedElement = document.elementFromPoint(event.clientX, event.clientY);
+            
+            if (!(commentRef.current?.contains(clickedElement))) {
                 props.closeCommentPanel();
             }
         };
