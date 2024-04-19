@@ -1,9 +1,17 @@
 import TextareaAutosize from 'react-textarea-autosize';
 import data from '@emoji-mart/data'
 import EmojiPicker from './emoji_picker';
-import { MouseEvent, useEffect, useRef, useState } from 'react';
+import { MouseEvent, forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 
-export default function Textarea({ isEmojiPickerBeforeInputField }: { isEmojiPickerBeforeInputField: boolean }) {
+type TextareaProps = {
+    isEmojiPickerBeforeInputField: boolean
+}
+
+export type TextareaHandle = {
+    addMentionStringToInputfield: (mentionString: string) => void;
+};
+
+const Textarea = forwardRef<TextareaHandle, TextareaProps>((props: TextareaProps, ref) => {
     let emojiPickerRef = useRef<HTMLDivElement>(null);
     let emojiButtonRef = useRef<HTMLButtonElement>(null);
     let [comment, setComment] = useState('');
@@ -24,6 +32,14 @@ export default function Textarea({ isEmojiPickerBeforeInputField }: { isEmojiPic
             }
         }
     }, [isEmojiPenalOpen])
+
+    useImperativeHandle(ref, () => {
+        return {
+            addMentionStringToInputfield(mentionString: string) {
+                setComment(comment + mentionString);
+            }
+        }
+    });
 
     function onEmojiButtonClick() {
         setIsEmojiPenalOpen(!isEmojiPenalOpen);
@@ -48,7 +64,7 @@ export default function Textarea({ isEmojiPickerBeforeInputField }: { isEmojiPic
     }
 
     return (
-        <div className={`flex ${ isEmojiPickerBeforeInputField ? 'flex-row-reverse' : ''} justify-between items-center text-[14px]`}>
+        <div className={`flex ${props.isEmojiPickerBeforeInputField ? 'flex-row-reverse' : ''} justify-between items-center text-[14px]`}>
             <div className='flex flex-1 space-x-2 mr-2'>
                 <div className='flex-1'>
                     <TextareaAutosize
@@ -83,4 +99,6 @@ export default function Textarea({ isEmojiPickerBeforeInputField }: { isEmojiPic
             </div>
         </div>
     )
-}
+});
+
+export default Textarea;

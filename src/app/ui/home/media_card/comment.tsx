@@ -7,7 +7,8 @@ type CommentProps = {
     content: string,
     created_on: Date,
     like_count: number,
-    reply_count: number
+    reply_count: number,
+    onReplyClick: Function
 }
 
 export default function Comment(props: CommentProps) {
@@ -34,7 +35,7 @@ export default function Comment(props: CommentProps) {
                                 {props.like_count} like{props.like_count == 1 ? '' : 's'}
                             </div>
 
-                            <div className="font-medium cursor-pointer">
+                            <div className="font-medium cursor-pointer" onClick={() => props.onReplyClick(" @" + props.username)}>
                                 Reply
                             </div>
                         </div>

@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import Header from "./header";
 import OperationButtons from "./operation_buttons";
 import ReactTimeAgo from "react-time-ago";
-import Textarea from "./textarea";
+import Textarea, { TextareaHandle } from "./textarea";
 import styles from './styles.module.css';
 import './media_slider_in_comment_styles.css';
 import './media_slider_in_card_styles.css';
@@ -21,6 +21,7 @@ type CommentProps = {
 
 export default function CommentWindow(props: CommentProps) {
     let commentRef = useRef<HTMLDivElement>(null);
+    let textareaRef = useRef<TextareaHandle>(null);
 
     useEffect(() => {
         let closeCommentEventListener = (event: Event) => {
@@ -35,6 +36,10 @@ export default function CommentWindow(props: CommentProps) {
             document.removeEventListener('click', closeCommentEventListener);
         }
     });
+
+    function placeUsernameInInputField(mentionString: string) {
+        textareaRef.current!.addMentionStringToInputfield(mentionString);
+    }
 
     return (
         <div className={`${styles.popup_scaling_down} fixed flex justify-center items-center top-0 bottom-0 left-0 right-0 w-screen h-screen bg-black/70 z-20`}>
@@ -69,6 +74,7 @@ export default function CommentWindow(props: CommentProps) {
                                         created_on={comment.created_on}
                                         like_count={comment.like_count}
                                         reply_count={comment.reply_count}
+                                        onReplyClick={placeUsernameInInputField}
                                     />
                                 )
                             })
@@ -91,7 +97,7 @@ export default function CommentWindow(props: CommentProps) {
 
                     <hr className="mb-3 mx-[-15px]" />
 
-                    <Textarea isEmojiPickerBeforeInputField={true} />
+                    <Textarea ref={textareaRef} isEmojiPickerBeforeInputField={true} />
                 </div>
             </div>
 
