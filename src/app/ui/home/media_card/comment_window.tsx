@@ -39,6 +39,7 @@ export default function CommentWindow(props: CommentProps) {
 
     function placeUsernameInInputField(mentionString: string) {
         textareaRef.current!.addMentionStringToInputfield(mentionString);
+        textareaRef.current!.focusOnTextArea();
     }
 
     return (

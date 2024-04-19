@@ -9,11 +9,13 @@ type TextareaProps = {
 
 export type TextareaHandle = {
     addMentionStringToInputfield: (mentionString: string) => void;
+    focusOnTextArea: () => void;
 };
 
 const Textarea = forwardRef<TextareaHandle, TextareaProps>((props: TextareaProps, ref) => {
     let emojiPickerRef = useRef<HTMLDivElement>(null);
     let emojiButtonRef = useRef<HTMLButtonElement>(null);
+    let textareaRef = useRef<HTMLTextAreaElement>(null);
     let [comment, setComment] = useState('');
     let [isEmojiPenalOpen, setIsEmojiPenalOpen] = useState(false);
 
@@ -37,6 +39,9 @@ const Textarea = forwardRef<TextareaHandle, TextareaProps>((props: TextareaProps
         return {
             addMentionStringToInputfield(mentionString: string) {
                 setComment(comment + mentionString);
+            },
+            focusOnTextArea() {
+                textareaRef.current?.focus();
             }
         }
     });
@@ -66,8 +71,9 @@ const Textarea = forwardRef<TextareaHandle, TextareaProps>((props: TextareaProps
     return (
         <div className={`flex ${props.isEmojiPickerBeforeInputField ? 'flex-row-reverse' : ''} justify-between items-center text-[14px]`}>
             <div className='flex flex-1 space-x-2 mr-2'>
-                <div className='flex-1'>
+                <div  className='flex-1'>
                     <TextareaAutosize
+                        ref={textareaRef}
                         value={comment}
                         className='w-full focus:outline-none resize-none'
                         placeholder='Add a comment...'
