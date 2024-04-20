@@ -105,7 +105,7 @@ export default function CommentWindow(props: CommentProps) {
             </div>
 
             <div className="fixed top-[20px] right-[20px] w-[20px] h-[20px] cursor-pointer">
-                <img src="/home/close.svg" alt="Close" />
+                <img src="/home/close-white.svg" alt="Close" />
             </div>
         </div>
     )
