@@ -89,7 +89,6 @@ export default function MoreMenu({ closeMoreMenu }: { closeMoreMenu: Function })
                     </div>
                 </div>
             </div>
-
         </div>
     )
 }

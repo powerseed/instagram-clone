@@ -20,7 +20,7 @@ type OperationButtonsProps = {
 
 export default function OperationButtons(props: OperationButtonsProps) {
     let [isCommentOpen, setIsCommentOpen] = useState(false);
-    let [isShareOpen, setIsShareOpen] = useState(true);
+    let [isShareOpen, setIsShareOpen] = useState(false);
     let [isSaved, setIsSaved] = useState(false);
 
     function onButtonsForPostHoverOrLeave(event: MouseEvent, operation: OperationsOnButtonsForPost) {
@@ -78,10 +78,12 @@ export default function OperationButtons(props: OperationButtonsProps) {
                 <div>
                     <img id="share-post" className="cursor-pointer" src="/home/share-post.svg" alt="Share Post" width={24} height={24}
                         onMouseOver={(event) => onButtonsForPostHoverOrLeave(event, OperationsOnButtonsForPost.HOVER)}
-                        onMouseLeave={(event) => onButtonsForPostHoverOrLeave(event, OperationsOnButtonsForPost.LEAVE)} />
+                        onMouseLeave={(event) => onButtonsForPostHoverOrLeave(event, OperationsOnButtonsForPost.LEAVE)} 
+                        onClick={() => setIsShareOpen(true)}
+                    />
 
                     {
-                        isShareOpen && <Share />
+                        isShareOpen && <Share closeShareWindow={() => setIsShareOpen(false)}/>
                     }
                 </div>
             </div>
