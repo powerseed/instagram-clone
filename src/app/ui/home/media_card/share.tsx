@@ -1,5 +1,7 @@
 import { useEffect, useRef } from "react";
 import styles from "./styles.module.css";
+import ShareUserCard from "./share_user_card";
+import { suggested_users_in_share } from "@/app/content";
 
 export default function Share({ closeShareWindow }: { closeShareWindow: Function }) {
     let shareRef = useRef<HTMLDivElement>(null);
@@ -50,13 +52,24 @@ export default function Share({ closeShareWindow }: { closeShareWindow: Function
 
                     <hr />
 
-                    <div className="flex flex-1 px-4 py-3">
-                        <div className="font-medium text-[13px]">
+                    <div className="flex flex-1 flex-col py-3 overflow-scroll">
+                        <div className="px-4 mb-[10px] font-medium text-[13px]">
                             Suggested
                         </div>
 
                         {
-
+                            suggested_users_in_share.map(user => {
+                                return (
+                                    <div className="px-4 py-[8px] hover:bg-gray-100 cursor-pointer">
+                                        <ShareUserCard
+                                            avatar={user.avatar}
+                                            nickname={user.nickname}
+                                            username={user.username}
+                                            isVerified={user.isVerified}
+                                        />
+                                    </div>
+                                )
+                            })
                         }
                     </div>
 
