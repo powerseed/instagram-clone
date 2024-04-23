@@ -45,8 +45,8 @@ export default function Share({ closeShareWindow }: { closeShareWindow: Function
                             To:
                         </div>
 
-                        <div className="text-[13px]">
-                            <input className="outline-none" type="text" placeholder="Search..." />
+                        <div className="flex-1 text-[13px]">
+                            <input className="outline-none w-full" type="text" placeholder="Search..." />
                         </div>
                     </div>
 
