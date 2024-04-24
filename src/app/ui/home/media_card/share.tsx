@@ -121,8 +121,14 @@ export default function Share({ closeShareWindow }: { closeShareWindow: Function
 
                     <hr />
 
-                    <div className="flex flex-0 items-center px-4 h-16">
-                        <div className="flex justify-center items-center rounded-md w-full h-[32px] bg-sky-200 text-[13px] font-medium text-gray-100">Send</div>
+                    <div className={`flex-0 flex flex-col items-center px-4`}>
+                        <div className={`w-full text-[14px] ${styles.share_message_input}`}>
+                            <input className={`outline-none w-full transition-all ${selectedUsers.length === 0 ? 'h-0' : 'h-[50px]'}`} type="text" placeholder="Write a message..." />
+                        </div>
+
+                        <div className="flex justify-center items-center mb-[16px] rounded-md w-full h-[32px] bg-sky-200 text-[13px] font-medium text-gray-100">
+                            Send
+                        </div>
                     </div>
                 </div>
             </div>
