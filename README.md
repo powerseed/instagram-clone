@@ -4,6 +4,12 @@ This is a **UI clone** of Instagram. It is deployed at https://instagram-clone-d
 
 It is ongoing. By now I have finished the Home page. In the future I will finish all pages as well as using a database instead of rendering static data and images.
 
+Technologies used:
+
+1. Next.js
+2. Typescript
+3. Tailwind CSS
+
 To run it locally:
 
 1. `npm install`
