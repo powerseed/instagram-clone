@@ -107,4 +107,5 @@ const Textarea = forwardRef<TextareaHandle, TextareaProps>((props: TextareaProps
     )
 });
 
+Textarea.displayName = 'Textarea';
 export default Textarea;

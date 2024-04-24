@@ -75,4 +75,5 @@ const SuggestedUserCard = forwardRef<SuggestedUserCardHandle, SuggestedUserCardP
     )
 })
 
+SuggestedUserCard.displayName = 'SuggestedUserCard';
 export default SuggestedUserCard;
