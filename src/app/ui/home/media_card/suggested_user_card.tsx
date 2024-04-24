@@ -7,7 +7,8 @@ type SuggestedUserCardProps = {
     username: string,
     isVerified: boolean,
     addUser: (nickname: string) => void,
-    removeUser: (nickname: string) => void
+    removeUser: (nickname: string) => void,
+    isVisible: boolean
 }
 
 export type SuggestedUserCardHandle = {
@@ -43,7 +44,7 @@ const SuggestedUserCard = forwardRef<SuggestedUserCardHandle, SuggestedUserCardP
     });
 
     return (
-        <div data-nickname={props.nickname} className="px-4 py-[8px] hover:bg-gray-100 cursor-pointer flex space-x-3" onClick={toggleCheckStatus}>
+        <div className={`${props.isVisible ? 'flex' : 'hidden'} px-4 py-[8px] hover:bg-gray-100 cursor-pointer space-x-3`} onClick={toggleCheckStatus}>
             <div className="flex-0">
                 <img className="avatar" src={props.avatar} alt="avatar" width={45} height={45} />
             </div>

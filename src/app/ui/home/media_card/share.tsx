@@ -1,4 +1,4 @@
-import { createRef, useEffect, useRef, useState } from "react";
+import { ChangeEvent, createRef, useEffect, useRef, useState } from "react";
 import styles from "./styles.module.css";
 import SuggestedUserCard, { SuggestedUserCardHandle } from "./suggested_user_card";
 import { suggested_users_in_share } from "@/app/content";
@@ -7,6 +7,7 @@ export default function Share({ closeShareWindow }: { closeShareWindow: Function
     let shareRef = useRef<HTMLDivElement>(null);
     let suggestedUserRefs = useRef(suggested_users_in_share.map(() => createRef<SuggestedUserCardHandle>()));
     let [selectedUsers, setSelectedUsers] = useState<string[]>([]);
+    let [searchContent, setSearchContent] = useState<string | undefined>(undefined);
 
     useEffect(() => {
         let closeShareEventListener = (event: MouseEvent) => {
@@ -39,6 +40,10 @@ export default function Share({ closeShareWindow }: { closeShareWindow: Function
         let index = copy.indexOf(nickname);
         copy.splice(index, 1);
         setSelectedUsers(copy);
+    }
+
+    function handleSearchChange(event: ChangeEvent<HTMLInputElement>) {
+        setSearchContent(event.target.value);
     }
 
     return (
@@ -81,8 +86,8 @@ export default function Share({ closeShareWindow }: { closeShareWindow: Function
                                 })
                             }
 
-                            <div className="flex-1 text-[13px] flex items-center">
-                                <input className="outline-none w-full" type="text" placeholder="Search..." />
+                            <div className="flex-1 text-[13px] flex items-center min-w-8">
+                                <input className="outline-none w-full" type="text" placeholder="Search..." value={searchContent} onChange={handleSearchChange} />
                             </div>
                         </div>
                     </div>
@@ -95,20 +100,22 @@ export default function Share({ closeShareWindow }: { closeShareWindow: Function
                         </div>
 
                         {
-                            suggested_users_in_share.map((user, index) => {
-                                return (
-                                    <SuggestedUserCard
-                                        ref={suggestedUserRefs.current[index]}
-                                        key={user.username}
-                                        avatar={user.avatar}
-                                        nickname={user.nickname}
-                                        username={user.username}
-                                        isVerified={user.isVerified}
-                                        addUser={handleAddUser}
-                                        removeUser={handleRemoveUser}
-                                    />
-                                )
-                            })
+                            suggested_users_in_share
+                                .map((user, index) => {
+                                    return (
+                                        <SuggestedUserCard
+                                            ref={suggestedUserRefs.current[index]}
+                                            key={user.username}
+                                            avatar={user.avatar}
+                                            nickname={user.nickname}
+                                            username={user.username}
+                                            isVerified={user.isVerified}
+                                            addUser={handleAddUser}
+                                            removeUser={handleRemoveUser}
+                                            isVisible={(!searchContent) || (user.nickname.includes(searchContent) || user.username.includes(searchContent))}
+                                        />
+                                    )
+                                })
                         }
                     </div>
 
