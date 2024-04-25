@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Sidebar from "./ui/side_and_bottom_bar/sidebar";
-import BottomBar from "./ui/side_and_bottom_bar/bottom_bar";
+import OverlayContextProvider from "./overlay_context_provider";
+import BodyWrapper from "./body_wrapper";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,15 +18,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <div className="flex">
-          <Sidebar />
-          <div className="main ml-auto">
-            {children}
-          </div>
-        </div>
-        <BottomBar />
-      </body>
+      <OverlayContextProvider>
+        <BodyWrapper children={children} inter={inter}/>
+      </OverlayContextProvider>
     </html>
   );
 }

@@ -1,10 +1,14 @@
-import { MouseEvent, useEffect, useRef } from "react";
+import { MouseEvent, useContext, useEffect, useRef } from "react";
 import styles from './styles.module.css';
+import { OverlayContext } from "@/app/overlay_context_provider";
 
 export default function MoreMenu({ closeMoreMenu }: { closeMoreMenu: Function }) {
     let moreMenuRef = useRef<HTMLDivElement>(null);
+    const { setIsOverlayOpen } = useContext(OverlayContext);
 
     useEffect(() => {
+        setIsOverlayOpen(true);
+
         let closeMenuEventListener = (event: Event) => {
             if (!moreMenuRef.current?.contains(event.target as Node)) {
                 closeMoreMenu();
@@ -14,6 +18,7 @@ export default function MoreMenu({ closeMoreMenu }: { closeMoreMenu: Function })
         document.addEventListener('click', closeMenuEventListener);
 
         return () => {
+            setIsOverlayOpen(false);
             document.removeEventListener('click', closeMenuEventListener);
         }
     })

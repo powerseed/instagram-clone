@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useContext, useEffect, useRef } from "react";
 import Header from "./header";
 import OperationButtons from "./operation_buttons";
 import ReactTimeAgo from "react-time-ago";
@@ -8,6 +8,7 @@ import './media_slider_in_comment_styles.css';
 import './media_slider_in_card_styles.css';
 import Comment from "./comment";
 import { comments } from '../../../content';
+import { OverlayContext } from "@/app/overlay_context_provider";
 
 type CommentProps = {
     avatar: string,
@@ -22,8 +23,11 @@ type CommentProps = {
 export default function CommentWindow(props: CommentProps) {
     let commentRef = useRef<HTMLDivElement>(null);
     let textareaRef = useRef<TextareaHandle>(null);
+    const { setIsOverlayOpen } = useContext(OverlayContext);
 
     useEffect(() => {
+        setIsOverlayOpen(true);
+
         let closeCommentEventListener = (event: MouseEvent) => {
             var clickedElement = document.elementFromPoint(event.clientX, event.clientY);
             
@@ -35,6 +39,7 @@ export default function CommentWindow(props: CommentProps) {
         document.addEventListener('click', closeCommentEventListener);
 
         return () => {
+            setIsOverlayOpen(false);
             document.removeEventListener('click', closeCommentEventListener);
         }
     });

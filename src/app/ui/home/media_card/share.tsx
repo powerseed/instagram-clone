@@ -1,15 +1,19 @@
-import { ChangeEvent, createRef, useEffect, useRef, useState } from "react";
+import { ChangeEvent, createRef, useContext, useEffect, useRef, useState } from "react";
 import styles from "./styles.module.css";
 import SuggestedUserCard, { SuggestedUserCardHandle } from "./suggested_user_card";
 import { suggested_users_in_share } from "@/app/content";
+import { OverlayContext } from "@/app/overlay_context_provider";
 
 export default function Share({ closeShareWindow }: { closeShareWindow: Function }) {
     let shareRef = useRef<HTMLDivElement>(null);
     let suggestedUserRefs = useRef(suggested_users_in_share.map(() => createRef<SuggestedUserCardHandle>()));
     let [selectedUsers, setSelectedUsers] = useState<string[]>([]);
     let [searchContent, setSearchContent] = useState<string | undefined>(undefined);
+    const { setIsOverlayOpen } = useContext(OverlayContext);
 
     useEffect(() => {
+        setIsOverlayOpen(true);
+
         let closeShareEventListener = (event: MouseEvent) => {
             var clickedElement = document.elementFromPoint(event.clientX, event.clientY);
 
@@ -21,6 +25,7 @@ export default function Share({ closeShareWindow }: { closeShareWindow: Function
         document.addEventListener('click', closeShareEventListener);
 
         return () => {
+            setIsOverlayOpen(false);
             document.removeEventListener('click', closeShareEventListener);
         }
     });
