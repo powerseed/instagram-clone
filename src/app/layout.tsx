@@ -19,7 +19,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <OverlayContextProvider>
-        <BodyWrapper children={children} inter={inter}/>
+        <BodyWrapper inter={inter}>
+          {children}
+        </BodyWrapper>
       </OverlayContextProvider>
     </html>
   );
