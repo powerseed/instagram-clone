@@ -2,18 +2,18 @@ import Link from 'next/link';
 import styles from './styles.module.css';
 import { usePathname } from 'next/navigation';
 
-type SidebarButtonProps = {
-    href: string | undefined,
+type SidebarLinkProps = {
+    href: string,
     text: string,
     unselected_icon: string,
     selected_icon: string | undefined,
 }
 
-export default function SidebarLink(props: SidebarButtonProps) {
+export default function SidebarLink(props: SidebarLinkProps) {
     const currentPath = usePathname();
 
     return (
-        <Link href={`${props.href}`}>
+        <Link href={props.href}>
             <div className='h-[56px]'>
                 <div className={`${styles.button} cursor-pointer flex rounded-lg hover:bg-gray-200 transition-colors`}>
                     <div className="p-[12px]">
