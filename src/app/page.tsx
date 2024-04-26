@@ -55,7 +55,7 @@ export default function Home() {
               {
                 slides.map(slide => {
                   return (
-                    <div key={slide.text} className='swiper-slide !flex flex-col items-center space-y-1 !w-[70px]'>
+                    <div key={slide.text} className='!flex flex-col items-center space-y-1 !w-[70px] cursor-pointer'>
                       <div className='avatar-container flex justify-center items-center w-[65.5px] h-[65.5px]'>
                         <img className='avatar' src={`/home/${slide.img}`} alt={slide.text} width={62} height={62} />
                       </div>
@@ -96,7 +96,7 @@ export default function Home() {
           <div className="flex justify-between">
             <div className="flex">
               <div className="mr-[12px]">
-                <img src="/home/profile.jpg" alt="avatar" width='44' height='44' />
+                <img src="/profile.png" alt="avatar" width='44' height='44' />
               </div>
 
               <div className="text-[14px]">

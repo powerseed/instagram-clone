@@ -1,40 +1,60 @@
 export const logo = {
-    image_icon: `/instagram-icon.svg`,
-    text_icon: `/instagram-logo.svg`
+    image_icon: '/instagram-icon.svg',
+    text_icon: '/instagram-logo.svg'
 }
 
 export const sidebar_buttons_group1 = [
     {
+        isLink: true,
+        href: '/',
         text: 'Home',
-        svg: `/home.svg`
+        unselected_icon: '/side_and_bottom_bar/home.svg',
+        selected_icon: '/side_and_bottom_bar/home-selected.svg',
     },
     {
+        isLink: false,
         text: 'Search',
-        svg: `/search.svg`
+        unselected_icon: '/side_and_bottom_bar/search.svg',
+        selected_icon: '/side_and_bottom_bar/search-selected.svg',
     },
     {
+        isLink: true,
+        href: '/explore',
         text: 'Explore',
-        svg: `/explore.svg`
+        unselected_icon: '/side_and_bottom_bar/explore.svg',
+        selected_icon: '/side_and_bottom_bar/explore-selected.svg',
     },
     {
+        isLink: true,
+        href: '/reels',
         text: 'Reels',
-        svg: `/reels.svg`
+        unselected_icon: '/side_and_bottom_bar/reels.svg',
+        selected_icon: '/side_and_bottom_bar/reels-selected.svg',
     },
     {
+        isLink: true,
+        href: '/messages',
         text: 'Messages',
-        svg: `/messages.svg`
+        unselected_icon: '/side_and_bottom_bar/messages.svg',
+        selected_icon: '/side_and_bottom_bar/messages-selected.svg',
     },
     {
+        isLink: false,
         text: 'Notifications',
-        svg: `/notifications.svg`
+        unselected_icon: '/side_and_bottom_bar/notifications.svg',
+        selected_icon: '/side_and_bottom_bar/notifications-selected.svg',
     },
     {
+        isLink: false,
         text: 'Create',
-        svg: `/create.svg`
+        unselected_icon: '/side_and_bottom_bar/create.svg',
+        selected_icon: '/side_and_bottom_bar/create-selected.svg',
     },
     {
+        isLink: true,
+        href: '/profile',
         text: 'Profile',
-        svg: `/profile.svg`
+        unselected_icon: '/profile.png'
     }
 ];
 
@@ -50,22 +70,22 @@ export const bottom_bar_buttons = [
 export const more_menu_buttons = [
     {
         text: 'Settings',
-        svg: `/settings.svg`
+        svg: '/settings.svg'
     },
     {
         text: 'Your activity',
-        svg: `/your-activity.svg`
+        svg: '/your-activity.svg'
     },
     {
         text: 'Saved',
-        svg: `/saved.svg`
+        svg: '/saved.svg'
     },
     {
         text: 'Switch appearance',
-        svg: `/switch-appearance.svg`
+        svg: '/switch-appearance.svg'
     },
     {
         text: 'Report a problem',
-        svg: `/report-a-problem.svg`
+        svg: '/report-a-problem.svg'
     },
 ]

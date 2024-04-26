@@ -1,9 +1,11 @@
 'use client';
 
 import { useEffect, useRef, useState } from "react";
-import { logo, sidebar_buttons_group1 } from "./content";
+import { logo } from "./content";
 import MoreMenu from "./more_menu";
 import styles from './styles.module.css';
+import SidebarLink from "./sidebar_link";
+import SidebarButton from "./sidebar_button";
 
 export default function Sidebar() {
     let [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
@@ -34,17 +36,52 @@ export default function Sidebar() {
                 </div>
             </div>
 
-            <div className="grow flex-col space-y-2">
-                {sidebar_buttons_group1.map(button => {
-                    return (
-                        <div className={`${styles.button} cursor-pointer flex rounded-lg hover:bg-gray-200 transition-colors`} key={button.text}>
-                            <div className="p-[12px]">
-                                <img className="transition-transform" src={`/side_and_bottom_bar/${button.svg}`} alt={button.text} width='24' height='24' />
-                            </div>
-                            <div className="hidden xl:flex items-center">{button.text}</div>
-                        </div>
-                    )
-                })}
+            <div className="grow flex-col">
+                <SidebarLink
+                    href='/'
+                    text='Home'
+                    unselected_icon='/side_and_bottom_bar/home.svg'
+                    selected_icon='/side_and_bottom_bar/home-selected.svg'
+                />
+                <SidebarButton
+                    text='Search'
+                    unselected_icon='/side_and_bottom_bar/search.svg'
+                    selected_icon='/side_and_bottom_bar/search-selected.svg'
+                />
+                <SidebarLink
+                    href='/explore'
+                    text='Explore'
+                    unselected_icon='/side_and_bottom_bar/explore.svg'
+                    selected_icon='/side_and_bottom_bar/explore-selected.svg'
+                />
+                <SidebarLink
+                    href='/reels'
+                    text='Reels'
+                    unselected_icon='/side_and_bottom_bar/reels.svg'
+                    selected_icon='/side_and_bottom_bar/reels-selected.svg'
+                />
+                <SidebarLink
+                    href='/messages'
+                    text='Messages'
+                    unselected_icon='/side_and_bottom_bar/messages.svg'
+                    selected_icon='/side_and_bottom_bar/messages-selected.svg'
+                />
+                <SidebarButton
+                    text='Notifications'
+                    unselected_icon='/side_and_bottom_bar/notifications.svg'
+                    selected_icon='/side_and_bottom_bar/notifications-selected.svg'
+                />
+                <SidebarButton
+                    text='Create'
+                    unselected_icon='/side_and_bottom_bar/create.svg'
+                    selected_icon='/side_and_bottom_bar/create.svg'
+                />
+                <SidebarLink
+                    href='/profile'
+                    text='Profile'
+                    unselected_icon='/profile.png'
+                    selected_icon={undefined}
+                />
             </div>
 
             <div className="flex-col space-y-2">
