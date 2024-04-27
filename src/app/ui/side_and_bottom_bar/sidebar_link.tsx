@@ -7,6 +7,7 @@ type SidebarLinkProps = {
     text: string,
     unselected_icon: string,
     selected_icon: string | undefined,
+    isCollapsed: boolean
 }
 
 export default function SidebarLink(props: SidebarLinkProps) {
@@ -14,17 +15,15 @@ export default function SidebarLink(props: SidebarLinkProps) {
 
     return (
         <Link href={props.href}>
-            <div className='h-[56px]'>
+            <div className='h-[56px] overflow-hidden'>
                 <div className={`${styles.button} cursor-pointer flex rounded-lg hover:bg-gray-200 transition-colors`}>
-                    <div className="p-[12px]">
+                    <div className="shrink-0 p-[12px]">
                         <img
-                            className={`transition-transform ${props.selected_icon ? '' : (currentPath === props.href ? 'rounded-full border-[2px] border-black' : '')}`}
+                            className={`w-[24px] h-[24px] transition-transform ${props.selected_icon ? '' : (currentPath === props.href ? 'rounded-full border-[2px] border-black' : '')}`}
                             src={`${props.selected_icon ? (currentPath === props.href ? props.selected_icon : props.unselected_icon) : props.unselected_icon}`}
-                            alt={props.text}
-                            width='24'
-                            height='24' />
+                            alt={props.text} />
                     </div>
-                    <div className="hidden xl:flex items-center">{props.text}</div>
+                    <div className={`shrink-0 items-center ${props.isCollapsed ? 'hidden' : 'flex'}`}>{props.text}</div>
                 </div>
             </div>
         </Link >
