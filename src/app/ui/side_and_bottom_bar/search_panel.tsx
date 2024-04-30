@@ -1,6 +1,23 @@
+import { useState } from 'react';
 import styles from './styles.module.css';
 
 export default function SearchPanel() {
+    let [isSearchInputFocused, setIsSearchInputFocused] = useState(false);
+    let [searchContent, setSearchContent] = useState<string>('');
+
+    function handleInputFocus() {
+        setIsSearchInputFocused(true);
+    }
+
+    function handleInputChange(value: string) {
+        setSearchContent(value);
+    }
+
+    function handleRemoveClick() {
+        setSearchContent('');
+        setIsSearchInputFocused(false);
+    }
+
     return (
         <div className={`${styles.search_panel} flex flex-col bg-white h-screen w-[400px] rounded-tr-2xl rounded-br-2xl border-r-[1px] border-slate-200 shadow-[0px_0px_10px_0px_rgba(0,0,0,0.3)]`}>
             <div className='flex flex-col pt-[23px] px-[15px] space-y-8'>
@@ -8,8 +25,22 @@ export default function SearchPanel() {
                     Search
                 </div>
 
-                <div className='h-[40px] rounded-lg p-[5px] bg-gray-200 flex justify-center items-center'>
-                    <input className='outline-none bg-gray-200 w-11/12' placeholder='Search' />
+                <div className='h-[40px] rounded-lg px-4 bg-gray-200 flex justify-center items-center space-x-2'>
+                    {
+                        !isSearchInputFocused &&
+                        <img src="/side_and_bottom_bar/search.svg" alt="" width={20} height={20} />
+                    }
+
+                    <input className='outline-none bg-gray-200 w-11/12' placeholder='Search'
+                        value={searchContent}
+                        onChange={(e) => handleInputChange(e.target.value)}
+                        onClick={handleInputFocus}
+                    />
+
+                    {
+                        isSearchInputFocused &&
+                        <img className='cursor-pointer' src="/side_and_bottom_bar/close-circle.svg" alt="" width={20} height={20} onClick={handleRemoveClick} />
+                    }
                 </div>
             </div>
 
@@ -21,7 +52,7 @@ export default function SearchPanel() {
                         Recent
                     </div>
 
-                    <div className='text-[13px] text-sky-500'>
+                    <div className='text-[13px] text-sky-500 cursor-pointer'>
                         Clear all
                     </div>
                 </div>
