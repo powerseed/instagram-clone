@@ -1,5 +1,5 @@
 import styles from './styles.module.css';
-import { useEffect, useState } from 'react';
+import { forwardRef, useImperativeHandle, useState } from 'react';
 
 type SidebarButtonProps = {
     text: string,
@@ -9,7 +9,11 @@ type SidebarButtonProps = {
     onClick: (isOpening: boolean) => void
 }
 
-export default function SidebarButton(props: SidebarButtonProps) {
+export type SidebarButtonHandle = {
+    setIsSelectedFalse: () => void;
+};
+
+const SidebarButton = forwardRef<SidebarButtonHandle, SidebarButtonProps>((props: SidebarButtonProps, ref) => {
     const [isSelected, setIsSelected] = useState(false);
 
     function handleClick() {
@@ -17,6 +21,14 @@ export default function SidebarButton(props: SidebarButtonProps) {
         props.onClick(newValue);
         setIsSelected(newValue);
     }
+
+    useImperativeHandle(ref, () => {
+        return {
+            setIsSelectedFalse() {
+                setIsSelected(false);
+            }
+        }
+    })
 
     return (
         <div className='h-[56px] overflow-hidden'>
@@ -31,4 +43,7 @@ export default function SidebarButton(props: SidebarButtonProps) {
             </div>
         </div>
     )
-}
+});
+
+SidebarButton.displayName = 'SidebarButton';
+export default SidebarButton;

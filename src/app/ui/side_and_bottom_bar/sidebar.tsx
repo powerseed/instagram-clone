@@ -5,8 +5,9 @@ import { logo } from "./content";
 import MoreMenu from "./more_menu";
 import styles from './styles.module.css';
 import SidebarLink from "./sidebar_link";
-import SidebarButton from "./sidebar_button";
+import SidebarButton, { SidebarButtonHandle } from "./sidebar_button";
 import SearchPanel from "./search_panel";
+import NotificationsPanel from "./notifications_panel";
 
 export default function Sidebar() {
     let [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
@@ -15,6 +16,8 @@ export default function Sidebar() {
     let [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
     const moreMenuRef = useRef<HTMLInputElement>(null);
     const moreButtonRef = useRef<HTMLInputElement>(null);
+    const searchPanelRef = useRef<SidebarButtonHandle>(null);
+    const notificationsPanelRef = useRef<SidebarButtonHandle>(null);
 
     function handleMoreClick() {
         setIsMoreMenuOpen(!isMoreMenuOpen);
@@ -49,6 +52,8 @@ export default function Sidebar() {
     function onSearchClick(isOpening: boolean) {
         if (isOpening) {
             setIsCollapsed(true);
+            setIsNotificationsOpen(false);
+            notificationsPanelRef.current!.setIsSelectedFalse();
         }
         else {
             if (window.innerWidth > 1280) {
@@ -65,6 +70,8 @@ export default function Sidebar() {
     function onNotificationsClick(isOpening: boolean) {
         if (isOpening) {
             setIsCollapsed(true);
+            setIsSearchOpen(false);
+            searchPanelRef.current!.setIsSelectedFalse();
         }
         else {
             if (window.innerWidth > 1280) {
@@ -107,6 +114,7 @@ export default function Sidebar() {
                         isCollapsed={isCollapsed}
                     />
                     <SidebarButton
+                        ref={searchPanelRef}
                         text='Search'
                         unselected_icon='/side_and_bottom_bar/search.svg'
                         selected_icon='/side_and_bottom_bar/search-selected.svg'
@@ -135,6 +143,7 @@ export default function Sidebar() {
                         isCollapsed={isCollapsed}
                     />
                     <SidebarButton
+                        ref={notificationsPanelRef}
                         text='Notifications'
                         unselected_icon='/side_and_bottom_bar/notifications.svg'
                         selected_icon='/side_and_bottom_bar/notifications-selected.svg'
@@ -184,6 +193,10 @@ export default function Sidebar() {
 
             <div className={`fixed ${isSearchOpen ? 'left-[73px]' : 'left-[-400px]'} transition-all duration-300 z-10`}>
                 <SearchPanel />
+            </div>
+
+            <div className={`fixed ${isNotificationsOpen ? 'left-[73px]' : 'left-[-400px]'} transition-all duration-300 z-10`}>
+                <NotificationsPanel />
             </div>
         </>
     )
