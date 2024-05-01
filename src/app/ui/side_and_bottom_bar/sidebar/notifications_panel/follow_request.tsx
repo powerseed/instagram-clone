@@ -59,7 +59,7 @@ export default function FollowRequest(props: FollowRequestProps) {
                     {
                         suggestions_for_you.map(suggestion => {
                             return (
-                                <div className="flex space-x-2 items-center">
+                                <div key={suggestion.username} className="flex space-x-2 items-center">
                                     <div>
                                         <img className="avatar" src={suggestion.avatar} alt="avatar" width={44} height={44} />
                                     </div>
