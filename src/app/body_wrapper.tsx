@@ -2,8 +2,8 @@
 
 import { useContext } from "react";
 import { OverlayContext } from "./overlay_context_provider";
-import BottomBar from "./ui/side_and_bottom_bar/bottom_bar";
-import Sidebar from "./ui/side_and_bottom_bar/sidebar";
+import BottomBar from "./ui/side_and_bottom_bar/bottom_bar/bottom_bar";
+import Sidebar from "./ui/side_and_bottom_bar/sidebar/sidebar";
 
 export default function BodyWrapper({
     inter,

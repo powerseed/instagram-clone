@@ -1,13 +1,13 @@
 'use client';
 
 import { useEffect, useRef, useState } from "react";
-import { logo } from "./content";
+import { logo } from "../content";
 import MoreMenu from "./more_menu";
-import styles from './styles.module.css';
+import styles from '../styles.module.css';
 import SidebarLink from "./sidebar_link";
 import SidebarButton, { SidebarButtonHandle } from "./sidebar_button";
 import SearchPanel from "./search_panel";
-import NotificationsPanel from "./notifications_panel";
+import NotificationsPanel from "./notifications_panel/notifications_panel";
 
 export default function Sidebar() {
     let [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);

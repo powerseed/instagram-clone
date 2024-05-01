@@ -1,4 +1,4 @@
-import styles from './styles.module.css';
+import styles from '../styles.module.css';
 import { forwardRef, useImperativeHandle, useState } from 'react';
 
 type SidebarButtonProps = {
