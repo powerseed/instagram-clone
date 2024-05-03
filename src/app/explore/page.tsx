@@ -25,7 +25,7 @@ export default function Explore() {
                 <div className="flex flex-col space-y-1">
                     {
                         medias
-                            .reduce<string[][]>((accumulator, currentValue, currentIndex, array) => {
+                            .reduce<any[][]>((accumulator, currentValue, currentIndex, array) => {
                                 if (currentIndex % 5 === 0) {
                                     accumulator.push(array.slice(currentIndex, currentIndex + 5));
                                 }
