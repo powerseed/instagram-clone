@@ -92,7 +92,7 @@ export default function VideoCard(props: VideoCardProps) {
                             <div className="flex space-x-1 font-[500]">
                                 {props.tags.map((tag) => {
                                     return (
-                                        <span>#{tag}</span>
+                                        <span key={tag}>#{tag}</span>
                                     )
                                 })}
                             </div>

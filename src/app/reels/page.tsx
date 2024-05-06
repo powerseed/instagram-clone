@@ -7,7 +7,7 @@ export default function Reels() {
             {
                 video_card_content.map((content) => {
                     return (
-                        <VideoCard {...content} />
+                        <VideoCard key={content.id} {...content} />
                     )
                 })
             }
