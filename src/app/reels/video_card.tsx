@@ -26,6 +26,12 @@ export default function VideoCard(props: VideoCardProps) {
 
     function handlePlayClick() {
         setIsPlaying(true);
+
+        playButtonRef.current!.style.scale = '1.2';
+        setTimeout(() => {
+            playButtonRef.current!.style.scale = '0';
+        }, 200)
+
         videoRef.current?.play();
     }
 
@@ -38,10 +44,22 @@ export default function VideoCard(props: VideoCardProps) {
 
         if (isPlaying) {
             setIsPlaying(false);
+
+            playButtonRef.current!.style.scale = '1.2';
+            setTimeout(() => {
+                playButtonRef.current!.style.scale = '1';
+            }, 300)
+
             videoRef.current?.pause();
         }
         else {
             setIsPlaying(true);
+
+            playButtonRef.current!.style.scale = '1.2';
+            setTimeout(() => {
+                playButtonRef.current!.style.scale = '0';
+            }, 200)
+
             videoRef.current?.play();
         }
     }
@@ -60,12 +78,9 @@ export default function VideoCard(props: VideoCardProps) {
                 </div>
 
                 <div className="absolute left-0 right-0 flex justify-center h-[70px]">
-                    {
-                        !isPlaying &&
-                        <div ref={playButtonRef} className="w-[70px] rounded-full bg-black/50 flex justify-center items-center cursor-pointer" onClick={handlePlayClick}>
-                            <img src='/reels/play.svg' alt="Play" width={24} height={24} />
-                        </div>
-                    }
+                    <div ref={playButtonRef} className="w-[70px] rounded-full bg-black/50 flex justify-center items-center cursor-pointer transition-all duration-300" onClick={handlePlayClick}>
+                        <img src='/reels/play.svg' alt="Play" width={24} height={24} />
+                    </div>
                 </div>
 
                 <div ref={infoSectionRef} className="absolute w-full bottom-0 flex flex-col space-y-4 px-4 py-4 text-white text-[14px]">
@@ -112,7 +127,7 @@ export default function VideoCard(props: VideoCardProps) {
             </div>
 
             <div className="flex flex-col justify-end items-center text-[12px] space-y-6 pb-2">
-                <div className="flex flex-col space-y-1 cursor-pointer">
+                <div className="flex flex-col space-y-1 cursor-pointer items-center">
                     <LikeButton />
                     <div>Likes</div>
                 </div>
