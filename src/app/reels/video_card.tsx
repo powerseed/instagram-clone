@@ -65,8 +65,8 @@ export default function VideoCard(props: VideoCardProps) {
     }
 
     return (
-        <div className="flex space-x-6" onClick={handleOverlayClick}>
-            <div className="relative max-w-[410px] aspect-[0.56] flex items-center bg-black rounded-md">
+        <div className="flex space-x-6">
+            <div className="relative max-w-[410px] aspect-[0.56] flex items-center bg-black rounded-md" onClick={handleOverlayClick}>
                 <video ref={videoRef} muted={isMuted} loop>
                     <source src={props.video_src} type="video/mp4" />
                 </video>
