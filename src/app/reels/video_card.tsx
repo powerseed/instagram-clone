@@ -10,18 +10,19 @@ type VideoCardProps = {
     username: string,
     text: string,
     tags: string[],
-    notation: string
+    notation: string,
+    isMuted: boolean,
+    switchMute: () => void
 }
 
 export default function VideoCard(props: VideoCardProps) {
-    let [isMuted, setIsMuted] = useState(false);
     let videoRef = useRef<HTMLVideoElement>(null);
     let muteButtonRef = useRef<HTMLDivElement>(null);
     let playButtonRef = useRef<HTMLDivElement>(null);
     let infoSectionRef = useRef<HTMLDivElement>(null);
 
     function handleMuteClick() {
-        setIsMuted(!isMuted);
+        props.switchMute();
     }
 
     function handlePlayClick() {
@@ -73,13 +74,13 @@ export default function VideoCard(props: VideoCardProps) {
     return (
         <InView as="div" className="flex space-x-6" threshold={1} onChange={(inView, entry) => handleIsInViewChange(inView)}>
             <div className="relative max-w-[410px] aspect-[0.56] flex items-center bg-black rounded-md" onClick={handleOverlayClick}>
-                <video ref={videoRef} muted={isMuted} loop>
+                <video ref={videoRef} muted={props.isMuted} loop>
                     <source src={props.video_src} type="video/mp4" />
                 </video>
 
                 <div className="absolute top-2 right-2 flex justify-end mt-3 mr-3">
                     <div ref={muteButtonRef} className="bg-gray-400/30 hover:bg-gray-400/50 rounded-full px-2 py-2 cursor-pointer" onClick={handleMuteClick}>
-                        <img src={`${isMuted ? '/reels/volume-off.svg' : '/reels/volume-on.svg'}`} alt="Mute" width={16} height={16} />
+                        <img src={`${props.isMuted ? '/reels/volume-off.svg' : '/reels/volume-on.svg'}`} alt="Mute" width={16} height={16} />
                     </div>
                 </div>
 
