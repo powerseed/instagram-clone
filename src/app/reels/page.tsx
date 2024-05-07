@@ -2,23 +2,17 @@
 
 import VideoCard from "./video_card";
 import { video_card_content } from "./content";
-import { useEffect } from "react";
+import styles from './styles.module.css';
 
 export default function Reels() {
-    useEffect(() => {
-        document.documentElement.classList.add("hide-scrollbar");
-
-        return () => {
-            document.documentElement.classList.remove('hide-scrollbar');
-        }
-    });
-
     return (
-        <div className="mx-[32px] my-[32px] flex flex-col items-center space-y-4">
+        <div className={`${styles.hide_scroll} mx-[32px] py-[32px] h-screen flex flex-col items-center space-y-4 snap-y snap-mandatory overflow-scroll`}>
             {
-                video_card_content.map((content) => {
+                (video_card_content).map((content) => {
                     return (
-                        <VideoCard key={content.id} {...content} />
+                        <div className="snap-center">
+                            <VideoCard key={content.id} {...content} />
+                        </div>
                     )
                 })
             }
