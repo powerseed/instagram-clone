@@ -30,7 +30,7 @@ export const video_card_content = [
         notation: 'Original audio'
     },
     {
-        id: 1,
+        id: 4,
         video_src: 'https://videos.pexels.com/video-files/856382/856382-hd_1920_1080_30fps.mp4',
         comment_count: 28900,
         avatar: '/home/voompla.jpg',
@@ -40,7 +40,7 @@ export const video_card_content = [
         notation: 'Original audio'
     },
     {
-        id: 2,
+        id: 5,
         video_src: 'https://videos.pexels.com/video-files/3343679/3343679-hd_1920_1080_30fps.mp4',
         comment_count: 28900,
         avatar: '/home/thegiancarloesposito.jpg',
@@ -50,7 +50,7 @@ export const video_card_content = [
         notation: 'Original audio'
     },
     {
-        id: 3,
+        id: 6,
         video_src: 'https://videos.pexels.com/video-files/1578318/1578318-hd_1920_1080_30fps.mp4',
         comment_count: 28900,
         avatar: '/home/pughsmile.jpg',

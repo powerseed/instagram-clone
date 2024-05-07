@@ -1,6 +1,7 @@
 'use client';
 import { MouseEvent, useRef, useState } from "react"
 import LikeButton from "../ui/home/media_card/like_button";
+import { InView } from "react-intersection-observer";
 
 type VideoCardProps = {
     video_src: string,
@@ -14,7 +15,6 @@ type VideoCardProps = {
 
 export default function VideoCard(props: VideoCardProps) {
     let [isMuted, setIsMuted] = useState(false);
-    let [isPlaying, setIsPlaying] = useState(false);
     let videoRef = useRef<HTMLVideoElement>(null);
     let muteButtonRef = useRef<HTMLDivElement>(null);
     let playButtonRef = useRef<HTMLDivElement>(null);
@@ -25,14 +25,7 @@ export default function VideoCard(props: VideoCardProps) {
     }
 
     function handlePlayClick() {
-        setIsPlaying(true);
-
-        playButtonRef.current!.style.scale = '1.2';
-        setTimeout(() => {
-            playButtonRef.current!.style.scale = '0';
-        }, 200)
-
-        videoRef.current?.play();
+        playVideo();
     }
 
     function handleOverlayClick(event: MouseEvent) {
@@ -42,30 +35,43 @@ export default function VideoCard(props: VideoCardProps) {
             return;
         }
 
-        if (isPlaying) {
-            setIsPlaying(false);
-
-            playButtonRef.current!.style.scale = '1.2';
-            setTimeout(() => {
-                playButtonRef.current!.style.scale = '1';
-            }, 300)
-
-            videoRef.current?.pause();
+        if (videoRef.current?.paused) {
+            playVideo();
         }
         else {
-            setIsPlaying(true);
+            pauseVideo();
+        }
+    }
 
-            playButtonRef.current!.style.scale = '1.2';
-            setTimeout(() => {
-                playButtonRef.current!.style.scale = '0';
-            }, 200)
+    function playVideo() {
+        playButtonRef.current!.style.scale = '1.2';
+        setTimeout(() => {
+            playButtonRef.current!.style.scale = '0';
+        }, 200)
 
-            videoRef.current?.play();
+        videoRef.current?.play();
+    }
+
+    function pauseVideo() {
+        playButtonRef.current!.style.scale = '1.2';
+        setTimeout(() => {
+            playButtonRef.current!.style.scale = '1';
+        }, 300)
+
+        videoRef.current?.pause();
+    }
+
+    function handleIsInViewChange(isInView: boolean) {
+        if (isInView) {
+            playVideo();
+        }
+        else {
+            pauseVideo()
         }
     }
 
     return (
-        <div className="flex space-x-6">
+        <InView as="div" className="flex space-x-6" threshold={1} onChange={(inView, entry) => handleIsInViewChange(inView)}>
             <div className="relative max-w-[410px] aspect-[0.56] flex items-center bg-black rounded-md" onClick={handleOverlayClick}>
                 <video ref={videoRef} muted={isMuted} loop>
                     <source src={props.video_src} type="video/mp4" />
@@ -163,6 +169,6 @@ export default function VideoCard(props: VideoCardProps) {
                     <img className="rounded-md" src={props.avatar} alt="avatar" width={24} height={24} />
                 </div>
             </div>
-        </div >
+        </InView>
     )
 }

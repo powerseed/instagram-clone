@@ -10,7 +10,7 @@ export default function Reels() {
             {
                 (video_card_content).map((content) => {
                     return (
-                        <div className="snap-center">
+                        <div key={content.id} className="snap-center">
                             <VideoCard key={content.id} {...content} />
                         </div>
                     )
