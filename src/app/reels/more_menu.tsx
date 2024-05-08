@@ -1,13 +1,13 @@
-import { WheelEvent, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 export default function MoreMenu({ closeThisMenu }: { closeThisMenu: () => void }) {
-    const moreMenuRef = useRef<HTMLDivElement>(null);
+    const thisRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         document.addEventListener('wheel', closeThisMenu);
 
         const clickEventListener = (event: Event) => {
-            if (!moreMenuRef.current?.contains(event.target as Node)) {
+            if (!thisRef.current?.contains(event.target as Node)) {
                 closeThisMenu();
             }
         };
@@ -21,7 +21,7 @@ export default function MoreMenu({ closeThisMenu }: { closeThisMenu: () => void 
     })
 
     return (
-        <div ref={moreMenuRef} className="w-[295px] h-[366px] px-[10px] py-[10px] flex flex-col content-stretch justify-stretch bg-white text-[14px] rounded-2xl shadow-[0px_0.5px_10px_0.5px_rgba(0,0,0,0.3)]">
+        <div ref={thisRef} className="w-[295px] h-[366px] px-[10px] py-[10px] flex flex-col content-stretch justify-stretch bg-white text-[14px] rounded-2xl shadow-[0px_0.5px_10px_0.5px_rgba(0,0,0,0.3)]">
             <div className="px-[15px] grow flex items-center rounded-md hover:bg-gray-100 cursor-pointer text-red-500">
                 Report
             </div>

@@ -3,6 +3,9 @@ import { MouseEvent, useRef, useState } from "react"
 import LikeButton from "../ui/home/media_card/like_button";
 import { InView } from "react-intersection-observer";
 import MoreMenu from "./more_menu";
+import CommentWindow from "./comment_window";
+import TimeAgo from 'javascript-time-ago';
+import en from 'javascript-time-ago/locale/en';
 
 type VideoCardProps = {
     video_src: string,
@@ -22,6 +25,9 @@ enum OperationsOnButtonsForPost {
 }
 
 export default function VideoCard(props: VideoCardProps) {
+    TimeAgo.setDefaultLocale(en.locale);
+    TimeAgo.addLocale(en);
+
     let videoRef = useRef<HTMLVideoElement>(null);
     let muteButtonRef = useRef<HTMLDivElement>(null);
     let playButtonRef = useRef<HTMLDivElement>(null);
@@ -169,7 +175,7 @@ export default function VideoCard(props: VideoCardProps) {
                     <div>Likes</div>
                 </div>
 
-                <div className="flex flex-col justify-center items-center cursor-pointer space-y-1">
+                <div className="relative flex flex-col justify-center items-center cursor-pointer space-y-1">
                     <div>
                         <img id="comment" className="cursor-pointer" src="/home/comment.svg" alt="Comment" width={24} height={24}
                             onMouseOver={(event) => onButtonsForPostHoverOrLeave(event, OperationsOnButtonsForPost.HOVER)}
@@ -186,6 +192,13 @@ export default function VideoCard(props: VideoCardProps) {
                             }).format(props.comment_count)
                         }
                     </div>
+
+                    {
+                        isCommentOpen &&
+                        <div className="absolute bottom-0 right-full 2xl:left-full mx-4">
+                            <CommentWindow closeThisMenu={() => setIsCommentOpen(false)} />
+                        </div>
+                    }
                 </div>
 
                 <div className="cursor-pointer">
