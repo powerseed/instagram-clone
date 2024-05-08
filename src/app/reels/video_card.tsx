@@ -2,6 +2,7 @@
 import { MouseEvent, useRef, useState } from "react"
 import LikeButton from "../ui/home/media_card/like_button";
 import { InView } from "react-intersection-observer";
+import MoreMenu from "./more_menu";
 
 type VideoCardProps = {
     video_src: string,
@@ -203,12 +204,18 @@ export default function VideoCard(props: VideoCardProps) {
                     />
                 </div>
 
-                <div className="cursor-pointer">
+                <div className="relative cursor-pointer">
                     <img id="three-dot-button" className="cursor-pointer" src="/home/three-dot-button.svg" alt="More" width={24} height={24}
                         onMouseOver={(event) => onButtonsForPostHoverOrLeave(event, OperationsOnButtonsForPost.HOVER)}
                         onMouseLeave={(event) => onButtonsForPostHoverOrLeave(event, OperationsOnButtonsForPost.LEAVE)}
                         onClick={() => setIsMoreOpen(!isMoreOpen)}
                     />
+                    {
+                        isMoreOpen &&
+                        <div className="absolute bottom-full right-0 lg:left-0">
+                            <MoreMenu closeThisMenu={() => setIsMoreOpen(false)} />
+                        </div>
+                    }
                 </div>
 
                 <div className="cursor-pointer rounded-md border-[1px] border-black">
