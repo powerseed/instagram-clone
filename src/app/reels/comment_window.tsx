@@ -36,16 +36,16 @@ export default function CommentWindow({ closeThisMenu }: { closeThisMenu: () => 
     }
 
     return (
-        <div ref={thisRef} className="w-[343px] h-[480px] pl-[30px] py-[25px] flex flex-col space-y-4 content-stretch justify-stretch bg-white text-[14px] rounded-2xl shadow-[0px_0.5px_10px_0.5px_rgba(0,0,0,0.3)]">
-            <div className="relative flex justify-center items-center">
-                <img className="absolute left-0" src="/home/close-black.svg" alt="Close" width={24} height={24} onClick={closeThisMenu} />
+        <div ref={thisRef} className="w-[343px] h-[480px] py-[25px] flex flex-col space-y-4 content-stretch justify-stretch bg-white text-[14px] rounded-2xl shadow-[0px_0.5px_10px_0.5px_rgba(0,0,0,0.3)]">
+            <div className="relative flex justify-center items-center px-[30px]">
+                <img className="absolute left-[30px]" src="/home/close-black.svg" alt="Close" width={24} height={24} onClick={closeThisMenu} />
 
                 <div className="font-[700] text-[16px]">
                     Comments
                 </div>
             </div>
 
-            <div className="overflow-scroll pr-[30px]">
+            <div className="overflow-scroll px-[30px]">
                 {
                     comments.map((comment, index) => {
                         return (
@@ -64,7 +64,7 @@ export default function CommentWindow({ closeThisMenu }: { closeThisMenu: () => 
                 }
             </div>
 
-            <div className="pr-[30px]">
+            <div className="px-[30px]">
                 <div className="pl-[15px] py-[5px] border-[1px] rounded-3xl">
                     <Textarea ref={textareaRef} isEmojiPickerBeforeInputField={false} />
                 </div>
