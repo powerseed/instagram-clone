@@ -15,11 +15,21 @@ type VideoCardProps = {
     switchMute: () => void
 }
 
+enum OperationsOnButtonsForPost {
+    HOVER,
+    LEAVE
+}
+
 export default function VideoCard(props: VideoCardProps) {
     let videoRef = useRef<HTMLVideoElement>(null);
     let muteButtonRef = useRef<HTMLDivElement>(null);
     let playButtonRef = useRef<HTMLDivElement>(null);
     let infoSectionRef = useRef<HTMLDivElement>(null);
+
+    let [isCommentOpen, setIsCommentOpen] = useState(false);
+    let [isShareOpen, setIsShareOpen] = useState(false);
+    let [isSaved, setIsSaved] = useState(false);
+    let [isMoreOpen, setIsMoreOpen] = useState(false);
 
     function handleMuteClick() {
         props.switchMute();
@@ -69,6 +79,25 @@ export default function VideoCard(props: VideoCardProps) {
         else {
             pauseVideo()
         }
+    }
+
+    function onButtonsForPostHoverOrLeave(event: MouseEvent, operation: OperationsOnButtonsForPost) {
+        let img = event.target! as HTMLImageElement;
+
+        if (img.id === 'save' && isSaved) {
+            return;
+        }
+
+        let newSrc;
+        switch (operation) {
+            case OperationsOnButtonsForPost.HOVER:
+                newSrc = `/home/${img.id}-hover.svg`;
+                break;
+            case OperationsOnButtonsForPost.LEAVE:
+                newSrc = `/home/${img.id}.svg`;
+                break;
+        }
+        img.src = newSrc;
     }
 
     return (
@@ -141,7 +170,11 @@ export default function VideoCard(props: VideoCardProps) {
 
                 <div className="flex flex-col justify-center items-center cursor-pointer space-y-1">
                     <div>
-                        <img src="/home/comment.svg" alt="comment" width={24} height={24} />
+                        <img id="comment" className="cursor-pointer" src="/home/comment.svg" alt="Comment" width={24} height={24}
+                            onMouseOver={(event) => onButtonsForPostHoverOrLeave(event, OperationsOnButtonsForPost.HOVER)}
+                            onMouseLeave={(event) => onButtonsForPostHoverOrLeave(event, OperationsOnButtonsForPost.LEAVE)}
+                            onClick={() => setIsCommentOpen(!isCommentOpen)}
+                        />
                     </div>
 
                     <div>
@@ -155,15 +188,27 @@ export default function VideoCard(props: VideoCardProps) {
                 </div>
 
                 <div className="cursor-pointer">
-                    <img src="/home/share-post.svg" alt="" width={24} height={24} />
+                    <img id="share-post" className="cursor-pointer" src="/home/share-post.svg" alt="Share Post" width={24} height={24}
+                        onMouseOver={(event) => onButtonsForPostHoverOrLeave(event, OperationsOnButtonsForPost.HOVER)}
+                        onMouseLeave={(event) => onButtonsForPostHoverOrLeave(event, OperationsOnButtonsForPost.LEAVE)}
+                        onClick={() => setIsShareOpen(!isShareOpen)}
+                    />
                 </div>
 
                 <div className="cursor-pointer">
-                    <img src="/home/save.svg" alt="" width={24} height={24} />
+                    <img id="save" className="cursor-pointer" src={isSaved ? `/home/save-selected.svg` : `/home/save.svg`} alt="Save" width={24} height={24}
+                        onMouseOver={(event) => onButtonsForPostHoverOrLeave(event, OperationsOnButtonsForPost.HOVER)}
+                        onMouseLeave={(event) => onButtonsForPostHoverOrLeave(event, OperationsOnButtonsForPost.LEAVE)}
+                        onClick={() => setIsSaved(!isSaved)}
+                    />
                 </div>
 
                 <div className="cursor-pointer">
-                    <img src="/home/three-dot-button.svg" alt="" width={24} height={24} />
+                    <img id="three-dot-button" className="cursor-pointer" src="/home/three-dot-button.svg" alt="More" width={24} height={24}
+                        onMouseOver={(event) => onButtonsForPostHoverOrLeave(event, OperationsOnButtonsForPost.HOVER)}
+                        onMouseLeave={(event) => onButtonsForPostHoverOrLeave(event, OperationsOnButtonsForPost.LEAVE)}
+                        onClick={() => setIsMoreOpen(!isMoreOpen)}
+                    />
                 </div>
 
                 <div className="cursor-pointer rounded-md border-[1px] border-black">
