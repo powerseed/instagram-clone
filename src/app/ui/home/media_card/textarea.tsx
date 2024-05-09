@@ -22,15 +22,26 @@ const Textarea = forwardRef<TextareaHandle, TextareaProps>((props: TextareaProps
     useEffect(() => {
         if (isEmojiPenalOpen) {
             let emojiPickerHeight = emojiPickerRef.current!.offsetHeight;
-            let space = window.innerHeight - emojiButtonRef.current!.getBoundingClientRect().bottom;
+            let emojiPickerWidth = emojiPickerRef.current!.offsetWidth;
+            let spaceToBottom = window.innerHeight - emojiButtonRef.current!.getBoundingClientRect().bottom;
+            let spaceToRight = window.innerWidth - emojiButtonRef.current!.getBoundingClientRect().right;
 
-            if (space > emojiPickerHeight) {
+            if (spaceToBottom > emojiPickerHeight) {
                 emojiPickerRef.current!.style.top = '100%';
                 emojiPickerRef.current!.style.bottom = 'unset';
             }
             else {
                 emojiPickerRef.current!.style.top = 'unset';
                 emojiPickerRef.current!.style.bottom = '100%';
+            }
+
+            if (spaceToRight > emojiPickerWidth) {
+                emojiPickerRef.current!.style.left = '0';
+                emojiPickerRef.current!.style.right = 'unset';
+            }
+            else {
+                emojiPickerRef.current!.style.left = 'unset';
+                emojiPickerRef.current!.style.right = '0';
             }
         }
     }, [isEmojiPenalOpen])

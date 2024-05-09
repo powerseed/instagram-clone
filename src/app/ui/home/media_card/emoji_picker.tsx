@@ -19,7 +19,7 @@ export default function EmojiPicker({ data, onEmojiSelect, closePenal }: { data:
     })
 
     return (
-        <div ref={pickerRef}>
+        <div className='w-[352px]' ref={pickerRef}>
             <Picker data={data} onEmojiSelect={onEmojiSelect} />
         </div>
     )
