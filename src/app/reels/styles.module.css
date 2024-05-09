@@ -1,3 +1,7 @@
 .hide_scroll {
     scrollbar-width: none;
 }
+
+.share_message_input {
+    line-height: 16px;
+}

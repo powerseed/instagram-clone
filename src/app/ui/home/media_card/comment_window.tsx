@@ -70,7 +70,7 @@ export default function CommentWindow(props: CommentProps) {
 
                     <hr className="mx-[-15px] mt-2" />
 
-                    <div className={`grow overflow-scroll ${styles.comment_list}`}>
+                    <div className={`grow overflow-y-auto overscroll-contain ${styles.comment_list}`}>
                         {
                             comments.map((comment, index) => {
                                 return (

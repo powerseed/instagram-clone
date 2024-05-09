@@ -16,17 +16,19 @@ export default function CommentWindow({ closeThisMenu }: { closeThisMenu: () => 
 
         document.addEventListener('wheel', wheelEventListener);
 
-        const clickEventListener = (event: Event) => {
+        function commentClickEventListener(event: Event) {
             if (!thisRef.current?.contains(event.target as Node)) {
                 closeThisMenu();
             }
         };
 
-        document.addEventListener('click', clickEventListener);
+        if (!document.onclick) {
+            document.addEventListener('click', commentClickEventListener);
+        }
 
         return () => {
             document.removeEventListener('wheel', wheelEventListener);
-            document.removeEventListener('click', clickEventListener);
+            document.removeEventListener('click', commentClickEventListener);
         }
     })
 
@@ -45,7 +47,7 @@ export default function CommentWindow({ closeThisMenu }: { closeThisMenu: () => 
                 </div>
             </div>
 
-            <div className="overflow-scroll px-[30px]">
+            <div className="overflow-y-auto overscroll-contain px-[30px]">
                 {
                     comments.map((comment, index) => {
                         return (

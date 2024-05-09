@@ -9,6 +9,7 @@ export default function Share({ closeShareWindow }: { closeShareWindow: Function
     let suggestedUserRefs = useRef(suggested_users_in_share.map(() => createRef<SuggestedUserCardHandle>()));
     let [selectedUsers, setSelectedUsers] = useState<string[]>([]);
     let [searchContent, setSearchContent] = useState<string | undefined>(undefined);
+    let [message, setMessage] = useState<string | undefined>(undefined);
     const { setIsOverlayOpen } = useContext(OverlayContext);
 
     useEffect(() => {
@@ -49,6 +50,10 @@ export default function Share({ closeShareWindow }: { closeShareWindow: Function
 
     function handleSearchChange(event: ChangeEvent<HTMLInputElement>) {
         setSearchContent(event.target.value);
+    }
+
+    function handleMessageChange(event: ChangeEvent<HTMLInputElement>) {
+        setMessage(event.target.value);
     }
 
     return (
@@ -99,7 +104,7 @@ export default function Share({ closeShareWindow }: { closeShareWindow: Function
 
                     <hr />
 
-                    <div className="flex flex-1 flex-col py-3 overflow-scroll">
+                    <div className="flex flex-1 flex-col py-3 overflow-y-auto overscroll-contain">
                         <div className="px-4 mb-[10px] font-medium text-[13px]">
                             Suggested
                         </div>
@@ -128,7 +133,7 @@ export default function Share({ closeShareWindow }: { closeShareWindow: Function
 
                     <div className={`flex-0 flex flex-col items-center px-4`}>
                         <div className={`w-full text-[14px] ${styles.share_message_input}`}>
-                            <input className={`outline-none w-full transition-all ${selectedUsers.length === 0 ? 'h-0' : 'h-[50px]'}`} type="text" placeholder="Write a message..." />
+                            <input className={`outline-none w-full transition-all ${selectedUsers.length === 0 ? 'h-0' : 'h-[50px]'}`} type="text" placeholder="Write a message..." value={message} onChange={handleMessageChange} />
                         </div>
 
                         <div className="flex justify-center items-center mb-[16px] rounded-md w-full h-[32px] bg-sky-200 text-[13px] font-medium text-gray-100">

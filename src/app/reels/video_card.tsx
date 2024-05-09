@@ -6,6 +6,7 @@ import MoreMenu from "./more_menu";
 import CommentWindow from "./comment_window";
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
+import ShareWindow from "./share_window";
 
 type VideoCardProps = {
     video_src: string,
@@ -201,12 +202,19 @@ export default function VideoCard(props: VideoCardProps) {
                     }
                 </div>
 
-                <div className="cursor-pointer">
+                <div className="relative cursor-pointer">
                     <img id="share-post" className="cursor-pointer" src="/home/share-post.svg" alt="Share Post" width={24} height={24}
                         onMouseOver={(event) => onButtonsForPostHoverOrLeave(event, OperationsOnButtonsForPost.HOVER)}
                         onMouseLeave={(event) => onButtonsForPostHoverOrLeave(event, OperationsOnButtonsForPost.LEAVE)}
                         onClick={() => setIsShareOpen(!isShareOpen)}
                     />
+
+                    {
+                        isShareOpen &&
+                        <div className="absolute bottom-0 right-full 2xl:left-full mx-4">
+                            <ShareWindow closeThisMenu={() => setIsShareOpen(false)} />
+                        </div>
+                    }
                 </div>
 
                 <div className="cursor-pointer">
