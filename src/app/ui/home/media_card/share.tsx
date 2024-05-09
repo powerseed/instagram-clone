@@ -136,7 +136,7 @@ export default function Share({ closeShareWindow }: { closeShareWindow: Function
                             <input className={`outline-none w-full transition-all ${selectedUsers.length === 0 ? 'h-0' : 'h-[50px]'}`} type="text" placeholder="Write a message..." value={message} onChange={handleMessageChange} />
                         </div>
 
-                        <div className="flex justify-center items-center mb-[16px] rounded-md w-full h-[32px] bg-sky-200 text-[13px] font-medium text-gray-100">
+                        <div className={`flex justify-center items-center mb-[16px] rounded-md w-full h-[32px] ${message ? 'bg-sky-500' : 'bg-sky-200'} text-[13px] font-medium text-gray-100 cursor-pointer`}>
                             Send
                         </div>
                     </div>
