@@ -1,5 +1,5 @@
 'use client';
-import { MouseEvent, useRef, useState } from "react"
+import { MouseEvent, useEffect, useRef, useState } from "react"
 import LikeButton from "../ui/home/media_card/like_button";
 import { InView } from "react-intersection-observer";
 import MoreMenu from "./more_menu";
@@ -33,11 +33,20 @@ export default function VideoCard(props: VideoCardProps) {
     let muteButtonRef = useRef<HTMLDivElement>(null);
     let playButtonRef = useRef<HTMLDivElement>(null);
     let infoSectionRef = useRef<HTMLDivElement>(null);
+    let textRef = useRef<HTMLDivElement>(null);
 
     let [isCommentOpen, setIsCommentOpen] = useState(false);
     let [isShareOpen, setIsShareOpen] = useState(false);
     let [isSaved, setIsSaved] = useState(false);
     let [isMoreOpen, setIsMoreOpen] = useState(false);
+    let [isFollowing, setIsFollowing] = useState(false);
+    let [isTextExpanded, setIsTextExpanded] = useState(false);
+    let [isTextOverflowing, setIsTextOverflowing] = useState(false);
+
+    useEffect(() => {
+        const isTextOverflowing = textRef.current!.clientHeight < textRef.current!.scrollHeight;
+        setIsTextOverflowing(isTextOverflowing);
+    }, [])
 
     function handleMuteClick() {
         props.switchMute();
@@ -128,39 +137,57 @@ export default function VideoCard(props: VideoCardProps) {
                 </div>
 
                 <div ref={infoSectionRef} className="absolute w-full bottom-0 flex flex-col space-y-4 px-4 py-4 text-white text-[14px]">
-                    <div className="flex space-x-3 items-center">
-                        <div>
+                    <div className="flex space-x-2 items-center font-[500]">
+                        <div className="cursor-pointer">
                             <img className="rounded-full" src={props.avatar} alt="" width={32} height={32} />
                         </div>
 
-                        <div className="font-[500]">
+                        <div className='cursor-pointer'>
                             {props.username}
                         </div>
 
-                        <div className="px-1 py-1 rounded-md font-[500] border-gray-500 border-[1px]">
-                            Follow
+                        <div className="text-[20px]">
+                            &#183;
+                        </div>
+
+                        <div className="px-1 py-1 rounded-md border-gray-500 border-[1px] cursor-pointer" onClick={() => setIsFollowing(!isFollowing)}>
+                            {isFollowing ? "Following" : "Follow"}
                         </div>
                     </div>
 
-                    <div className="flex flex-col space-y-4">
-                        <div>
-                            {props.text}
+                    <div className={`flex transition-all duration-500 cursor-pointer leading-[18px] ${isTextExpanded ? 'max-h-[246px] overflow-y-scroll' : 'max-h-[18px] overflow-hidden'}`}
+                        onClick={() => setIsTextExpanded(!isTextExpanded)}>
+
+                        <div ref={textRef} className="flex flex-col space-y-4">
+                            <div className="whitespace-pre-wrap">
+                                {props.text}
+                            </div>
+
+                            {
+                                props.tags.length > 0 && <div className="flex space-x-1 font-[500] flex-wrap">
+                                    {props.tags.map((tag) => {
+                                        return (
+                                            <a href="#" key={tag}>#{tag}</a>
+                                        )
+                                    })}
+                                </div>
+                            }
                         </div>
 
-                        <div className="flex space-x-1 font-[500] flex-wrap">
-                            {props.tags.map((tag) => {
-                                return (
-                                    <span key={tag}>#{tag}</span>
-                                )
-                            })}
-                        </div>
+                        {
+                            isTextOverflowing && !isTextExpanded && <div className="shrink-0">... more</div>
+                        }
                     </div>
 
-                    <div className="flex space-x-1">
+                    <div className="flex items-center space-x-1 cursor-pointer">
                         <img src="/reels/music.svg" alt="" width={13} height={13} />
 
                         <div>
                             {props.username}
+                        </div>
+
+                        <div>
+                            &#183;
                         </div>
 
                         <div>
