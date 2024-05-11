@@ -117,6 +117,20 @@ export default function VideoCard(props: VideoCardProps) {
         img.src = newSrc;
     }
 
+    function handleTextClick() {
+        if (!isTextExpanded) {
+            setIsTextOverflowing(false);
+        }
+
+        setIsTextExpanded(!isTextExpanded)
+    }
+
+    function handleTextClickTransitionEnd() {
+        if (!isTextExpanded) {
+            setIsTextOverflowing(true);
+        }
+    }
+
     return (
         <InView as="div" className="flex space-x-6" threshold={1} onChange={(inView, entry) => handleIsInViewChange(inView)}>
             <div className="relative max-w-[410px] aspect-[0.56] flex items-center bg-black rounded-md" onClick={handleOverlayClick}>
@@ -156,7 +170,7 @@ export default function VideoCard(props: VideoCardProps) {
                     </div>
 
                     <div className={`flex transition-all duration-500 cursor-pointer leading-[18px] ${isTextExpanded ? 'max-h-[246px] overflow-y-scroll' : 'max-h-[18px] overflow-hidden'}`}
-                        onClick={() => setIsTextExpanded(!isTextExpanded)}>
+                        onClick={handleTextClick} onTransitionEnd={handleTextClickTransitionEnd}>
 
                         <div ref={textRef} className="flex flex-col space-y-4">
                             <div className="whitespace-pre-wrap">
@@ -175,7 +189,7 @@ export default function VideoCard(props: VideoCardProps) {
                         </div>
 
                         {
-                            isTextOverflowing && !isTextExpanded && <div className="shrink-0">... more</div>
+                            isTextOverflowing && <div className="shrink-0">... more</div>
                         }
                     </div>
 
