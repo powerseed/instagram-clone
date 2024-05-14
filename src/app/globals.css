@@ -33,6 +33,12 @@
     --ring: 222.2 84% 4.9%;
 
     --radius: 0.5rem;
+
+    --sidebar-collapsed-width: 72px;
+    --sidebar-full-width: 280px;
+
+    --main-width-collapsed-sidebar: calc(100% - var(--sidebar-collapsed-width));
+    --main-width-full-sidebar: calc(100% - var(--sidebar-full-width));
   }
 
   .dark {
@@ -85,20 +91,4 @@
   background: white;
   padding: 2px;
   border-radius: 9999px;
-}
-
-.main {
-  width: 100%;
-}
-
-@media (min-width: 768px) {
-  .main {
-    width: calc(100% - 72px);
-  }
-}
-
-@media (min-width: 1280px) {
-  .main {
-    width: calc(100% - 280px);
-  }
 }

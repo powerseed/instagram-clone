@@ -8,16 +8,20 @@ import SidebarLink from "./sidebar_link";
 import SidebarButton, { SidebarButtonHandle } from "./sidebar_button";
 import SearchPanel from "./search_panel";
 import NotificationsPanel from "./notifications_panel/notifications_panel";
+import { usePathname } from "next/navigation";
 
 export default function Sidebar() {
     let [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
     let [isCollapsed, setIsCollapsed] = useState(false);
     let [isSearchOpen, setIsSearchOpen] = useState(false);
     let [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+
     const moreMenuRef = useRef<HTMLInputElement>(null);
     const moreButtonRef = useRef<HTMLInputElement>(null);
     const searchPanelRef = useRef<SidebarButtonHandle>(null);
     const notificationsPanelRef = useRef<SidebarButtonHandle>(null);
+
+    const currentPath = usePathname();
 
     function handleMoreClick() {
         setIsMoreMenuOpen(!isMoreMenuOpen);
@@ -33,7 +37,16 @@ export default function Sidebar() {
         window.addEventListener('resize', () => {
             setIsCollapsedByWindowWidth();
         });
-    })
+    }, [])
+
+    useEffect(() => {
+        if (currentPath === '/direct/inbox') {
+            setIsCollapsed(true);
+        }
+        else {
+            setIsCollapsed(false);
+        }
+    }, [currentPath])
 
     function setIsCollapsedByWindowWidth() {
         if (window.innerWidth < 1280) {
@@ -91,7 +104,7 @@ export default function Sidebar() {
 
     return (
         <>
-            <div className={`fixed hidden md:flex flex-col pt-[8px] pb-[20px] px-[12px] border-r-[1px] h-screen ${isCollapsed ? 'w-[73px]' : 'w-[280px]'} transition-all duration-300 z-20 bg-white`}>
+            <div className={`fixed hidden md:flex flex-col pt-[8px] pb-[20px] px-[12px] border-r-[1px] h-screen ${isCollapsed ? 'w-[var(--sidebar-collapsed-width)]' : 'w-[var(--sidebar-full-width)]'} transition-all duration-300 z-20 bg-white`}>
                 <div className="h-[92px] mt-[14px]">
                     {
                         isCollapsed ?
@@ -136,7 +149,7 @@ export default function Sidebar() {
                         isCollapsed={isCollapsed}
                     />
                     <SidebarLink
-                        href='/messages'
+                        href='/direct/inbox'
                         text='Messages'
                         unselected_icon='/side_and_bottom_bar/messages.svg'
                         selected_icon='/side_and_bottom_bar/messages-selected.svg'
