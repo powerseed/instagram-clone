@@ -69,7 +69,7 @@ export default function Sidebar() {
             notificationsPanelRef.current!.setIsSelectedFalse();
         }
         else {
-            if (window.innerWidth > 1280) {
+            if (window.innerWidth > 1280 && currentPath !== '/direct/inbox') {
                 setIsCollapsed(false);
             }
             else {
@@ -87,7 +87,7 @@ export default function Sidebar() {
             searchPanelRef.current!.setIsSelectedFalse();
         }
         else {
-            if (window.innerWidth > 1280) {
+            if (window.innerWidth > 1280 && currentPath !== '/direct/inbox') {
                 setIsCollapsed(false);
             }
             else {
