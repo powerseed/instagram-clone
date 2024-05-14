@@ -20,7 +20,7 @@ export default function BodyWrapper({
         <body className={`${inter.className} ${isOverlayOpen ? 'overflow-hidden' : 'overflow-visible'}`}>
             <Sidebar />
 
-            <div className={`ml-auto flex justify-center ${pathname === '/direct/inbox' ? 'w-[var(--main-width-collapsed-sidebar)]' : 'w-[var(--main-width-collapsed-sidebar)] xl:w-[var(--main-width-full-sidebar)]'}`}>
+            <div className={`ml-auto flex justify-center ${pathname.includes('/direct') ? 'w-[var(--main-width-collapsed-sidebar)]' : 'w-[var(--main-width-collapsed-sidebar)] xl:w-[var(--main-width-full-sidebar)]'}`}>
                 {children}
             </div>
 

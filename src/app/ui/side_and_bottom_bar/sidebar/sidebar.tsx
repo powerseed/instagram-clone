@@ -40,7 +40,7 @@ export default function Sidebar() {
     }, [])
 
     useEffect(() => {
-        if (currentPath === '/direct/inbox') {
+        if (currentPath.includes('/direct')) {
             setIsCollapsed(true);
         }
         else {
@@ -69,7 +69,7 @@ export default function Sidebar() {
             notificationsPanelRef.current!.setIsSelectedFalse();
         }
         else {
-            if (window.innerWidth > 1280 && currentPath !== '/direct/inbox') {
+            if (window.innerWidth > 1280 && !currentPath.includes('/direct')) {
                 setIsCollapsed(false);
             }
             else {
@@ -87,7 +87,7 @@ export default function Sidebar() {
             searchPanelRef.current!.setIsSelectedFalse();
         }
         else {
-            if (window.innerWidth > 1280 && currentPath !== '/direct/inbox') {
+            if (window.innerWidth > 1280 && !currentPath.includes('/direct')) {
                 setIsCollapsed(false);
             }
             else {
