@@ -43,7 +43,7 @@ export default function Inbox() {
                         {
                             messages.map((message) => {
                                 return (
-                                    <div className='px-[25px] py-[5px] flex hover:bg-gray-100 cursor-pointer space-x-1'>
+                                    <div key={message.id} className='px-[25px] py-[5px] flex hover:bg-gray-100 cursor-pointer space-x-1'>
                                         <div className='flex justify-center items-center w-[65.5px] h-[65.5px]'>
                                             <img className='avatar' src={message.avatar} width={56} height={56} />
                                         </div>
