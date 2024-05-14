@@ -68,7 +68,7 @@ export default function CommentWindow({ closeThisMenu }: { closeThisMenu: () => 
 
             <div className="px-[30px]">
                 <div className="pl-[15px] py-[5px] border-[1px] rounded-3xl">
-                    <Textarea ref={textareaRef} isEmojiPickerBeforeInputField={false} />
+                    <Textarea ref={textareaRef} isEmojiPickerBeforeInputField={false} placeholder="Add a comment..." />
                 </div>
             </div>
         </div>

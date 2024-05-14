@@ -6,7 +6,7 @@ export const messages = [
         avatar: '/home/mitchmackieyyc.jpg',
         last_active_on: new Date('April 6, 2024 03:24:00'),
         messages: [
-
+            
         ]
     },
     {

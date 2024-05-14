@@ -105,7 +105,7 @@ export default function CommentWindow(props: CommentProps) {
 
                     <hr className="mb-3 mx-[-15px]" />
 
-                    <Textarea ref={textareaRef} isEmojiPickerBeforeInputField={true} />
+                    <Textarea ref={textareaRef} isEmojiPickerBeforeInputField={true} placeholder="Add a comment..." />
                 </div>
             </div>
 

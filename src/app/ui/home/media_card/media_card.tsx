@@ -106,7 +106,7 @@ export default function MediaCard(props: MediaCardProps) {
                     View all {props.commentNumber} comments
                 </div>
 
-                <Textarea isEmojiPickerBeforeInputField={false} />
+                <Textarea isEmojiPickerBeforeInputField={false} placeholder="Add a comment..." />
                 
                 <hr />
             </div>

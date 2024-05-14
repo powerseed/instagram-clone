@@ -4,7 +4,8 @@ import EmojiPicker from './emoji_picker';
 import { MouseEvent, forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 
 type TextareaProps = {
-    isEmojiPickerBeforeInputField: boolean
+    isEmojiPickerBeforeInputField: boolean,
+    placeholder: string
 }
 
 export type TextareaHandle = {
@@ -87,7 +88,7 @@ const Textarea = forwardRef<TextareaHandle, TextareaProps>((props: TextareaProps
                         ref={textareaRef}
                         value={comment}
                         className='w-full focus:outline-none resize-none'
-                        placeholder='Add a comment...'
+                        placeholder={props.placeholder}
                         maxRows={4}
                         onChange={(e) => setComment(e.target.value)}
                     />
