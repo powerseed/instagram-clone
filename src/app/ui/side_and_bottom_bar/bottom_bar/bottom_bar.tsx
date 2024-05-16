@@ -28,7 +28,7 @@ export default function BottomBar() {
                 selected_icon='/side_and_bottom_bar/create.svg'
             />
             <BottomBarLink
-                href='/messages'
+                href='/direct/inbox'
                 text='Messages'
                 unselected_icon='/side_and_bottom_bar/messages.svg'
                 selected_icon='/side_and_bottom_bar/messages-selected.svg'
