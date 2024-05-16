@@ -2,16 +2,24 @@ import ReactTimeAgo from "react-time-ago"
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
 import Textarea from "@/app/ui/home/media_card/textarea";
+import Message from "./message";
+
+type Message = {
+    text: string,
+    created_on: Date,
+    isFromCurrentUser: boolean
+}
 
 type MessageDetailProps = {
     id: number,
     avatar: string,
     nickname: string,
     username: string,
-    last_active_on: Date
+    last_active_on: Date,
+    messages: Message[]
 }
 
-export default function MessageDetail(props: MessageDetailProps) {
+export default function Chat(props: MessageDetailProps) {
     TimeAgo.setDefaultLocale(en.locale);
     TimeAgo.addLocale(en);
 
@@ -41,7 +49,7 @@ export default function MessageDetail(props: MessageDetailProps) {
                 </div>
             </div>
 
-            <div className="grow flex flex-col justify-between">
+            <div className="px-[20px] grow flex flex-col justify-between overflow-y-auto">
                 <div className="flex flex-col mt-8">
                     <div className="flex justify-center">
                         <img src={props.avatar} alt="avatar" className="rounded-full" width={96} height={96} />
@@ -63,7 +71,11 @@ export default function MessageDetail(props: MessageDetailProps) {
                 </div>
 
                 <div>
-
+                    {props.messages.map((message, index) => {
+                        return (
+                            <Message key={index} {...message} avatar={props.avatar} />
+                        )
+                    })}
                 </div>
             </div>
 

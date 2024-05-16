@@ -101,7 +101,7 @@ const Textarea = forwardRef<TextareaHandle, TextareaProps>((props: TextareaProps
                 }
             </div>
 
-            <div className='flex relative  mr-2'>
+            <div className='flex relative mr-2'>
                 <button ref={emojiButtonRef} className='self-center' onClick={onEmojiButtonClick}>
                     <img id="emoji" src="/home/emoji.svg" alt="Emoji" width={24} height={24}
                         onMouseOver={(event) => handleMouseOver(event)}

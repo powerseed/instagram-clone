@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { messages } from './content';
 import MessageItem from './message_item';
-import MessageDetail from './message_detail';
+import Chat from './chat';
 
 export default function Inbox() {
     let [selectedMessageItemId, setSelectedMessageItemId] = useState<number | undefined>(undefined);
@@ -63,7 +63,7 @@ export default function Inbox() {
                 {
                     selectedMessageItemId
                         ?
-                        <MessageDetail {...messages.find((message) => message.id === selectedMessageItemId)} />
+                        <Chat {...messages.find((message) => message.id === selectedMessageItemId)} />
                         :
                         <div className="flex flex-col">
                             <div className="flex justify-center">
