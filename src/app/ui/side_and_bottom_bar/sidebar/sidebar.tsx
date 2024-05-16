@@ -44,7 +44,7 @@ export default function Sidebar() {
             setIsCollapsed(true);
         }
         else {
-            setIsCollapsed(false);
+            setIsCollapsedByWindowWidth();
         }
     }, [currentPath])
 
