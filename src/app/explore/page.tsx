@@ -8,9 +8,9 @@ export default function Explore() {
     let [selectedTag, setSelectedTag] = useState<string | undefined>(undefined);
 
     return (
-        <div className="flex justify-center">
+        <div className="flex justify-center mx-[20px] my-[24px]">
             <div className="flex flex-col max-w-[935px]">
-                <div className="flex flex-wrap pt-6 pb-1">
+                <div className="flex flex-wrap pb-1">
                     {
                         tags.map(tag => {
                             return (
