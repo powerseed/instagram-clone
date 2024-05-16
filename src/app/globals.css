@@ -39,6 +39,9 @@
 
     --main-width-collapsed-sidebar: calc(100% - var(--sidebar-collapsed-width));
     --main-width-full-sidebar: calc(100% - var(--sidebar-full-width));
+
+    --bottom-bar-height: 48px;
+    --page-height-with-bottom-bar: calc(100vh - var(--bottom-bar-height));
   }
 
   .dark {

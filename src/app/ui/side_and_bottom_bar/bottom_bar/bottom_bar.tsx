@@ -3,7 +3,7 @@ import BottomBarLink from "./bottom_bar_link";
 
 export default function BottomBar() {
     return (
-        <div className="fixed bottom-0 flex justify-around w-screen border-t-[1px] md:hidden bg-white">
+        <div className="fixed bottom-0 flex justify-around w-screen h-[var(--bottom-bar-height)] border-t-[1px] md:hidden bg-white">
             <BottomBarLink
                 href='/'
                 text='Home'

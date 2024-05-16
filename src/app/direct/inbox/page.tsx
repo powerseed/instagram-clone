@@ -14,7 +14,7 @@ export default function Inbox() {
     }
 
     return (
-        <div className="flex w-full h-screen">
+        <div className="flex w-full h-[var(--page-height-with-bottom-bar)] md:h-screen">
             <div className="w-[104px] lg:w-[397px] border-r-[1px] border-gray-300">
                 <div className="px-[25px] pt-[40px] flex justify-center lg:justify-between">
                     <div className="hidden lg:flex items-center space-x-2  cursor-pointer">
