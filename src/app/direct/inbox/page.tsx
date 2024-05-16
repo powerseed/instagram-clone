@@ -1,12 +1,11 @@
 'use client';
 
-import { createRef, useRef, useState } from 'react';
+import { useState } from 'react';
 import { messages } from './content';
-import MessageItem, { MessageItemHandle } from './message_item';
+import MessageItem from './message_item';
 import MessageDetail from './message_detail';
 
 export default function Inbox() {
-    let messageItemRefs = useRef(messages.map(() => createRef<MessageItemHandle>()));
     let [selectedMessageItemId, setSelectedMessageItemId] = useState<number | undefined>(undefined);
 
     function selectOneMessageItem(selectedMessageItemId: number) {
@@ -48,7 +47,6 @@ export default function Inbox() {
                             messages.map((message, index) => {
                                 return (
                                     <MessageItem
-                                        ref={messageItemRefs.current[index]}
                                         key={message.id}
                                         {...message}
                                         isSelected={message.id === selectedMessageItemId}
