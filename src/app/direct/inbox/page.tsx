@@ -63,7 +63,7 @@ export default function Inbox() {
                 {
                     selectedMessageItemId
                         ?
-                        <Chat {...messages.find((message) => message.id === selectedMessageItemId)} />
+                        <Chat {...messages.find((message) => message.id === selectedMessageItemId)!} />
                         :
                         <div className="flex flex-col">
                             <div className="flex justify-center">
