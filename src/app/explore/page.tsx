@@ -8,7 +8,7 @@ export default function Explore() {
     let [selectedTag, setSelectedTag] = useState<string | undefined>(undefined);
 
     return (
-        <div className="flex justify-center mx-[20px] my-[24px]">
+        <div className="flex justify-center mx-[20px] mt-[24px] mb-[calc(var(--bottom-bar-height)+24px)] md:mb-[24px]">
             <div className="flex flex-col max-w-[935px]">
                 <div className="flex flex-wrap pb-1">
                     {

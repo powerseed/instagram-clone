@@ -34,7 +34,7 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col justify-center w-full">
+    <div className="flex flex-col justify-center w-full mb-[calc(var(--bottom-bar-height)+24px)] md:mb-[24px]">
       <div className='flex justify-center mb-10'>
         <div className="mt-[16px] w-[630px]">
           <div className="user-slider py-[8px] mb-[24px]">

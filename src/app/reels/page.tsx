@@ -12,7 +12,7 @@ export default function Reels() {
     }
 
     return (
-        <div className={`${styles.hide_scroll} mx-[32px] py-[32px] h-screen flex flex-col items-center space-y-4 snap-y snap-mandatory overflow-y-auto`}>
+        <div className={`${styles.hide_scroll} h-[calc(100vh-var(--bottom-bar-height))] md:h-screen mx-[32px] py-[32px] flex flex-col items-center space-y-4 snap-y snap-mandatory overflow-y-auto`}>
             {
                 (video_card_content).map((content) => {
                     return (
