@@ -84,7 +84,7 @@ export default function Chat(props: MessageDetailProps) {
 
                 </div>
 
-                <div className="grow">
+                <div className="flex-1">
                     <Textarea isEmojiPickerBeforeInputField={true} placeholder="Message..." />
                 </div>
 
