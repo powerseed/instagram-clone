@@ -9,12 +9,14 @@ import SidebarButton, { SidebarButtonHandle } from "./sidebar_button";
 import SearchPanel from "./search_panel";
 import NotificationsPanel from "./notifications_panel/notifications_panel";
 import { usePathname } from "next/navigation";
+import CreatePostWindow from "../create_post_window";
 
 export default function Sidebar() {
     let [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
     let [isCollapsed, setIsCollapsed] = useState(false);
     let [isSearchOpen, setIsSearchOpen] = useState(false);
     let [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+    let [isCreatePostWindowOpen, setIsCreatePostWindowOpen] = useState(false);
 
     const moreMenuRef = useRef<HTMLInputElement>(null);
     const moreButtonRef = useRef<HTMLInputElement>(null);
@@ -98,8 +100,8 @@ export default function Sidebar() {
         setIsNotificationsOpen(isOpening);
     }
 
-    function onCreateSelect() {
-
+    function onCreateClick() {
+        setIsCreatePostWindowOpen(true);
     }
 
     return (
@@ -168,7 +170,7 @@ export default function Sidebar() {
                         unselected_icon='/side_and_bottom_bar/create.svg'
                         selected_icon='/side_and_bottom_bar/create.svg'
                         isCollapsed={isCollapsed}
-                        onClick={onCreateSelect}
+                        onClick={onCreateClick}
                     />
                     <SidebarLink
                         href='/profile'
@@ -211,6 +213,10 @@ export default function Sidebar() {
             <div className={`fixed ${isNotificationsOpen ? 'left-[73px]' : 'left-[-400px]'} transition-all duration-300 z-10`}>
                 <NotificationsPanel />
             </div>
+
+            {
+                isCreatePostWindowOpen && <CreatePostWindow closeThisWindow={() => setIsCreatePostWindowOpen(false)} />
+            }
         </>
     )
 }
