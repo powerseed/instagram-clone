@@ -1,7 +1,6 @@
 'use client';
 
 import styles from './styles.module.css';
-import './user_slider_styles.css'
 import './globals.css';
 import { slides, posts } from './content';
 import MediaCard from './ui/home/media_card/media_card';
@@ -37,7 +36,7 @@ export default function Home() {
     <div className="max-w-full flex flex-col justify-center w-full mb-[calc(var(--bottom-bar-height)+24px)] md:mb-[24px]">
       <div className='max-w-full flex justify-center mb-10'>
         <div className="max-w-full mt-[16px] w-[630px] ">
-          <div className="user-slider py-[8px] mb-[24px]">
+          <div className={`${styles.user_slider} py-[8px] mb-[24px]`}>
             <Slider {...settings}
               prevArrow={
                 <SliderNavigationButton>
