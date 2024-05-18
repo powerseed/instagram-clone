@@ -1,7 +1,7 @@
 import { useState } from "react";
 import BottomBarButton from "./bottom_bar_button";
 import BottomBarLink from "./bottom_bar_link";
-import CreatePostWindow from "../create_post_window";
+import CreatePostWindow from "../create_post_window/create_post_window";
 
 export default function BottomBar() {
     let [isCreatePostWindowOpen, setIsCreatePostWindowOpen] = useState(false);

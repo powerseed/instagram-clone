@@ -9,7 +9,7 @@ import SidebarButton, { SidebarButtonHandle } from "./sidebar_button";
 import SearchPanel from "./search_panel";
 import NotificationsPanel from "./notifications_panel/notifications_panel";
 import { usePathname } from "next/navigation";
-import CreatePostWindow from "../create_post_window";
+import CreatePostWindow from "../create_post_window/create_post_window";
 
 export default function Sidebar() {
     let [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
