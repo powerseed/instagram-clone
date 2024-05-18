@@ -34,9 +34,9 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col justify-center w-full mb-[calc(var(--bottom-bar-height)+24px)] md:mb-[24px]">
-      <div className='flex justify-center mb-10'>
-        <div className="mt-[16px] w-[630px]">
+    <div className="max-w-full flex flex-col justify-center w-full mb-[calc(var(--bottom-bar-height)+24px)] md:mb-[24px]">
+      <div className='max-w-full flex justify-center mb-10'>
+        <div className="max-w-full mt-[16px] w-[630px] ">
           <div className="user-slider py-[8px] mb-[24px]">
             <Slider {...settings}
               prevArrow={
@@ -230,21 +230,21 @@ export default function Home() {
         </div>
       </div>
 
-      <div className='flex flex-col items-center space-y-4 mx-10 mb-10 text-[13px] text-gray-500'>
-        <div className='flex space-x-4'>
-          <p>Meta</p>
-          <p>About</p>
-          <p>Blog</p>
-          <p>Jobs</p>
-          <p>Help</p>
-          <p>API</p>
-          <p>Privacy</p>
-          <p>Terms</p>
-          <p>Locations</p>
-          <p>Instagram Lite</p>
-          <p>Threads</p>
-          <p>Contact Uploading & Non-Users</p>
-          <p>Meta Verified</p>
+      <div className='flex flex-col justify-center items-center w-full space-y-4 mb-10 text-[13px] text-gray-500'>
+        <div className='w-full flex justify-center flex-wrap'>
+          <div className='mx-1 mb-1'>Meta</div>
+          <div className='mx-1 mb-1'>About</div>
+          <div className='mx-1 mb-1'>Blog</div>
+          <div className='mx-1 mb-1'>Jobs</div>
+          <div className='mx-1 mb-1'>Help</div>
+          <div className='mx-1 mb-1'>API</div>
+          <div className='mx-1 mb-1'>Privacy</div>
+          <div className='mx-1 mb-1'>Terms</div>
+          <div className='mx-1 mb-1'>Locations</div>
+          <div className='mx-1 mb-1'>Instagram Lite</div>
+          <div className='mx-1 mb-1'>Threads</div>
+          <div className='mx-1 mb-1'>Contact Uploading & Non-Users</div>
+          <div className='mx-1 mb-1'>Meta Verified</div>
         </div>
 
         <div>

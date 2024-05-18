@@ -53,7 +53,7 @@ export default function MediaCard(props: MediaCardProps) {
 
     return (
         <>
-            <div className="flex flex-col space-y-3 w-[450px] h-max-[850px]">
+            <div className="flex flex-col space-y-3 w-[450px] max-w-full h-max-[850px]">
                 <Header
                     avatar={props.avatar}
                     username={props.username}
