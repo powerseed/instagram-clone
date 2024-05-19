@@ -54,14 +54,17 @@ export default function MediaCard(props: MediaCardProps) {
     return (
         <>
             <div className="flex flex-col space-y-3 w-[450px] max-w-full h-max-[850px]">
-                <Header
-                    avatar={props.avatar}
-                    username={props.username}
-                    isVerified={props.isVerified}
-                    created_on={props.created_on}
-                    annotation={props.annotation}
-                    isDisplayedInComment={false}
-                />
+                <div className='px-4 sm:px-0'>
+                    <Header
+                        avatar={props.avatar}
+                        username={props.username}
+                        isVerified={props.isVerified}
+                        created_on={props.created_on}
+                        annotation={props.annotation}
+                        isDisplayedInComment={false}
+                    />
+                </div>
+
 
                 <div className='media-slider-in-card'>
                     <Slider {...settings}
@@ -88,26 +91,30 @@ export default function MediaCard(props: MediaCardProps) {
                     </Slider>
                 </div>
 
-                <OperationButtons
-                    avatar={props.avatar}
-                    username={props.username}
-                    isVerified={props.isVerified}
-                    created_on={props.created_on}
-                    annotation={props.annotation}
-                    images={props.images}
-                    isDisplayedInComment={false}
-                />
+                <div className='px-4 sm:px-0'>
+                    <OperationButtons
+                        avatar={props.avatar}
+                        username={props.username}
+                        isVerified={props.isVerified}
+                        created_on={props.created_on}
+                        annotation={props.annotation}
+                        images={props.images}
+                        isDisplayedInComment={false}
+                    />
+                </div>
 
-                <div className='text-[14px]'>
+                <div className='text-[14px] px-4 sm:px-0'>
                     Liked by <span className='font-medium'>{props.likedBy}</span> and <span className='font-medium'>others</span>
                 </div>
 
-                <div className='text-[13px] text-gray-500 !mt-[5px]'>
+                <div className='text-[13px] text-gray-500 !mt-[5px] px-4 sm:px-0'>
                     View all {props.commentNumber} comments
                 </div>
 
-                <Textarea isEmojiPickerBeforeInputField={false} placeholder="Add a comment..." />
-                
+                <div className='hidden sm:block'>
+                    <Textarea isEmojiPickerBeforeInputField={false} placeholder="Add a comment..." />
+                </div>
+
                 <hr />
             </div>
         </>

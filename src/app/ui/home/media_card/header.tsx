@@ -16,7 +16,7 @@ export default function Header(props: HeaderProps) {
     let [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
 
     return (
-        <div className="flex justify-between w-full h-min">
+        <div className="flex justify-between w-full">
             <div className="flex space-x-2">
                 <div className="avatar-container flex items-center justify-center w-[42px] h-[42px]">
                     <img className="avatar" src={`/home/${props.avatar}`} alt="avatar" width={38} height={38} />
