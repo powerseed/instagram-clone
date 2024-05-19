@@ -1,0 +1,33 @@
+.user-slider {
+    .slick-arrow {
+        z-index: 10;
+        top: 25% !important;
+        transform: unset !important;
+    }
+
+    .slick-prev {
+        left: 25px !important;
+    }
+
+    .slick-prev.slick-disabled {
+        display: none !important;
+    }
+
+    .slick-prev::before {
+        opacity: 1 !important;
+        font-size: 25px !important;
+    }
+
+    .slick-next {
+        right: 25px !important;
+    }
+
+    .slick-next.slick-disabled {
+        display: none !important;
+    }
+
+    .slick-next::before {
+        opacity: 1 !important;
+        font-size: 25px !important;
+    }
+}
