@@ -1,16 +1,11 @@
 'use client';
 import { MouseEvent, useEffect, useRef, useState } from "react"
-import LikeButton from "../ui/home/media_card/like_button";
 import { InView } from "react-intersection-observer";
-import MoreMenu from "./more_menu";
-import CommentWindow from "./comment_window";
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
-import ShareWindow from "./share_window";
 
 type VideoCardProps = {
     video_src: string,
-    comment_count: number,
     avatar: string,
     username: string,
     text: string,
@@ -18,11 +13,6 @@ type VideoCardProps = {
     notation: string,
     isMuted: boolean,
     switchMute: () => void
-}
-
-enum OperationsOnButtonsForPost {
-    HOVER,
-    LEAVE
 }
 
 export default function VideoCard(props: VideoCardProps) {
@@ -35,10 +25,6 @@ export default function VideoCard(props: VideoCardProps) {
     let infoSectionRef = useRef<HTMLDivElement>(null);
     let textRef = useRef<HTMLDivElement>(null);
 
-    let [isCommentOpen, setIsCommentOpen] = useState(false);
-    let [isShareOpen, setIsShareOpen] = useState(false);
-    let [isSaved, setIsSaved] = useState(false);
-    let [isMoreOpen, setIsMoreOpen] = useState(false);
     let [isFollowing, setIsFollowing] = useState(false);
     let [isTextExpanded, setIsTextExpanded] = useState(false);
     let [isTextOverflowing, setIsTextOverflowing] = useState(false);
@@ -98,25 +84,6 @@ export default function VideoCard(props: VideoCardProps) {
         }
     }
 
-    function onButtonsForPostHoverOrLeave(event: MouseEvent, operation: OperationsOnButtonsForPost) {
-        let img = event.target! as HTMLImageElement;
-
-        if (img.id === 'save' && isSaved) {
-            return;
-        }
-
-        let newSrc;
-        switch (operation) {
-            case OperationsOnButtonsForPost.HOVER:
-                newSrc = `/home/${img.id}-hover.svg`;
-                break;
-            case OperationsOnButtonsForPost.LEAVE:
-                newSrc = `/home/${img.id}.svg`;
-                break;
-        }
-        img.src = newSrc;
-    }
-
     function handleTextClick() {
         if (!isTextExpanded) {
             setIsTextOverflowing(false);
@@ -132,156 +99,80 @@ export default function VideoCard(props: VideoCardProps) {
     }
 
     return (
-        <InView as="div" className="flex space-x-6" threshold={1} onChange={(inView, entry) => handleIsInViewChange(inView)}>
-            <div className="relative max-w-[410px] max-h-[80vh] aspect-[0.56] flex items-center bg-black rounded-md" onClick={handleOverlayClick}>
-                <video ref={videoRef} muted={props.isMuted} loop>
-                    <source src={props.video_src} type="video/mp4" />
-                </video>
+        <InView as="div" className="relative h-full flex items-center bg-black rounded-none sm:rounded-md" threshold={1} onChange={(inView) => handleIsInViewChange(inView)} onClick={handleOverlayClick}>
+            <video ref={videoRef} muted={props.isMuted} loop>
+                <source src={props.video_src} type="video/mp4" />
+            </video>
 
-                <div className="absolute top-2 right-2 flex justify-end mt-3 mr-3">
-                    <div ref={muteButtonRef} className="bg-gray-400/30 hover:bg-gray-400/50 rounded-full px-2 py-2 cursor-pointer" onClick={handleMuteClick}>
-                        <img src={`${props.isMuted ? '/reels/volume-off.svg' : '/reels/volume-on.svg'}`} alt="Mute" width={16} height={16} />
-                    </div>
-                </div>
-
-                <div className="absolute left-0 right-0 flex justify-center h-[70px]">
-                    <div ref={playButtonRef} className="w-[70px] rounded-full bg-black/50 flex justify-center items-center cursor-pointer transition-all duration-300" onClick={handlePlayClick}>
-                        <img src='/reels/play.svg' alt="Play" width={24} height={24} />
-                    </div>
-                </div>
-
-                <div ref={infoSectionRef} className="absolute w-full bottom-0 flex flex-col space-y-4 px-4 py-4 text-white text-[14px]">
-                    <div className="flex space-x-2 items-center font-[500]">
-                        <div className="cursor-pointer">
-                            <img className="rounded-full" src={props.avatar} alt="" width={32} height={32} />
-                        </div>
-
-                        <div className='cursor-pointer'>
-                            {props.username}
-                        </div>
-
-                        <div className="text-[20px]">
-                            &#183;
-                        </div>
-
-                        <div className="px-1 py-1 rounded-md border-gray-500 border-[1px] cursor-pointer" onClick={() => setIsFollowing(!isFollowing)}>
-                            {isFollowing ? "Following" : "Follow"}
-                        </div>
-                    </div>
-
-                    <div className={`flex transition-all duration-500 cursor-pointer leading-[18px] ${isTextExpanded ? 'max-h-[246px] overflow-y-scroll' : 'max-h-[18px] overflow-hidden'}`}
-                        onClick={handleTextClick} onTransitionEnd={handleTextClickTransitionEnd}>
-
-                        <div ref={textRef} className="flex flex-col space-y-4">
-                            <div className="whitespace-pre-wrap">
-                                {props.text}
-                            </div>
-
-                            {
-                                props.tags.length > 0 && <div className="flex space-x-1 font-[500] flex-wrap">
-                                    {props.tags.map((tag) => {
-                                        return (
-                                            <a href="#" key={tag}>#{tag}</a>
-                                        )
-                                    })}
-                                </div>
-                            }
-                        </div>
-
-                        {
-                            isTextOverflowing && <div className="shrink-0">... more</div>
-                        }
-                    </div>
-
-                    <div className="flex items-center space-x-1 cursor-pointer">
-                        <img src="/reels/music.svg" alt="" width={13} height={13} />
-
-                        <div>
-                            {props.username}
-                        </div>
-
-                        <div>
-                            &#183;
-                        </div>
-
-                        <div>
-                            {props.notation}
-                        </div>
-                    </div>
+            <div className="absolute top-2 right-2 flex justify-end mt-3 mr-3">
+                <div ref={muteButtonRef} className="bg-gray-400/30 hover:bg-gray-400/50 rounded-full px-2 py-2 cursor-pointer" onClick={handleMuteClick}>
+                    <img src={`${props.isMuted ? '/reels/volume-off.svg' : '/reels/volume-on.svg'}`} alt="Mute" width={16} height={16} />
                 </div>
             </div>
 
-            <div className="flex flex-col justify-end items-center text-[12px] space-y-6 pb-2">
-                <div className="flex flex-col space-y-1 cursor-pointer items-center">
-                    <LikeButton />
-                    <div>Likes</div>
+            <div className="absolute left-0 right-0 flex justify-center h-[70px]">
+                <div ref={playButtonRef} className="w-[70px] rounded-full bg-black/50 flex justify-center items-center cursor-pointer transition-all duration-300" onClick={handlePlayClick}>
+                    <img src='/reels/play.svg' alt="Play" width={24} height={24} />
                 </div>
+            </div>
 
-                <div className="relative flex flex-col justify-center items-center cursor-pointer space-y-1">
-                    <div>
-                        <img id="comment" className="cursor-pointer" src="/home/comment.svg" alt="Comment" width={24} height={24}
-                            onMouseOver={(event) => onButtonsForPostHoverOrLeave(event, OperationsOnButtonsForPost.HOVER)}
-                            onMouseLeave={(event) => onButtonsForPostHoverOrLeave(event, OperationsOnButtonsForPost.LEAVE)}
-                            onClick={() => setIsCommentOpen(!isCommentOpen)}
-                        />
+            <div ref={infoSectionRef} className="absolute w-full bottom-0 flex flex-col space-y-4 px-4 py-4 text-white text-[14px]">
+                <div className="flex space-x-2 items-center font-[500]">
+                    <div className="cursor-pointer">
+                        <img className="rounded-full" src={props.avatar} alt="" width={32} height={32} />
                     </div>
 
-                    <div>
+                    <div className='cursor-pointer'>
+                        {props.username}
+                    </div>
+
+                    <div className="text-[20px]">
+                        &#183;
+                    </div>
+
+                    <div className="px-1 py-1 rounded-md border-gray-500 border-[1px] cursor-pointer" onClick={() => setIsFollowing(!isFollowing)}>
+                        {isFollowing ? "Following" : "Follow"}
+                    </div>
+                </div>
+
+                <div className={`flex transition-all duration-500 cursor-pointer leading-[18px] ${isTextExpanded ? 'max-h-[246px] overflow-y-scroll' : 'max-h-[18px] overflow-hidden'}`}
+                    onClick={handleTextClick} onTransitionEnd={handleTextClickTransitionEnd}>
+
+                    <div ref={textRef} className="flex flex-col space-y-4">
+                        <div className="whitespace-pre-wrap">
+                            {props.text}
+                        </div>
+
                         {
-                            Intl.NumberFormat('en-US', {
-                                notation: "compact",
-                                maximumFractionDigits: 1
-                            }).format(props.comment_count)
+                            props.tags.length > 0 && <div className="flex space-x-1 font-[500] flex-wrap">
+                                {props.tags.map((tag) => {
+                                    return (
+                                        <a href="#" key={tag}>#{tag}</a>
+                                    )
+                                })}
+                            </div>
                         }
                     </div>
 
                     {
-                        isCommentOpen &&
-                        <div className="absolute bottom-0 right-full 2xl:left-full mx-4">
-                            <CommentWindow closeThisMenu={() => setIsCommentOpen(false)} />
-                        </div>
+                        isTextOverflowing && <div className="shrink-0">... more</div>
                     }
                 </div>
 
-                <div className="relative cursor-pointer">
-                    <img id="share-post" className="cursor-pointer" src="/home/share-post.svg" alt="Share Post" width={24} height={24}
-                        onMouseOver={(event) => onButtonsForPostHoverOrLeave(event, OperationsOnButtonsForPost.HOVER)}
-                        onMouseLeave={(event) => onButtonsForPostHoverOrLeave(event, OperationsOnButtonsForPost.LEAVE)}
-                        onClick={() => setIsShareOpen(!isShareOpen)}
-                    />
+                <div className="flex items-center space-x-1 cursor-pointer">
+                    <img src="/reels/music.svg" alt="" width={13} height={13} />
 
-                    {
-                        isShareOpen &&
-                        <div className="absolute bottom-0 right-full 2xl:left-full mx-4">
-                            <ShareWindow closeThisMenu={() => setIsShareOpen(false)} />
-                        </div>
-                    }
-                </div>
+                    <div>
+                        {props.username}
+                    </div>
 
-                <div className="cursor-pointer">
-                    <img id="save" className="cursor-pointer" src={isSaved ? `/home/save-selected.svg` : `/home/save.svg`} alt="Save" width={24} height={24}
-                        onMouseOver={(event) => onButtonsForPostHoverOrLeave(event, OperationsOnButtonsForPost.HOVER)}
-                        onMouseLeave={(event) => onButtonsForPostHoverOrLeave(event, OperationsOnButtonsForPost.LEAVE)}
-                        onClick={() => setIsSaved(!isSaved)}
-                    />
-                </div>
+                    <div>
+                        &#183;
+                    </div>
 
-                <div className="relative cursor-pointer">
-                    <img id="three-dot-button" className="cursor-pointer" src="/home/three-dot-button.svg" alt="More" width={24} height={24}
-                        onMouseOver={(event) => onButtonsForPostHoverOrLeave(event, OperationsOnButtonsForPost.HOVER)}
-                        onMouseLeave={(event) => onButtonsForPostHoverOrLeave(event, OperationsOnButtonsForPost.LEAVE)}
-                        onClick={() => setIsMoreOpen(!isMoreOpen)}
-                    />
-                    {
-                        isMoreOpen &&
-                        <div className="absolute bottom-full right-0 lg:left-0">
-                            <MoreMenu closeThisMenu={() => setIsMoreOpen(false)} />
-                        </div>
-                    }
-                </div>
-
-                <div className="cursor-pointer rounded-md border-[1px] border-black">
-                    <img className="rounded-md" src={props.avatar} alt="avatar" width={24} height={24} />
+                    <div>
+                        {props.notation}
+                    </div>
                 </div>
             </div>
         </InView>
