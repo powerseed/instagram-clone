@@ -99,7 +99,7 @@ export default function VideoCard(props: VideoCardProps) {
     }
 
     return (
-        <InView as="div" className="relative h-full flex items-center bg-black rounded-none sm:rounded-md" threshold={1} onChange={(inView) => handleIsInViewChange(inView)} onClick={handleOverlayClick}>
+        <InView as="div" className="relative h-full flex items-center bg-black rounded-none sm:rounded-md" threshold={0.8} onChange={(inView) => handleIsInViewChange(inView)} onClick={handleOverlayClick}>
             <video ref={videoRef} muted={props.isMuted} loop>
                 <source src={props.video_src} type="video/mp4" />
             </video>
