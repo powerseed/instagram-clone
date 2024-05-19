@@ -48,7 +48,7 @@ export default function MediaCard(props: MediaCardProps) {
         infinite: false,
         autoplay: false,
         draggable: false,
-        className: "bg-black rounded"
+        className: "bg-black rounded-none sm:rounded"
     };
 
     return (
@@ -84,7 +84,7 @@ export default function MediaCard(props: MediaCardProps) {
                         {props.images.map((image, index) => {
                             return (
                                 <div key={index} className='mb-[-7px]'>
-                                    <img className='rounded' src={`/home/${image}`} alt={index.toString()} />
+                                    <img className='rounded-none sm:rounded' src={`/home/${image}`} alt={index.toString()} />
                                 </div>
                             )
                         })}
