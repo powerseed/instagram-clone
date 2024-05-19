@@ -17,7 +17,7 @@ export default function Reels() {
             {
                 (video_card_content).map((content) => {
                     return (
-                        <div key={content.id} className="flex snap-center h-full sm:mb-4">
+                        <div key={content.id} className="flex justify-center snap-center h-full sm:mb-4">
                             <div className="sm:aspect-[0.56] sm:mr-6">
                                 <VideoCard key={content.id} {...content} isMuted={isMuted} switchMute={switchMute} />
                             </div>
