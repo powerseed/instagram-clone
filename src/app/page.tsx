@@ -26,11 +26,11 @@ export default function Home() {
   const settings = {
     dots: false,
     speed: 500,
-    slidesToShow: 8,
-    slidesToScroll: 4,
+    slidesToShow: 4,
+    slidesToScroll: 2,
     infinite: false,
     autoplay: false,
-    draggable: false,
+    draggable: false
   };
 
   return (

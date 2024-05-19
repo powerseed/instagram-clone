@@ -30,4 +30,8 @@
         opacity: 1 !important;
         font-size: 25px !important;
     }
+
+    .slick-slide {
+        width: auto !important;
+    }
 }
