@@ -105,8 +105,8 @@ export default function Sidebar() {
     }
 
     return (
-        <div className="fixed hidden md:block">
-            <div className={`absolute flex flex-col pt-[8px] pb-[20px] px-[12px] border-r-[1px] h-screen ${isCollapsed ? 'w-[var(--sidebar-collapsed-width)]' : 'w-[var(--sidebar-full-width)]'} transition-all duration-300 z-20 bg-white`}>
+        <div className="fixed hidden md:block z-50">
+            <div className={`z-[0] absolute flex flex-col bg-white pt-[8px] pb-[20px] px-[12px] border-r-[1px] h-screen ${isCollapsed ? 'w-[var(--sidebar-collapsed-width)]' : 'w-[var(--sidebar-full-width)]'} transition-all duration-300`}>
                 <div className="h-[92px] mt-[14px]">
                     {
                         isCollapsed ?
@@ -206,11 +206,11 @@ export default function Sidebar() {
                 </div>
             </div>
 
-            <div className={`absolute top-0 ${isSearchOpen ? 'left-[73px]' : 'left-[-400px]'} transition-all duration-300 z-10`}>
+            <div className={`z-[-1] absolute top-0 ${isSearchOpen ? 'left-[73px]' : 'left-[-400px]'} transition-all duration-300 z-10`}>
                 <SearchPanel />
             </div>
 
-            <div className={`absolute top-0 ${isNotificationsOpen ? 'left-[73px]' : 'left-[-400px]'} transition-all duration-300 z-10`}>
+            <div className={`z-[-1] absolute top-0 ${isNotificationsOpen ? 'left-[73px]' : 'left-[-400px]'} transition-all duration-300 z-10`}>
                 <NotificationsPanel />
             </div>
 
