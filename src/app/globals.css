@@ -41,6 +41,10 @@
     --main-width-full-sidebar: calc(100% - var(--sidebar-full-width));
 
     --bottom-bar-height: 48px;
+
+    --bars-z-index: 10;
+    --windows-z-index: 20;
+    --menus-z-index: 30;
   }
 
   .dark {

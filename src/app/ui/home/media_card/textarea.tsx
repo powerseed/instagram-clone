@@ -83,7 +83,7 @@ const Textarea = forwardRef<TextareaHandle, TextareaProps>((props: TextareaProps
     return (
         <div className={`flex ${props.isEmojiPickerBeforeInputField ? 'flex-row-reverse' : ''} justify-between items-center text-[14px]`}>
             <div className='flex flex-1 space-x-2 mr-2'>
-                <div  className='flex-1'>
+                <div className='flex-1'>
                     <TextareaAutosize
                         ref={textareaRef}
                         value={comment}
@@ -110,7 +110,7 @@ const Textarea = forwardRef<TextareaHandle, TextareaProps>((props: TextareaProps
                 </button>
 
                 {
-                    isEmojiPenalOpen && <div ref={emojiPickerRef} className='absolute z-10'>
+                    isEmojiPenalOpen && <div ref={emojiPickerRef} className='absolute z-[1]'>
                         <EmojiPicker data={data} onEmojiSelect={onEmojiSelect} closePenal={onEmojiButtonClick} />
                     </div>
                 }

@@ -57,7 +57,7 @@ export default function Share({ closeShareWindow }: { closeShareWindow: Function
     }
 
     return (
-        <div className="fixed top-0 bottom-0 left-0 right-0 w-screen h-screen bg-black/70 z-30">
+        <div className="fixed top-0 bottom-0 left-0 right-0 w-screen h-screen bg-black/70 z-[var(--menus-z-index)]">
             <div className="fixed top-0 md:top-1/2 left-0 md:left-1/2 w-screen md:w-[550px] h-screen md:h-[520px] md:translate-y-[-50%] md:translate-x-[-50%] bg-white md:rounded-xl">
                 <div ref={shareRef} className={`h-full flex flex-col ${styles.popup_scaling_down}`}>
                     <div className="flex flex-0 justify-center items-center h-11">

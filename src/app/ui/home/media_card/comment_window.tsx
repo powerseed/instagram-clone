@@ -4,7 +4,6 @@ import OperationButtons from "./operation_buttons";
 import ReactTimeAgo from "react-time-ago";
 import Textarea, { TextareaHandle } from "./textarea";
 import styles from './styles.module.css';
-import './media_slider_in_comment_styles.css';
 import './media_slider_in_card_styles.css';
 import Comment from "./comment";
 import { comments } from '../../../content';
@@ -30,7 +29,7 @@ export default function CommentWindow(props: CommentProps) {
 
         let closeCommentEventListener = (event: MouseEvent) => {
             var clickedElement = document.elementFromPoint(event.clientX, event.clientY);
-            
+
             if (!(commentRef.current?.contains(clickedElement))) {
                 props.closeCommentPanel();
             }
@@ -50,9 +49,9 @@ export default function CommentWindow(props: CommentProps) {
     }
 
     return (
-        <div className={`${styles.popup_scaling_down} fixed flex justify-center items-center top-0 bottom-0 left-0 right-0 w-screen h-screen bg-black/70 z-20`}>
+        <div className={`${styles.popup_scaling_down} fixed flex justify-center items-center top-0 bottom-0 left-0 right-0 w-screen h-screen bg-black/70 z-[var(--windows-z-index)]`}>
             <div ref={commentRef} className={`${styles.comment_panel} h-full flex`}>
-                <div className="media_slider_in_comment flex-1 h-full bg-black flex items-center">
+                <div className="flex-1 h-full bg-black flex items-center">
                     <img className="max-w-full max-h-full" src={`/home/${props.images[0]}`} />
                 </div>
 

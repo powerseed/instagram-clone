@@ -2,7 +2,7 @@
     .slick-arrow {
         top: 50% !important;
         transform: translate(0%, -50%) !important;
-        z-index: 10;
+        z-index: 1;
     }
 
     .slick-prev,

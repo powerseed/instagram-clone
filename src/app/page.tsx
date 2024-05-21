@@ -30,7 +30,7 @@ export default function Home() {
     slidesToScroll: 2,
     infinite: false,
     autoplay: false,
-    draggable: false
+    draggable: false,
   };
 
   return (
