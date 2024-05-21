@@ -60,7 +60,7 @@ export default function CreatePostWindow({ closeThisWindow }: { closeThisWindow:
                 }
             </div>
 
-            <div className="fixed top-[20px] right-[20px] w-[20px] h-[20px] cursor-pointer">
+            <div className="fixed top-[20px] right-[20px] w-[20px] h-[20px] cursor-pointer" onClick={closeThisWindow}>
                 <img src="/home/close-white.svg" alt="Close" />
             </div>
         </div>
