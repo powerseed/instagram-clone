@@ -104,6 +104,13 @@ export default function Sidebar() {
         setIsCreatePostWindowOpen(true);
     }
 
+    function onLinkClick() {
+        setIsSearchOpen(false);
+        searchPanelRef.current?.setIsSelectedFalse();
+        setIsNotificationsOpen(false);
+        notificationsPanelRef.current?.setIsSelectedFalse();
+    }
+
     return (
         <div className="fixed hidden md:block z-50">
             <div className={`z-[0] absolute flex flex-col bg-white pt-[8px] pb-[20px] px-[12px] border-r-[1px] h-screen ${isCollapsed ? 'w-[var(--sidebar-collapsed-width)]' : 'w-[var(--sidebar-full-width)]'} transition-all duration-300`}>
@@ -127,6 +134,7 @@ export default function Sidebar() {
                         unselected_icon='/side_and_bottom_bar/home.svg'
                         selected_icon='/side_and_bottom_bar/home-selected.svg'
                         isCollapsed={isCollapsed}
+                        onClick={onLinkClick}
                     />
                     <SidebarButton
                         ref={searchPanelRef}
@@ -142,6 +150,7 @@ export default function Sidebar() {
                         unselected_icon='/side_and_bottom_bar/explore.svg'
                         selected_icon='/side_and_bottom_bar/explore-selected.svg'
                         isCollapsed={isCollapsed}
+                        onClick={onLinkClick}
                     />
                     <SidebarLink
                         href='/reels'
@@ -149,6 +158,7 @@ export default function Sidebar() {
                         unselected_icon='/side_and_bottom_bar/reels.svg'
                         selected_icon='/side_and_bottom_bar/reels-selected.svg'
                         isCollapsed={isCollapsed}
+                        onClick={onLinkClick}
                     />
                     <SidebarLink
                         href='/direct/inbox'
@@ -156,6 +166,7 @@ export default function Sidebar() {
                         unselected_icon='/side_and_bottom_bar/messages.svg'
                         selected_icon='/side_and_bottom_bar/messages-selected.svg'
                         isCollapsed={isCollapsed}
+                        onClick={onLinkClick}
                     />
                     <SidebarButton
                         ref={notificationsPanelRef}
@@ -178,6 +189,7 @@ export default function Sidebar() {
                         unselected_icon='/profile.png'
                         selected_icon={undefined}
                         isCollapsed={isCollapsed}
+                        onClick={onLinkClick}
                     />
                 </div>
 

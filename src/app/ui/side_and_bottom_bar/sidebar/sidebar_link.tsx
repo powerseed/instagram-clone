@@ -7,14 +7,15 @@ type SidebarLinkProps = {
     text: string,
     unselected_icon: string,
     selected_icon: string | undefined,
-    isCollapsed: boolean
+    isCollapsed: boolean,
+    onClick: () => void
 }
 
 export default function SidebarLink(props: SidebarLinkProps) {
     const currentPath = usePathname();
 
     return (
-        <Link href={props.href}>
+        <Link href={props.href} onClick={props.onClick}>
             <div className='h-[56px] overflow-hidden'>
                 <div className={`${styles.button} cursor-pointer flex rounded-lg hover:bg-gray-200 transition-colors`}>
                     <div className="shrink-0 p-[12px]">
