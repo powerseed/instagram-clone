@@ -19,17 +19,8 @@ export default function CreatePostWindow({ closeThisWindow }: { closeThisWindow:
     useEffect(() => {
         setIsOverlayOpen(true);
 
-        let closeMenuEventListener = (event: Event) => {
-            if (!thisRef.current?.contains(event.target as Node)) {
-                closeThisWindow();
-            }
-        };
-
-        document.addEventListener('click', closeMenuEventListener);
-
         return () => {
             setIsOverlayOpen(false);
-            document.removeEventListener('click', closeMenuEventListener);
         }
     })
 
