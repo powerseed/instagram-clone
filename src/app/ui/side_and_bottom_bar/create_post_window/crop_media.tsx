@@ -1,6 +1,5 @@
 import { useState } from "react"
 import Cropper from "react-easy-crop";
-import './styles.css';
 
 type CropMediaProps = {
     mediaUrl: string,
@@ -59,6 +58,10 @@ export default function CropMedia(props: CropMediaProps) {
                         },
                         mediaStyle: {
                             maxWidth: 'unset'
+                        },
+                        cropAreaStyle: {
+                            width: '100%',
+                            height: '100%'
                         }
                     }}
                 />
