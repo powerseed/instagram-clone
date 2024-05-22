@@ -15,6 +15,7 @@ export default function CreatePostWindow({ closeThisWindow }: { closeThisWindow:
     let thisRef = useRef<HTMLDivElement>(null);
     let [currentStep, setCurrentStep] = useState<StepsForCreatingAPost>(StepsForCreatingAPost.SELECT_MEDIA);
     let [uploadedMediaUrl, setUploadedMediaUrl] = useState<string | undefined>(undefined);
+    let [croppedMediaUrl, setCroppedMediaUrl] = useState<string | undefined>(undefined);
 
     useEffect(() => {
         setIsOverlayOpen(true);
@@ -43,16 +44,22 @@ export default function CreatePostWindow({ closeThisWindow }: { closeThisWindow:
 
     return (
         <div className="fixed top-0 bottom-0 left-0 right-0 !my-0 w-screen h-screen flex justify-center items-center bg-black/70 z-[var(--windows-z-index)]">
-            <div ref={thisRef} className={`transition-all duration-500 h-[80%] w-[90%] max-h-[635px] ${currentStep === StepsForCreatingAPost.CREATE_NEW_POST ? 'min-w-[814px] max-w-[931px]' : 'max-w-[591px]'}`}>
+            <div ref={thisRef} className={`transition-all duration-500 h-[80%] w-[90%] max-h-[635px] 
+                ${currentStep === StepsForCreatingAPost.CREATE_NEW_POST ? 'min-w-[736px] max-w-[931px]' : 'max-w-[591px]'}`}>
                 {
                     (() => {
                         switch (currentStep) {
                             case StepsForCreatingAPost.SELECT_MEDIA:
                                 return <SelectMedia handleMediaUpload={handleMediaUpload} />;
                             case StepsForCreatingAPost.CROP_MEDIA:
-                                return <CropMedia mediaUrl={uploadedMediaUrl!} goPreviousStep={handleGoPreviousStep} goNextStep={handleGoNextStep} />;
+                                return <CropMedia
+                                    mediaUrl={uploadedMediaUrl!}
+                                    goPreviousStep={handleGoPreviousStep}
+                                    goNextStep={handleGoNextStep}
+                                    setCroppedImageUrl={setCroppedMediaUrl}
+                                />;
                             case StepsForCreatingAPost.CREATE_NEW_POST:
-                                return <AddInfo mediaUrl={uploadedMediaUrl!} goPreviousStep={handleGoPreviousStep} closeThisWindow={closeThisWindow} />;
+                                return <AddInfo mediaUrl={croppedMediaUrl!} goPreviousStep={handleGoPreviousStep} closeThisWindow={closeThisWindow} />;
                             default:
                                 return null;
                         }

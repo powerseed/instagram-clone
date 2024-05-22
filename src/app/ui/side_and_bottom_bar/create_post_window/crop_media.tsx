@@ -5,20 +5,85 @@ type CropMediaProps = {
     mediaUrl: string,
     goPreviousStep: () => void,
     goNextStep: () => void,
+    setCroppedImageUrl: (url: string) => void
 }
 
 type CropArea = {
     x: number,
     y: number,
+    width: number,
     height: number,
 }
 
 export default function CropMedia(props: CropMediaProps) {
     const [crop, setCrop] = useState({ x: 0, y: 0 })
-    const [zoom, setZoom] = useState(1)
+    const [zoom, setZoom] = useState(1);
+    const [croppedAreaPixels, setCroppedAreaPixels] = useState<CropArea | undefined>(undefined);
 
     const onCropComplete = (croppedArea: CropArea, croppedAreaPixels: CropArea) => {
-        console.log(croppedArea, croppedAreaPixels)
+        setCroppedAreaPixels(croppedAreaPixels);
+    }
+
+    async function generateCroppedImageUrl() {
+        try {
+            const croppedImageBlob = await getCroppedImg(
+                props.mediaUrl,
+                croppedAreaPixels!,
+            )
+
+            return croppedImageBlob;
+        } catch (e) {
+            console.error(e)
+        }
+    }
+
+    async function getCroppedImg(imageSrc: string, cropArea: CropArea) {
+        const image: HTMLImageElement = await createImage(imageSrc);
+        const canvas = document.createElement('canvas')
+        const ctx = canvas.getContext('2d')
+
+        canvas.width = image.width;
+        canvas.height = image.height;
+
+        ctx!.drawImage(image, 0, 0)
+
+        const croppedCanvas = document.createElement('canvas')
+        const croppedCtx = croppedCanvas.getContext('2d')
+
+        croppedCanvas.width = cropArea.width;
+        croppedCanvas.height = cropArea.height;
+
+        croppedCtx!.drawImage(
+            canvas,
+            cropArea.x,
+            cropArea.y,
+            cropArea.width,
+            cropArea.height,
+            0,
+            0,
+            cropArea.width,
+            cropArea.height
+        )
+
+        return new Promise<string>((resolve, reject) => {
+            resolve(croppedCanvas.toDataURL('image/jpeg'));
+        })
+    }
+
+    function createImage(url: string) {
+        return new Promise<HTMLImageElement>((resolve, reject) => {
+            const image = new Image()
+            image.addEventListener('load', () => resolve(image))
+            image.addEventListener('error', (error) => reject(error))
+            image.setAttribute('crossOrigin', 'anonymous')
+            image.src = url
+        });
+    }
+
+    async function handleNextClick() {
+        const url = await generateCroppedImageUrl();
+        props.setCroppedImageUrl(url!);
+        props.goNextStep();
     }
 
     return (
@@ -32,7 +97,7 @@ export default function CropMedia(props: CropMediaProps) {
                     Crop
                 </div>
 
-                <div className="cursor-pointer text-sky-500 text-[14px]" onClick={props.goNextStep}>
+                <div className="cursor-pointer text-sky-500 text-[14px]" onClick={handleNextClick}>
                     Next
                 </div>
             </div>

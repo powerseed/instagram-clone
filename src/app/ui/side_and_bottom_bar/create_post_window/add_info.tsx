@@ -27,7 +27,7 @@ export default function AddInfo(props: AddInfoProps) {
 
             <div className="grow flex">
                 <div className="flex justify-center items-center w-[calc(100%-340px)] border-r-[1px]">
-                    <img src={props.mediaUrl} alt="" />
+                    <img className="h-full" src={props.mediaUrl} alt="Cropped Image" />
                 </div>
 
                 <div className="w-[340px]">
