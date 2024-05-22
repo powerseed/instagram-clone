@@ -13,17 +13,77 @@ enum StepsForCreatingAPost {
 export default function CreatePostWindow({ closeThisWindow }: { closeThisWindow: () => void }) {
     const { setIsOverlayOpen } = useContext(OverlayContext);
     let thisRef = useRef<HTMLDivElement>(null);
+
+    let [modalHeight, setModalHeight] = useState<string | undefined>(undefined);
+    let [modalWidthWithRightCol, setModalWidthWithRightCol] = useState<string | undefined>(undefined);
+    let [modalWidthWithoutRightCol, setModalWidthWithoutRightCol] = useState<string | undefined>(undefined);
+    let [areDimensionsCalculated, setAreDimensionsCalculated] = useState<boolean>(false);
+
     let [currentStep, setCurrentStep] = useState<StepsForCreatingAPost>(StepsForCreatingAPost.SELECT_MEDIA);
     let [uploadedMediaUrl, setUploadedMediaUrl] = useState<string | undefined>(undefined);
     let [croppedMediaUrl, setCroppedMediaUrl] = useState<string | undefined>(undefined);
 
     useEffect(() => {
-        setIsOverlayOpen(true);
+        calculateDimensions();
+        setAreDimensionsCalculated(true);
 
+        setIsOverlayOpen(true);
         return () => {
             setIsOverlayOpen(false);
         }
-    })
+    }, [])
+
+    useEffect(() => {
+        if (areDimensionsCalculated) {
+            setDimentions();
+        }
+    }, [areDimensionsCalculated, currentStep])
+
+    function calculateDimensions() {
+        const maxWidthPercentageOfVw = 0.9;
+
+        const minModalWidth = 736;
+        const vwForMinModalWidth = minModalWidth / maxWidthPercentageOfVw;
+
+        const maxModalWidth = 931;
+        const vwForMaxModalWidth = maxModalWidth / maxWidthPercentageOfVw;
+
+        let modalWidthWithRightCol;
+
+        if (window.innerWidth < vwForMinModalWidth) {
+            modalWidthWithRightCol = minModalWidth;
+        }
+        else if (window.innerWidth > vwForMaxModalWidth) {
+            modalWidthWithRightCol = maxModalWidth;
+        }
+        else {
+            modalWidthWithRightCol = window.innerWidth * maxWidthPercentageOfVw;
+        }
+
+        let rightColWidth = 340;
+        let modalWidthWithoutRightCol = modalWidthWithRightCol - rightColWidth;
+
+        let titleHeight = 43;
+        let modalHeight = modalWidthWithoutRightCol + titleHeight;
+
+        setModalHeight(modalHeight + 'px');
+        setModalWidthWithoutRightCol(modalWidthWithoutRightCol + 'px');
+        setModalWidthWithRightCol(modalWidthWithRightCol + 'px');
+    }
+
+    function setDimentions() {
+        thisRef.current!.style.height = modalHeight!;
+
+        switch (currentStep) {
+            case StepsForCreatingAPost.SELECT_MEDIA:
+            case StepsForCreatingAPost.CROP_MEDIA:
+                thisRef.current!.style.width = modalWidthWithoutRightCol!;
+                break;
+            case StepsForCreatingAPost.CREATE_NEW_POST:
+                thisRef.current!.style.width = modalWidthWithRightCol!;
+                break;
+        }
+    }
 
     function handleMediaUpload(uploadedMediaUrl: string) {
         setUploadedMediaUrl(uploadedMediaUrl);
@@ -44,13 +104,14 @@ export default function CreatePostWindow({ closeThisWindow }: { closeThisWindow:
 
     return (
         <div className="fixed top-0 bottom-0 left-0 right-0 !my-0 w-screen h-screen flex justify-center items-center bg-black/70 z-[var(--windows-z-index)]">
-            <div ref={thisRef} className={`transition-all duration-500 h-[80%] w-[90%] max-h-[635px] 
-                ${currentStep === StepsForCreatingAPost.CREATE_NEW_POST ? 'min-w-[736px] max-w-[931px]' : 'max-w-[591px]'}`}>
+            <div ref={thisRef} className={`transition-all duration-500`}>
                 {
                     (() => {
                         switch (currentStep) {
                             case StepsForCreatingAPost.SELECT_MEDIA:
-                                return <SelectMedia handleMediaUpload={handleMediaUpload} />;
+                                return <SelectMedia
+                                    handleMediaUpload={handleMediaUpload}
+                                />;
                             case StepsForCreatingAPost.CROP_MEDIA:
                                 return <CropMedia
                                     mediaUrl={uploadedMediaUrl!}
@@ -59,7 +120,11 @@ export default function CreatePostWindow({ closeThisWindow }: { closeThisWindow:
                                     setCroppedImageUrl={setCroppedMediaUrl}
                                 />;
                             case StepsForCreatingAPost.CREATE_NEW_POST:
-                                return <AddInfo mediaUrl={croppedMediaUrl!} goPreviousStep={handleGoPreviousStep} closeThisWindow={closeThisWindow} />;
+                                return <AddInfo
+                                    mediaUrl={croppedMediaUrl!}
+                                    goPreviousStep={handleGoPreviousStep}
+                                    closeThisWindow={closeThisWindow}
+                                />;
                             default:
                                 return null;
                         }
