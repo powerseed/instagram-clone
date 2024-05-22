@@ -78,12 +78,12 @@ export default function OperationButtons(props: OperationButtonsProps) {
                 <div>
                     <img id="share-post" className="cursor-pointer" src="/home/share-post.svg" alt="Share Post" width={24} height={24}
                         onMouseOver={(event) => onButtonsForPostHoverOrLeave(event, OperationsOnButtonsForPost.HOVER)}
-                        onMouseLeave={(event) => onButtonsForPostHoverOrLeave(event, OperationsOnButtonsForPost.LEAVE)} 
+                        onMouseLeave={(event) => onButtonsForPostHoverOrLeave(event, OperationsOnButtonsForPost.LEAVE)}
                         onClick={() => setIsShareOpen(true)}
                     />
 
                     {
-                        isShareOpen && <Share closeShareWindow={() => setIsShareOpen(false)}/>
+                        isShareOpen && <Share closeShareWindow={() => setIsShareOpen(false)} />
                     }
                 </div>
             </div>

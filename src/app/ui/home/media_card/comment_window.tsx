@@ -16,7 +16,7 @@ type CommentProps = {
     created_on: Date,
     annotation: string | undefined,
     images: string[],
-    closeCommentPanel: Function
+    closeCommentPanel: () => void
 }
 
 export default function CommentWindow(props: CommentProps) {
@@ -50,13 +50,21 @@ export default function CommentWindow(props: CommentProps) {
 
     return (
         <div className={`${styles.popup_scaling_down} fixed flex justify-center items-center top-0 bottom-0 left-0 right-0 w-screen h-screen bg-black/70 z-[var(--windows-z-index)]`}>
-            <div ref={commentRef} className={`${styles.comment_panel} h-full flex`}>
-                <div className="flex-1 h-full bg-black flex items-center">
+            <div ref={commentRef} className='h-full flex max-h-full sm:max-h-[calc(100vh-50px)] max-w-full sm:max-w-[calc(100%-128px)]'>
+                <div className="hidden sm:flex flex-1 h-full bg-black items-center">
                     <img className="max-w-full max-h-full" src={`/home/${props.images[0]}`} />
                 </div>
 
-                <div className="flex-1 bg-white flex flex-col px-[15px] py-[10px] max-w-[500px] min-w-[405px] rounded-tr-md rounded-br-md">
-                    <div>
+                <div className="flex-1 bg-white flex flex-col max-w-[500px] min-w-[290px] rounded-tr-md rounded-br-md">
+                    <div className="flex sm:hidden justify-center items-center border-b-[1px] mb-2 py-2">
+                        <img className="absolute left-0 mx-2 cursor-pointer" src="/home/left-arrow.svg" alt="" width={22} height={22} onClick={props.closeCommentPanel} />
+
+                        <div className="text-[14px] font-[500]">
+                            Comments
+                        </div>
+                    </div>
+
+                    <div className="py-2 border-b-[1px] px-[15px]">
                         <Header
                             avatar={props.avatar}
                             username={props.username}
@@ -67,9 +75,7 @@ export default function CommentWindow(props: CommentProps) {
                         />
                     </div>
 
-                    <hr className="mx-[-15px] mt-2" />
-
-                    <div className={`grow overflow-y-auto overscroll-contain ${styles.comment_list}`}>
+                    <div className={`grow overflow-y-auto overscroll-contain px-[15px] ${styles.comment_list}`}>
                         {
                             comments.map((comment, index) => {
                                 return (
@@ -88,27 +94,24 @@ export default function CommentWindow(props: CommentProps) {
                         }
                     </div>
 
-                    <hr className="mx-[-15px] mb-4" />
-
-                    <div className="mb-4">
+                    <div className="px-[15px] border-t-[1px] py-3">
                         <OperationButtons
                             images={props.images}
                             isDisplayedInComment={true}
                         />
                     </div>
 
-
-                    <div className="mb-2 text-[12px] text-gray-400">
+                    <div className="px-[15px] text-[12px] text-gray-400 py-2">
                         <ReactTimeAgo date={props.created_on} timeStyle="twitter" />
                     </div>
 
-                    <hr className="mb-3 mx-[-15px]" />
-
-                    <Textarea ref={textareaRef} isEmojiPickerBeforeInputField={true} placeholder="Add a comment..." />
+                    <div className="px-[15px] border-t-[1px] py-3">
+                        <Textarea ref={textareaRef} isEmojiPickerBeforeInputField={true} placeholder="Add a comment..." />
+                    </div>
                 </div>
             </div>
 
-            <div className="fixed top-[20px] right-[20px] w-[20px] h-[20px] cursor-pointer">
+            <div className="hidden sm:block fixed top-[20px] right-[20px] w-[20px] h-[20px] cursor-pointer">
                 <img src="/home/close-white.svg" alt="Close" />
             </div>
         </div>

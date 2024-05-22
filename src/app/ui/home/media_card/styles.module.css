@@ -24,11 +24,6 @@
     animation-duration: 0.1s;
 }
 
-.comment_panel {
-    max-height: calc(100vh - 50px);
-    max-width: calc(100% - 64px - 64px);
-}
-
 .comment_list {
     scrollbar-width: none;
 }
