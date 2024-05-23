@@ -24,7 +24,7 @@ export default function Message(props: MessageProps) {
     return (
         <div className={`w-full my-[20px] flex space-x-2 ${props.isFromCurrentUser ? 'flex-row-reverse space-x-reverse' : 'flex-row'}`} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
             <div className="self-end cursor-pointer shrink-0">
-                <img className="rounded-full" src={props.isFromCurrentUser ? '/profile.png' : props.avatar} alt="avatar" width={28} height={28} />
+                <img className="rounded-full" src={props.isFromCurrentUser ? '/profile.jpg' : props.avatar} alt="avatar" width={28} height={28} />
             </div>
 
             <div className="px-3 py-2 max-w-[564px] text-wrap bg-[#efefef] text-[14px] rounded-2xl whitespace-pre">

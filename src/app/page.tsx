@@ -96,7 +96,7 @@ export default function Home() {
           <div className="flex justify-between">
             <div className="flex">
               <div className="mr-[12px]">
-                <img src="/profile.png" alt="avatar" width='44' height='44' />
+                <img src="/profile.jpg" alt="avatar" width='44' height='44' />
               </div>
 
               <div className="text-[14px]">

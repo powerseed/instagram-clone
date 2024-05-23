@@ -30,7 +30,7 @@ export default function BottomBar() {
             <BottomBarLink
                 href='/walterwhite'
                 text='Profile'
-                unselected_icon='/profile.png'
+                unselected_icon='/profile.jpg'
                 selected_icon={undefined}
             />
         </div>

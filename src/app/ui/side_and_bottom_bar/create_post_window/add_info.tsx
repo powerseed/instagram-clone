@@ -42,7 +42,7 @@ export default function AddInfo(props: AddInfoProps) {
 
                 <div className="w-[340px] flex flex-col">
                     <div className="flex px-4 py-3 items-center space-x-2">
-                        <img src="/profile.png" alt="" width={36} height={36} />
+                        <img src="/profile.jpg" alt="" width={36} height={36} />
 
                         <div className="font-[500]">
                             walterwhite

@@ -186,7 +186,7 @@ export default function Sidebar() {
                     <SidebarLink
                         href='/walterwhite'
                         text='Profile'
-                        unselected_icon='/profile.png'
+                        unselected_icon='/profile.jpg'
                         selected_icon={undefined}
                         isCollapsed={isCollapsed}
                         onClick={onLinkClick}
