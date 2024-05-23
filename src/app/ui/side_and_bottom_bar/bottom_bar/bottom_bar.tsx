@@ -28,7 +28,7 @@ export default function BottomBar() {
                 selected_icon='/side_and_bottom_bar/messages-selected.svg'
             />
             <BottomBarLink
-                href='/profile'
+                href='/walterwhite'
                 text='Profile'
                 unselected_icon='/profile.png'
                 selected_icon={undefined}

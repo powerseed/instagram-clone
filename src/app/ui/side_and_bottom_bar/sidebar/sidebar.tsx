@@ -184,7 +184,7 @@ export default function Sidebar() {
                         onClick={onCreateClick}
                     />
                     <SidebarLink
-                        href='/profile'
+                        href='/walterwhite'
                         text='Profile'
                         unselected_icon='/profile.png'
                         selected_icon={undefined}
