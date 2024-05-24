@@ -1,6 +1,9 @@
 'use client';
 
 import { useState } from "react"
+import SharePhotos from "./share_photos";
+import Saved from "./saved";
+import Tagged from "./tagged";
 
 enum Tabs {
     POSTS,
@@ -31,11 +34,11 @@ export default function Profile() {
                     </div>
 
                     <div className="flex text-[13px] space-x-2">
-                        <div className="font-[500] bg-gray-300 px-5 py-1 h-fit rounded-md">
+                        <div className="font-[500] bg-gray-200 hover:bg-gray-300 px-5 py-1 h-fit rounded-md cursor-pointer">
                             Edit profile
                         </div>
 
-                        <div className="font-[500] bg-gray-300 px-5 py-1 h-fit rounded-md">
+                        <div className="font-[500] bg-gray-200 hover:bg-gray-300 px-5 py-1 h-fit rounded-md cursor-pointer">
                             View archive
                         </div>
 
@@ -122,21 +125,9 @@ export default function Profile() {
 
             <div className="grow flex justify-center items-center">
                 <div className="max-w-[350px] flex flex-col items-center space-y-3">
-                    <div className="flex justify-center items-center rounded-full w-[65px] h-[65px] border-[2px] border-black">
-                        <img src="/profile/camera.svg" alt="" width={50} height={50} />
-                    </div>
-
-                    <div className="text-[30px] font-[800] text-center">
-                        Share Photos
-                    </div>
-
-                    <div className="text-center text-[14px]">
-                        When you share photos, they will appear on your profile.
-                    </div>
-
-                    <div className="text-center text-[14px] font-[500] text-sky-500">
-                        <a href="">Share your first photo</a>
-                    </div>
+                    {tabSelected === Tabs.POSTS && <SharePhotos />}
+                    {tabSelected === Tabs.SAVE && <Saved />}
+                    {tabSelected === Tabs.PHOTO && <Tagged />}
                 </div>
             </div>
         </div>
