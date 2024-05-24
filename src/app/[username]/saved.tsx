@@ -10,7 +10,7 @@ export default function Saved() {
             </div>
 
             <div className="text-center text-[14px]">
-                Save photos and videos that you want to see again. No one is notified, and only you can see what you've saved.
+                Save photos and videos that you want to see again. No one is notified, and only you can see what you&apos;ve saved.
             </div>
         </>
     )

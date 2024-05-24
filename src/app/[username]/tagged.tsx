@@ -10,7 +10,7 @@ export default function Tagged() {
             </div>
 
             <div className="text-center text-[14px]">
-                When people tag you in photos, they'll appear here.
+                When people tag you in photos, they&apos;ll appear here.
             </div>
         </>
     )
