@@ -2,8 +2,8 @@
 
 import { useContext } from "react";
 import { OverlayContext } from "./overlay_context_provider";
-import BottomBar from "./ui/side_and_bottom_bar/bottom_bar/bottom_bar";
-import Sidebar from "./ui/side_and_bottom_bar/sidebar/sidebar";
+import BottomBar from "@/components/ui/side_and_bottom_bar/bottom_bar/bottom_bar";
+import Sidebar from "@/components/ui/side_and_bottom_bar/sidebar/sidebar";
 import { usePathname } from "next/navigation";
 
 export default function BodyWrapper({

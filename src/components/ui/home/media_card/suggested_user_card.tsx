@@ -1,4 +1,4 @@
-import { Checkbox } from "@/components/checkbox"
+import { Checkbox } from "@/components/ui/checkbox"
 import { forwardRef, useImperativeHandle, useState } from "react"
 
 type SuggestedUserCardProps = {

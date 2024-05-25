@@ -6,7 +6,7 @@ import Textarea, { TextareaHandle } from "./textarea";
 import styles from './styles.module.css';
 import './media_slider_in_card_styles.css';
 import Comment from "./comment";
-import { comments } from '../../../content';
+import { comments } from './content';
 import { OverlayContext } from "@/app/overlay_context_provider";
 
 type CommentProps = {

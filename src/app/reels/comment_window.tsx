@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
-import Textarea, { TextareaHandle } from "../ui/home/media_card/textarea";
-import { comments } from "../content";
-import Comment from "../ui/home/media_card/comment";
+import Textarea, { TextareaHandle } from "@/components/ui/home/media_card/textarea";
+import { comments } from "@/app/content";
+import Comment from "@/components/ui/home/media_card/comment";
 
 export default function CommentWindow({ closeThisMenu }: { closeThisMenu: () => void }) {
     const thisRef = useRef<HTMLDivElement>(null);

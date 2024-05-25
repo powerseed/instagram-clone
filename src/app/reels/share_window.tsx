@@ -1,7 +1,7 @@
 import { ChangeEvent, createRef, useEffect, useRef, useState } from "react";
 import styles from './styles.module.css';
-import { suggested_users_in_share } from "../content";
-import SuggestedUserCard, { SuggestedUserCardHandle } from "../ui/home/media_card/suggested_user_card";
+import { suggested_users_in_share } from "@/app/content";
+import SuggestedUserCard, { SuggestedUserCardHandle } from "@/components/ui/home/media_card/suggested_user_card";
 
 export default function ShareWindow({ closeThisMenu }: { closeThisMenu: () => void }) {
     const thisRef = useRef<HTMLDivElement>(null);

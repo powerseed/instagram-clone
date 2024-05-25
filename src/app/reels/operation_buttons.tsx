@@ -1,5 +1,5 @@
 import { MouseEvent, useState } from "react";
-import LikeButton from "../ui/home/media_card/like_button";
+import LikeButton from "@/components/ui/home/media_card/like_button";
 import MoreMenu from "./more_menu";
 import CommentWindow from "./comment_window";
 import ShareWindow from "./share_window";
