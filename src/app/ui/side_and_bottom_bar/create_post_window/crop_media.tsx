@@ -24,9 +24,9 @@ export default function CropMedia(props: CropMediaProps) {
         setCroppedAreaPixels(croppedAreaPixels);
     }
 
-    async function generateCroppedImageUrl() {
+    function generateCroppedImageUrl() {
         try {
-            const croppedImageBlob = await getCroppedImg(
+            const croppedImageBlob = getCroppedImg(
                 props.mediaUrl,
                 croppedAreaPixels!,
             )
@@ -37,8 +37,8 @@ export default function CropMedia(props: CropMediaProps) {
         }
     }
 
-    async function getCroppedImg(imageSrc: string, cropArea: CropArea) {
-        const image: HTMLImageElement = await createImage(imageSrc);
+    function getCroppedImg(imageSrc: string, cropArea: CropArea) {
+        const image: HTMLImageElement = createImage(imageSrc);
         const canvas = document.createElement('canvas')
         const ctx = canvas.getContext('2d')
 
@@ -65,19 +65,14 @@ export default function CropMedia(props: CropMediaProps) {
             cropArea.height
         )
 
-        return new Promise<string>((resolve, reject) => {
-            resolve(croppedCanvas.toDataURL('image/jpeg'));
-        })
+        return croppedCanvas.toDataURL('image/jpeg');
     }
 
     function createImage(url: string) {
-        return new Promise<HTMLImageElement>((resolve, reject) => {
-            const image = new Image()
-            image.addEventListener('load', () => resolve(image))
-            image.addEventListener('error', (error) => reject(error))
-            image.setAttribute('crossOrigin', 'anonymous')
-            image.src = url
-        });
+        const image = new Image();
+        image.src = url;
+        image.setAttribute('crossOrigin', 'anonymous');
+        return image;
     }
 
     async function handleNextClick() {
