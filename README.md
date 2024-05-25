@@ -2,7 +2,7 @@
 
 This is a **UI clone** of Instagram. It is deployed at https://instagram-clone-delta-flame.vercel.app/
 
-It is ongoing. By now I have finished the Home page. In the future I will finish all pages as well as using a database instead of rendering static data and images.
+It is ongoing. So far I have basically finished the UI, next I will make it fullstack.
 
 Technologies used:
 
