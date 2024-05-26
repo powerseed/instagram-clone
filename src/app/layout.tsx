@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import OverlayContextProvider from "./overlay_context_provider";
 import BodyWrapper from "./body_wrapper";
+import { UserProvider } from '@auth0/nextjs-auth0/client';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,11 +19,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <OverlayContextProvider>
-        <BodyWrapper inter={inter}>
-          {children}
-        </BodyWrapper>
-      </OverlayContextProvider>
+      <UserProvider profileUrl="/profile">
+        <OverlayContextProvider>
+          <BodyWrapper inter={inter}>
+            {children}
+          </BodyWrapper>
+        </OverlayContextProvider>
+      </UserProvider>
     </html>
   );
 }

@@ -25,9 +25,9 @@ export default function MoreMenu() {
 
                 <hr className="h-[1px] my-[8px] mx-[-8px] border-t-0 bg-neutral-100 dark:bg-white/10" />
 
-                <div className="cursor-pointer p-[16px] flex rounded-lg hover:bg-gray-200 transition-colors">
+                <a href="/api/auth/logout" className="cursor-pointer p-[16px] flex rounded-lg hover:bg-gray-200 transition-colors">
                     Log out
-                </div>
+                </a>
             </div>
         </div>
     )
