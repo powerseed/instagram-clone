@@ -20,7 +20,7 @@ export default function SidebarLink(props: SidebarLinkProps) {
                 <div className={`${styles.button} cursor-pointer flex rounded-lg hover:bg-gray-200 transition-colors`}>
                     <div className="shrink-0 p-[12px]">
                         <img
-                            className={`w-[24px] h-[24px] transition-transform ${props.selected_icon ? '' : (currentPath === props.href ? 'rounded-full border-[2px] border-black' : '')}`}
+                            className={`w-[24px] h-[24px] transition-transform rounded-full ${props.selected_icon ? '' : (currentPath === props.href ? 'border-[2px] border-black' : '')}`}
                             src={`${props.selected_icon ? (currentPath === props.href ? props.selected_icon : props.unselected_icon) : props.unselected_icon}`}
                             alt={props.text} />
                     </div>

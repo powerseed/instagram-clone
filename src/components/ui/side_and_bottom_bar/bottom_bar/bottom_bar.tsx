@@ -1,6 +1,13 @@
+import { useSession } from "next-auth/react";
 import BottomBarLink from "./bottom_bar_link";
 
 export default function BottomBar() {
+    const { data: session } = useSession();
+
+    if (!session) {
+        return;
+    }
+
     return (
         <div className="fixed bottom-0 flex justify-around w-screen h-[var(--bottom-bar-height)] border-t-[1px] md:hidden bg-white z-[var(--bars-z-index)]">
             <BottomBarLink
@@ -28,9 +35,9 @@ export default function BottomBar() {
                 selected_icon='/side_and_bottom_bar/messages-selected.svg'
             />
             <BottomBarLink
-                href='/walterwhite'
+                href={'/' + session.user?.name}
                 text='Profile'
-                unselected_icon='/profile.jpg'
+                unselected_icon={session.user?.image ? session.user?.image : '/profile.jpg'}
                 selected_icon={undefined}
             />
         </div>

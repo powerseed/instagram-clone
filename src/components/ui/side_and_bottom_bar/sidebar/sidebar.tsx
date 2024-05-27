@@ -10,6 +10,7 @@ import SearchPanel from "./search_panel";
 import NotificationsPanel from "./notifications_panel/notifications_panel";
 import { usePathname } from "next/navigation";
 import CreatePostWindow from "../create_post_window/create_post_window";
+import { useSession } from "next-auth/react";
 
 export default function Sidebar() {
     let [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
@@ -24,10 +25,6 @@ export default function Sidebar() {
     const notificationsPanelRef = useRef<SidebarButtonHandle>(null);
 
     const currentPath = usePathname();
-
-    function handleMoreClick() {
-        setIsMoreMenuOpen(!isMoreMenuOpen);
-    }
 
     useEffect(() => {
         document.addEventListener('click', (event) => {
@@ -49,6 +46,15 @@ export default function Sidebar() {
             setIsCollapsedByWindowWidth();
         }
     }, [currentPath])
+
+    const { data: session } = useSession();
+    if (!session) {
+        return;
+    }
+
+    function handleMoreClick() {
+        setIsMoreMenuOpen(!isMoreMenuOpen);
+    }
 
     function setIsCollapsedByWindowWidth() {
         if (window.innerWidth < 1280) {
@@ -184,9 +190,9 @@ export default function Sidebar() {
                         onClick={onCreateClick}
                     />
                     <SidebarLink
-                        href='/walterwhite'
+                        href={'/' + session.user?.name}
                         text='Profile'
-                        unselected_icon='/profile.jpg'
+                        unselected_icon={session.user?.image ? session.user?.image : '/profile.jpg'}
                         selected_icon={undefined}
                         isCollapsed={isCollapsed}
                         onClick={onLinkClick}

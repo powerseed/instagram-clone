@@ -4,9 +4,15 @@ import { useState } from 'react';
 import { messages } from './content';
 import MessageItem from './message_item';
 import Chat from './chat';
+import { useSession } from 'next-auth/react';
 
 export default function Inbox() {
     let [selectedMessageItemId, setSelectedMessageItemId] = useState<number | undefined>(undefined);
+
+    const { data: session } = useSession();
+    if (!session) {
+        return;
+    }
 
     function selectOneMessageItem(selectedMessageItemId: number) {
         setSelectedMessageItemId(selectedMessageItemId);
@@ -18,7 +24,7 @@ export default function Inbox() {
                 <div className="px-[25px] pt-[40px] flex justify-center lg:justify-between">
                     <div className="hidden lg:flex items-center space-x-2  cursor-pointer">
                         <div className="text-[20px] font-[700]">
-                            walterwhite
+                            {session.user?.name}
                         </div>
 
                         <div>

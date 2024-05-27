@@ -21,10 +21,10 @@ export default function BodyWrapper({
             <Sidebar />
 
             <div className={
-                    `ml-auto flex justify-center
-                    ${pathname!.includes('/direct') ? 
-                        'w-full md:w-[var(--main-width-collapsed-sidebar)]': 
-                        'w-full md:w-[var(--main-width-collapsed-sidebar)] xl:w-[var(--main-width-full-sidebar)]'}`}
+                `ml-auto flex justify-center
+                    ${pathname!.includes('/direct') ?
+                    'w-full md:w-[var(--main-width-collapsed-sidebar)]' :
+                    'w-full md:w-[var(--main-width-collapsed-sidebar)] xl:w-[var(--main-width-full-sidebar)]'}`}
             >
                 {children}
             </div>

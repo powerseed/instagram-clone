@@ -1,3 +1,4 @@
+import { useSession } from "next-auth/react";
 import { useState } from "react";
 
 type AddInfoProps = {
@@ -9,6 +10,11 @@ type AddInfoProps = {
 export default function AddInfo(props: AddInfoProps) {
     const charLimit = 2200;
     let [charCount, setCharCount] = useState<number>(0);
+
+    const { data: session } = useSession();
+    if (!session) {
+        return;
+    }
 
     function handleShareClick() {
         props.closeThisWindow();
@@ -42,10 +48,10 @@ export default function AddInfo(props: AddInfoProps) {
 
                 <div className="w-[340px] flex flex-col">
                     <div className="flex px-4 py-3 items-center space-x-2">
-                        <img src="/profile.jpg" alt="" width={36} height={36} />
+                        <img className="rounded-full" src={session.user?.image ? session.user?.image : '/profile.jpg'} alt="" width={36} height={36} />
 
                         <div className="font-[500]">
-                            walterwhite
+                            {session.user?.name}
                         </div>
                     </div>
 

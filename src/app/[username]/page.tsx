@@ -4,6 +4,7 @@ import { useState } from "react"
 import SharePhotos from "./share_photos";
 import Saved from "./saved";
 import Tagged from "./tagged";
+import { useSession } from "next-auth/react";
 
 enum Tabs {
     POSTS,
@@ -17,6 +18,11 @@ export default function Profile() {
     let [followingCount, setFollowingCount] = useState<number>(30);
     let [tabSelected, setTabSelected] = useState<Tabs>(Tabs.POSTS);
 
+    const { data: session } = useSession();
+    if (!session) {
+        return;
+    }
+
     function handleTabClick(tabClicked: Tabs) {
         setTabSelected(tabClicked);
     }
@@ -25,12 +31,12 @@ export default function Profile() {
         <div className="w-full max-w-[935px] h-[calc(100vh-var(--bottom-bar-height))] flex flex-col">
             <div className="grid grid-cols-[120px_1fr] sm:grid-cols-[1fr_2fr] grid-rows-[auto_auto_auto] sm:grid-rows-[auto_auto_auto_auto_auto] mt-[20px]">
                 <div className="col-start-1	row-start-1 row-end-2 sm:row-end-4 ml-[16px] sm:ml-0 mr-[28px] flex justify-center">
-                    <img className="sm:w-[150px] sm:h-[150px]" src="/profile.jpg" alt="avatar" />
+                    <img className="sm:w-[150px] sm:h-[150px] rounded-full" src={session.user?.image ? session.user?.image : '/profile.jpg'} alt="avatar" />
                 </div>
 
                 <div className="col-start-2	row-start-1 row-end-2 flex flex-wrap items-center sm:mb-[20px]">
                     <div className="mr-5 text-[20px] py-2">
-                        walterwhite
+                        {session.user?.name}
                     </div>
 
                     <div className="flex text-[13px] space-x-2">
@@ -49,7 +55,7 @@ export default function Profile() {
                 </div>
 
                 <div className="col-start-1	sm:col-start-2 col-end-3 row-start-2 sm:row-start-3 row-end-3 sm:row-end-4 px-5 sm:px-0 py-4 sm:py-0 font-[500] text-[14px] border-b-[1px] sm:border-none flex items-center">
-                    WalterWhite
+                    {session.user?.name}
                 </div>
 
                 <div className="col-start-1 sm:col-start-2 col-end-3 row-start-3 sm:row-start-2 row-end-4 sm:row-end-3 py-2 sm:py-0 sm:mb-[20px] flex justify-evenly sm:justify-start sm:space-x-8 items-center text-[14px] border-b-[1px] sm:border-none font-[500]">

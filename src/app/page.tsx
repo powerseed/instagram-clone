@@ -6,8 +6,15 @@ import './globals.css';
 import { slides, posts } from '@/app/content';
 import MediaCard from '@/components/ui/home/media_card/media_card';
 import Slider from "react-slick";
+import { useSession } from "next-auth/react";
 
 export default function Home() {
+  const { data: session } = useSession();
+
+  if (!session) {
+    return;
+  }
+
   const SliderNavigationButton = (
     props: {
       children: JSX.Element;
@@ -96,12 +103,12 @@ export default function Home() {
           <div className="flex justify-between">
             <div className="flex">
               <div className="mr-[12px]">
-                <img src="/profile.jpg" alt="avatar" width='44' height='44' />
+                <img className='rounded-full' src={session.user?.image ? session.user?.image : '/profile.jpg'} alt="avatar" width='44' height='44' />
               </div>
 
               <div className="text-[14px]">
-                <a href="" className="font-medium">walterwhite</a>
-                <p className="text-gray-500">WalterWhite</p>
+                <a href="" className="font-medium">{session.user?.name}</a>
+                <p className="text-gray-500">{session.user?.name}</p>
               </div>
             </div>
 

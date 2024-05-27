@@ -16,7 +16,7 @@ export default function BottomBarLink(props: BottomBarLinkPorps) {
         <Link href={props.href}>
             <div className={`${styles.button} cursor-pointer p-[12px]`}>
                 <img
-                    className={`transition-transform ${props.selected_icon ? '' : (currentPath === props.href ? 'rounded-full border-[2px] border-black' : '')}`}
+                    className={`transition-transform rounded-full ${props.selected_icon ? '' : (currentPath === props.href ? 'border-[2px] border-black' : '')}`}
                     src={`${props.selected_icon ? (currentPath === props.href ? props.selected_icon : props.unselected_icon) : props.unselected_icon}`}
                     alt={props.text}
                     width={24}

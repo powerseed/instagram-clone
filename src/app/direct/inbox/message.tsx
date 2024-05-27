@@ -1,3 +1,4 @@
+import { useSession } from "next-auth/react";
 import { useState } from "react"
 
 type MessageProps = {
@@ -13,6 +14,11 @@ export default function Message(props: MessageProps) {
     let [isReactTagDisplayed, setIsReactTagDisplayed] = useState(false);
     let [isMoreTagDisplayed, setIsMoreTagDisplayed] = useState(false);
 
+    const { data: session } = useSession();
+    if (!session) {
+        return;
+    }
+
     function handleMouseEnter() {
         setIsButtonGroupDisplayed(true);
     }
@@ -24,7 +30,7 @@ export default function Message(props: MessageProps) {
     return (
         <div className={`w-full my-[20px] flex space-x-2 ${props.isFromCurrentUser ? 'flex-row-reverse space-x-reverse' : 'flex-row'}`} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
             <div className="self-end cursor-pointer shrink-0">
-                <img className="rounded-full" src={props.isFromCurrentUser ? '/profile.jpg' : props.avatar} alt="avatar" width={28} height={28} />
+                <img className="rounded-full" src={props.isFromCurrentUser ? (session.user?.image ? session.user?.image : '/profile.jpg') : props.avatar} alt="avatar" width={28} height={28} />
             </div>
 
             <div className="px-3 py-2 max-w-[564px] text-wrap bg-[#efefef] text-[14px] rounded-2xl whitespace-pre">
