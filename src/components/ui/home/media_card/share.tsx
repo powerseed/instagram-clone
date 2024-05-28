@@ -1,8 +1,8 @@
 import { ChangeEvent, createRef, useContext, useEffect, useRef, useState } from "react";
 import styles from "./styles.module.css";
 import SuggestedUserCard, { SuggestedUserCardHandle } from "./suggested_user_card";
-import { suggested_users_in_share } from "@/app/content";
-import { OverlayContext } from "@/app/overlay_context_provider";
+import { suggested_users_in_share } from "@/app/(main)/content";
+import { OverlayContext } from "@/app/(main)/overlay_context_provider";
 
 export default function Share({ closeShareWindow }: { closeShareWindow: Function }) {
     let shareRef = useRef<HTMLDivElement>(null);

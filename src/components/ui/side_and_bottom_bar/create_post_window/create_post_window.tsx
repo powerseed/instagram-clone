@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import { OverlayContext } from "@/app/overlay_context_provider";
+import { OverlayContext } from "@/app/(main)/overlay_context_provider";
 import SelectMedia from "./select_media";
 import CropMedia from "./crop_media";
 import AddInfo from "./add_info";

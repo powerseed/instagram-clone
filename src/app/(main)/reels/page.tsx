@@ -1,7 +1,7 @@
 'use client';
 
 import VideoCard from "./video_card";
-import { video_card_content } from "@/app/content";
+import { video_card_content } from "@/app/(main)/content";
 import styles from './styles.module.css';
 import { useState } from "react";
 import OperationButtons from "./operation_buttons";

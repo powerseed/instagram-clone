@@ -1,6 +1,6 @@
 import { ChangeEvent, createRef, useEffect, useRef, useState } from "react";
 import styles from './styles.module.css';
-import { suggested_users_in_share } from "@/app/content";
+import { suggested_users_in_share } from "@/app/(main)/content";
 import SuggestedUserCard, { SuggestedUserCardHandle } from "@/components/ui/home/media_card/suggested_user_card";
 
 export default function ShareWindow({ closeThisMenu }: { closeThisMenu: () => void }) {

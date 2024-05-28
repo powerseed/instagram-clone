@@ -3,7 +3,7 @@
 import styles from './styles.module.css';
 import './user_slider_styles.css'
 import './globals.css';
-import { slides, posts } from '@/app/content';
+import { slides, posts } from '@/app/(main)/content';
 import MediaCard from '@/components/ui/home/media_card/media_card';
 import Slider from "react-slick";
 import { useSession } from "next-auth/react";

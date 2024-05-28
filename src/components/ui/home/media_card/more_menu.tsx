@@ -1,6 +1,6 @@
 import { MouseEvent, useContext, useEffect, useRef } from "react";
 import styles from './styles.module.css';
-import { OverlayContext } from "@/app/overlay_context_provider";
+import { OverlayContext } from "@/app/(main)/overlay_context_provider";
 
 export default function MoreMenu({ closeMoreMenu }: { closeMoreMenu: Function }) {
     let moreMenuRef = useRef<HTMLDivElement>(null);
