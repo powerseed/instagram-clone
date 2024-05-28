@@ -1,7 +1,9 @@
+import BottomInfoSection from "@/components/ui/bottom_info_section";
+
 export default function Signin() {
     return (
-        <div>
-            signin
+        <div className="w-full">
+            <BottomInfoSection />
         </div>
     )
 }
