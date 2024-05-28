@@ -12,12 +12,16 @@ export default function Signin() {
     useEffect(() => {
         (imageContainerRef.current?.children[currentImageIndex] as HTMLImageElement).style.opacity = '1';
 
-        setInterval(() => {
+        const setIntervalFunction = setInterval(() => {
             const nextImageIndex = (currentImageIndex + 1) % imageCount;
             (imageContainerRef.current?.children[currentImageIndex] as HTMLImageElement).style.opacity = '0';
             (imageContainerRef.current?.children[nextImageIndex] as HTMLImageElement).style.opacity = '1';
             currentImageIndex = nextImageIndex;
         }, 5000)
+
+        return () => {
+            clearInterval(setIntervalFunction);
+        }
     }, []);
 
     return (
