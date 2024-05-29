@@ -24,7 +24,7 @@ export const authOptions = {
             }
         ),
     ],
-    // pages: {
-    //     signIn: '/signin'
-    // }
+    pages: {
+        signIn: "/signin",
+    },
 }
