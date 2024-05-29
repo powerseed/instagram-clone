@@ -1,3 +1,4 @@
+import { signOut } from "next-auth/react";
 import { more_menu_buttons } from "../content";
 
 export default function MoreMenu() {
@@ -25,9 +26,9 @@ export default function MoreMenu() {
 
                 <hr className="h-[1px] my-[8px] mx-[-8px] border-t-0 bg-neutral-100 dark:bg-white/10" />
 
-                <a href="/api/auth/signout" className="cursor-pointer p-[16px] flex rounded-lg hover:bg-gray-200 transition-colors">
+                <div className="cursor-pointer p-[16px] flex rounded-lg hover:bg-gray-200 transition-colors" onClick={() => signOut()}>
                     Log out
-                </a>
+                </div>
             </div>
         </div>
     )
