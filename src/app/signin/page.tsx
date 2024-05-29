@@ -59,7 +59,7 @@ export default function Signin() {
                 <div className="flex flex-col space-y-5">
                     <div className="flex flex-col items-center space-y-8 w-[350px] h-[408px] border-[1px]">
                         <div className="mt-10">
-                            <img src="/signin/instagram_logo.svg" alt="" width={175} height={51} />
+                            <img src="/signin/instagram-logo.svg" alt="" width={175} height={51} />
                         </div>
 
                         <div className="flex flex-col items-center space-y-4 text-[14px] text-[#385185] font-[500]">
@@ -67,7 +67,7 @@ export default function Signin() {
                                 providers && Object.values(providers).map((provider) => (
                                     <div key={provider.name} className="flex items-center space-x-2 cursor-pointer" onClick={() => signIn(provider.id)}>
                                         <div>
-                                            <img src={`/signin/${provider.name}-logo.png`} alt="" width={20} height={20} />
+                                            <img src={`/signin/${provider.name.toLowerCase()}-logo.png`} alt="" width={20} height={20} />
                                         </div>
 
                                         <div>
