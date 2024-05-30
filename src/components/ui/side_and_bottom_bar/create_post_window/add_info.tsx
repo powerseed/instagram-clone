@@ -16,7 +16,17 @@ export default function AddInfo(props: AddInfoProps) {
         return;
     }
 
-    function handleShareClick() {
+    async function handleShareClick() {
+        await fetch('/api/post/create', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                text: 'test test test'
+            }),
+        })
+        
         props.closeThisWindow();
     }
 
