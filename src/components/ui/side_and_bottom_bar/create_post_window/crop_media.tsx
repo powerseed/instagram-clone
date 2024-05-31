@@ -5,7 +5,7 @@ type CropMediaProps = {
     mediaUrl: string,
     goPreviousStep: () => void,
     goNextStep: () => void,
-    setCroppedMedia: (file: File, url: string) => void
+    setCroppedMediaFile: (file: File) => void
 }
 
 type CropArea = {
@@ -22,15 +22,6 @@ export default function CropMedia(props: CropMediaProps) {
 
     const onCropComplete = (croppedArea: CropArea, croppedAreaPixels: CropArea) => {
         setCroppedAreaPixels(croppedAreaPixels);
-    }
-
-    async function generateCroppedImage() {
-        const { file, url }: { file: File, url: string } = await getCroppedImg(
-            props.mediaUrl,
-            croppedAreaPixels!,
-        )
-
-        return { file, url };
     }
 
     async function getCroppedImg(imageSrc: string, cropArea: CropArea) {
@@ -68,10 +59,7 @@ export default function CropMedia(props: CropMediaProps) {
             }, 'image/jpeg');
         });
 
-        return {
-            file: file,
-            url: croppedCanvas.toDataURL('image/jpeg')
-        };
+        return file;
     }
 
     function createImage(url: string) {
@@ -82,8 +70,11 @@ export default function CropMedia(props: CropMediaProps) {
     }
 
     async function handleNextClick() {
-        const { file, url } = await generateCroppedImage();
-        props.setCroppedMedia(file, url);
+        const file = await getCroppedImg(
+            props.mediaUrl,
+            croppedAreaPixels!,
+        );
+        props.setCroppedMediaFile(file);
         props.goNextStep();
     }
 

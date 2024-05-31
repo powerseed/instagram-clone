@@ -3,7 +3,6 @@ import { useState } from "react";
 
 type AddInfoProps = {
     mediaFile: File,
-    mediaUrl: string,
     goPreviousStep: () => void,
     closeThisWindow: () => void
 }
@@ -28,7 +27,7 @@ export default function AddInfo(props: AddInfoProps) {
                 userId: session?.user?.id,
                 createdOn: new Date,
                 text: text,
-                mediaUrl: props.mediaUrl
+                mediaFile: props.mediaFile
             }),
         })
 
@@ -59,7 +58,7 @@ export default function AddInfo(props: AddInfoProps) {
 
             <div className="grow flex">
                 <div className="flex justify-center items-center w-[calc(100%-340px)] border-r-[1px]">
-                    <img className="h-full rounded-bl-2xl" src={props.mediaUrl} alt="Cropped Image" />
+                    <img className="h-full rounded-bl-2xl" src={URL.createObjectURL(props.mediaFile)} alt="Cropped Image" />
                 </div>
 
                 <div className="w-[340px] flex flex-col">

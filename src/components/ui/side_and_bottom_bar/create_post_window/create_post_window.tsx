@@ -21,7 +21,6 @@ export default function CreatePostWindow({ closeThisWindow }: { closeThisWindow:
 
     let [currentStep, setCurrentStep] = useState<StepsForCreatingAPost>(StepsForCreatingAPost.SELECT_MEDIA);
     let [uploadedMediaUrl, setUploadedMediaUrl] = useState<string | undefined>(undefined);
-    let [croppedMediaUrl, setCroppedMediaUrl] = useState<string | undefined>(undefined);
     let [croppedMediaFile, setCroppedMediaFile] = useState<File | undefined>(undefined);
 
     useEffect(() => {
@@ -103,11 +102,6 @@ export default function CreatePostWindow({ closeThisWindow }: { closeThisWindow:
         setCurrentStep(StepsForCreatingAPost[nextStep as keyof typeof StepsForCreatingAPost]);
     }
 
-    function setCroppedMedia(file: File, url: string) {
-        setCroppedMediaFile(file);
-        setCroppedMediaUrl(url);
-    }
-
     return (
         <div className="fixed top-0 bottom-0 left-0 right-0 !my-0 w-screen h-screen flex justify-center items-center bg-black/70 z-[var(--windows-z-index)]">
             <div ref={thisRef} className={`transition-all duration-500`}>
@@ -123,12 +117,11 @@ export default function CreatePostWindow({ closeThisWindow }: { closeThisWindow:
                                     mediaUrl={uploadedMediaUrl!}
                                     goPreviousStep={handleGoPreviousStep}
                                     goNextStep={handleGoNextStep}
-                                    setCroppedMedia={setCroppedMedia}
+                                    setCroppedMediaFile={setCroppedMediaFile}
                                 />;
                             case StepsForCreatingAPost.CREATE_NEW_POST:
                                 return <AddInfo
                                     mediaFile={croppedMediaFile!}
-                                    mediaUrl={croppedMediaUrl!}
                                     goPreviousStep={handleGoPreviousStep}
                                     closeThisWindow={closeThisWindow}
                                 />;
