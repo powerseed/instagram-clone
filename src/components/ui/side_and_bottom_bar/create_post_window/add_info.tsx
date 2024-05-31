@@ -1,4 +1,5 @@
-import { useSession } from "next-auth/react";
+import { Session } from "next-auth";
+import { SessionContextValue, useSession } from "next-auth/react";
 import { useState } from "react";
 
 type AddInfoProps = {
@@ -10,6 +11,7 @@ type AddInfoProps = {
 export default function AddInfo(props: AddInfoProps) {
     const charLimit = 2200;
     let [charCount, setCharCount] = useState<number>(0);
+    let [text, setText] = useState<string>('');
 
     const { data: session } = useSession();
     if (!session) {
@@ -23,16 +25,20 @@ export default function AddInfo(props: AddInfoProps) {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                text: 'test test test'
+                userId: session?.user?.id,
+                createdOn: new Date,
+                text: text,
+                mediaUrl: props.mediaUrl
             }),
         })
-        
+
         props.closeThisWindow();
     }
 
     function handleTextareaInput(event: React.FormEvent<HTMLTextAreaElement>) {
         const target = event.currentTarget!;
         setCharCount(target.value.length);
+        setText(target.value);
     }
 
     return (

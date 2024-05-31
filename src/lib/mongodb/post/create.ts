@@ -20,7 +20,7 @@ async function init() {
     }
 }
 
-export async function createPost(text: string) {
+export async function createPost(userId: string, createdOn: string, text: string, mediaUrl: string) {
     try {
         if (collection === undefined) {
             await init();
@@ -28,7 +28,9 @@ export async function createPost(text: string) {
 
         await collection!.insertOne(
             {
-                text: text
+                userId,
+                createdOn,
+                text
             }
         )
 
