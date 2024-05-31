@@ -5,7 +5,7 @@ type CropMediaProps = {
     mediaUrl: string,
     goPreviousStep: () => void,
     goNextStep: () => void,
-    setCroppedImageUrl: (url: string) => void
+    setCroppedMedia: (file: File, url: string) => void
 }
 
 type CropArea = {
@@ -24,20 +24,16 @@ export default function CropMedia(props: CropMediaProps) {
         setCroppedAreaPixels(croppedAreaPixels);
     }
 
-    function generateCroppedImageUrl() {
-        try {
-            const croppedImageBlob = getCroppedImg(
-                props.mediaUrl,
-                croppedAreaPixels!,
-            )
+    async function generateCroppedImage() {
+        const { file, url }: { file: File, url: string } = await getCroppedImg(
+            props.mediaUrl,
+            croppedAreaPixels!,
+        )
 
-            return croppedImageBlob;
-        } catch (e) {
-            console.error(e)
-        }
+        return { file, url };
     }
 
-    function getCroppedImg(imageSrc: string, cropArea: CropArea) {
+    async function getCroppedImg(imageSrc: string, cropArea: CropArea) {
         const image: HTMLImageElement = createImage(imageSrc);
         const canvas = document.createElement('canvas')
         const ctx = canvas.getContext('2d')
@@ -65,7 +61,17 @@ export default function CropMedia(props: CropMediaProps) {
             cropArea.height
         )
 
-        return croppedCanvas.toDataURL('image/jpeg');
+        const file: File = await new Promise((resolve) => {
+            croppedCanvas.toBlob((blob) => {
+                let file = new File([blob!], "1.jpg", { type: "image/jpeg" });
+                resolve(file);
+            }, 'image/jpeg');
+        });
+
+        return {
+            file: file,
+            url: croppedCanvas.toDataURL('image/jpeg')
+        };
     }
 
     function createImage(url: string) {
@@ -76,8 +82,8 @@ export default function CropMedia(props: CropMediaProps) {
     }
 
     async function handleNextClick() {
-        const url = await generateCroppedImageUrl();
-        props.setCroppedImageUrl(url!);
+        const { file, url } = await generateCroppedImage();
+        props.setCroppedMedia(file, url);
         props.goNextStep();
     }
 

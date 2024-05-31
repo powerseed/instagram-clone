@@ -26,7 +26,7 @@ export async function createPost(userId: string, createdOn: string, text: string
             await init();
         }
 
-        await collection!.insertOne(
+        const { insertedId } = await collection!.insertOne(
             {
                 userId,
                 createdOn,

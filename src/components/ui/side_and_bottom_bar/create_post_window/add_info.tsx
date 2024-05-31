@@ -1,8 +1,8 @@
-import { Session } from "next-auth";
-import { SessionContextValue, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useState } from "react";
 
 type AddInfoProps = {
+    mediaFile: File,
     mediaUrl: string,
     goPreviousStep: () => void,
     closeThisWindow: () => void
