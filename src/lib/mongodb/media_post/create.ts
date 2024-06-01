@@ -13,14 +13,14 @@ async function init() {
     try {
         client = await clientPromise;
         db = await client.db();
-        collection = db.collection('post');
+        collection = db.collection('media_post');
     }
     catch (error) {
         throw new Error('Failed to connect to database. ')
     }
 }
 
-export async function createPost(userId: string, createdOn: string, text: string, mediaUrl: string) {
+export async function createMediaPost(postId: string, mediaKey: string) {
     try {
         if (collection === undefined) {
             await init();
@@ -28,16 +28,15 @@ export async function createPost(userId: string, createdOn: string, text: string
 
         const { insertedId } = await collection!.insertOne(
             {
-                userId,
-                createdOn,
-                text
+                postId,
+                mediaKey
             }
         )
 
         return { postId: insertedId };
     } catch (error) {
         return {
-            error: 'Failed to create post. '
+            error: 'Failed to create media_post. '
         }
     }
 }
