@@ -1,4 +1,3 @@
-import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 
@@ -32,10 +31,28 @@ export default function AddInfo(props: AddInfoProps) {
             }),
         });
 
-        // Upload the media of the post onto Aws S3.
+        if (!response.ok) {
+            alert('Failed to create the post. ');
+            return;
+        }
+
+        // Upload the media of the post onto AWS S3.
         const { postId } = await response.json();
         const filenameInCloud = process.env.NEXT_PUBLIC_AWS_S3_POST_DIRECTORY + '/' + postId + '_' + props.mediaFile.name;
-        await uploadImage(filenameInCloud, props.mediaFile);
+
+        const formData = new FormData();
+        formData.append('file', props.mediaFile);
+        formData.append('key', filenameInCloud);
+
+        response = await fetch('/api/upload/media', {
+            method: 'POST',
+            body: formData,
+        });
+
+        if (!response.ok) {
+            alert('Failed to upload the medias. ');
+            return;
+        }
 
         // Store the post id and media key into the "media_post" collection.
         response = await fetch('/api/media_post/create', {
@@ -49,28 +66,11 @@ export default function AddInfo(props: AddInfoProps) {
             }),
         });
 
+        if (!response.ok) {
+            alert('Failed to link the post and the medias. ');
+        }
+
         props.closeThisWindow();
-    }
-
-    async function uploadImage(filenameInCloud: string, file: File) {
-        let client = new S3Client({
-            region: process.env.NEXT_PUBLIC_AWS_REGION as string,
-            credentials: {
-                accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY_ID as string,
-                secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY as string
-            }
-        });
-
-        const command = new PutObjectCommand({
-            Bucket: process.env.NEXT_PUBLIC_AWS_BUCKET_NAME as string,
-            Key: filenameInCloud,
-            ContentType: file.type,
-            Body: file,
-        });
-
-        return client.send(command);
-        // setUploading(true);
-        // setUploading(false)
     }
 
     function handleTextareaInput(event: React.FormEvent<HTMLTextAreaElement>) {
