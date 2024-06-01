@@ -25,7 +25,8 @@ export default function CropMedia(props: CropMediaProps) {
     }
 
     async function getCroppedImg(imageSrc: string, cropArea: CropArea) {
-        const image: HTMLImageElement = createImage(imageSrc);
+        const image: HTMLImageElement = await createImage(imageSrc);
+
         const canvas = document.createElement('canvas')
         const ctx = canvas.getContext('2d')
 
@@ -63,10 +64,14 @@ export default function CropMedia(props: CropMediaProps) {
     }
 
     function createImage(url: string) {
-        const image = new Image();
-        image.src = url;
-        image.setAttribute('crossOrigin', 'anonymous');
-        return image;
+        return new Promise<HTMLImageElement>((resolve) => {
+            const image = new Image();
+            image.setAttribute('crossOrigin', 'anonymous');
+            image.onload = function () {
+                resolve(image);
+            };
+            image.src = url;
+        })
     }
 
     async function handleNextClick() {
