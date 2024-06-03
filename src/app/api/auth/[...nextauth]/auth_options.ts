@@ -30,13 +30,15 @@ export const authOptions = {
     },
     callbacks: {
         async signIn({ user, account }: { user: any, account: any }) {
+            const userId = account.provider + '_' + user.id;
+
             const response = await fetch(process.env.NEXT_PUBLIC_BASE_URL + '/api/user/upsert', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    userId: account.provider + '_' + user.id,
+                    userId,
                     avatarUrl: user.image,
                 }),
             });
@@ -44,6 +46,8 @@ export const authOptions = {
             if (!response.ok) {
                 return false;
             }
+
+            user.id = userId;
 
             return true;
         },
