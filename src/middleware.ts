@@ -1,5 +1,5 @@
 export { default } from "next-auth/middleware";
 
 export const config = {
-    matcher: ['/((?!signin).*)']
+    matcher: ['/((?!signin|api/user/upsert|error).*)']
 }

@@ -26,11 +26,30 @@ export const authOptions = {
     ],
     pages: {
         signIn: "/signin",
+        error: '/error',
     },
     callbacks: {
+        async signIn({ user, account }: { user: any, account: any }) {
+            const response = await fetch(process.env.NEXT_PUBLIC_BASE_URL + '/api/user/upsert', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    userId: account.provider + '_' + user.id,
+                    avatarUrl: user.image,
+                }),
+            });
+
+            if (!response.ok) {
+                return false;
+            }
+
+            return true;
+        },
         async session({ session, token }: { session: any, token: any }) {
-            session.user.id = token.sub
-            return session
+            session.user.id = token.sub;
+            return session;
         }
     },
 }
