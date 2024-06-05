@@ -4,11 +4,10 @@ import { useState } from "react";
 import styles from './styles.module.css';
 
 type HeaderProps = {
-    avatar: string,
+    avatarUrl: string,
     username: string,
     isVerified: boolean,
     created_on: Date,
-    annotation: string | undefined,
     isDisplayedInComment: boolean
 }
 
@@ -19,7 +18,7 @@ export default function Header(props: HeaderProps) {
         <div className="flex justify-between w-full">
             <div className="flex space-x-2">
                 <div className="avatar-container flex items-center justify-center w-[42px] h-[42px]">
-                    <img className="avatar" src={`/home/${props.avatar}`} alt="avatar" width={38} height={38} />
+                    <img className="avatar" src={props.avatarUrl} alt="avatar" width={38} height={38} />
                 </div>
 
                 <div className="flex flex-col text-[12px] justify-center">
@@ -42,14 +41,6 @@ export default function Header(props: HeaderProps) {
                             </div>
                         }
                     </div>
-
-                    {
-                        props.annotation &&
-                        <div>
-                            {props.annotation}
-                        </div>
-                    }
-
                 </div>
             </div>
 

@@ -11,13 +11,13 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 
 type MediaCardProps = {
-    avatar: string,
+    avatarUrl: string,
     username: string,
     isVerified: boolean,
     created_on: Date,
-    annotation: string | undefined,
-    images: string[],
-    likedBy: string,
+    text: string | undefined,
+    mediaUrls: string[],
+    likedBy: string | undefined,
     commentNumber: number
 }
 
@@ -56,11 +56,10 @@ export default function MediaCard(props: MediaCardProps) {
             <div className="flex flex-col space-y-3 w-[450px] max-w-full h-max-[850px]">
                 <div className='px-4 sm:px-0'>
                     <Header
-                        avatar={props.avatar}
+                        avatarUrl={props.avatarUrl}
                         username={props.username}
                         isVerified={props.isVerified}
                         created_on={props.created_on}
-                        annotation={props.annotation}
                         isDisplayedInComment={false}
                     />
                 </div>
@@ -81,10 +80,10 @@ export default function MediaCard(props: MediaCardProps) {
                             </SliderNavigationButton>
                         }
                     >
-                        {props.images.map((image, index) => {
+                        {props.mediaUrls.map((mediaUrl, index) => {
                             return (
                                 <div key={index} className='mb-[-7px]'>
-                                    <img className='rounded-none sm:rounded' src={`/home/${image}`} alt={index.toString()} />
+                                    <img className='rounded-none sm:rounded' src={mediaUrl} alt={index.toString()} />
                                 </div>
                             )
                         })}
@@ -93,21 +92,29 @@ export default function MediaCard(props: MediaCardProps) {
 
                 <div className='px-4 sm:px-0'>
                     <OperationButtons
-                        avatar={props.avatar}
+                        avatar={props.avatarUrl}
                         username={props.username}
                         isVerified={props.isVerified}
                         created_on={props.created_on}
-                        annotation={props.annotation}
-                        images={props.images}
+                        annotation={props.text}
+                        images={props.mediaUrls}
                         isDisplayedInComment={false}
                     />
                 </div>
 
-                <div className='text-[14px] px-4 sm:px-0'>
-                    Liked by <span className='font-medium'>{props.likedBy}</span> and <span className='font-medium'>others</span>
-                </div>
+                {
+                    props.likedBy && <div className='text-[14px] px-4 sm:px-0'>
+                        Liked by <span className='font-medium'>{props.likedBy}</span> and <span className='font-medium'>others</span>
+                    </div>
+                }
 
-                <div className='text-[13px] text-gray-500 !mt-[5px] px-4 sm:px-0'>
+                {
+                    props.text && <div className='text-[14px] '>
+                        {props.text}
+                    </div>
+                }
+
+                <div className='text-[13px] text-gray-500 !mt-[10px] px-4 sm:px-0'>
                     View all {props.commentNumber} comments
                 </div>
 

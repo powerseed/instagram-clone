@@ -20,7 +20,7 @@ async function init() {
     }
 }
 
-export async function upsertUser(userId: string, avatarUrl: string) {
+export async function upsertUser(userId: string, username: string, avatarUrl: string) {
     try {
         if (collection === undefined) {
             await init();
@@ -32,6 +32,7 @@ export async function upsertUser(userId: string, avatarUrl: string) {
             },
             {
                 $set: {
+                    username,
                     avatarUrl
                 }
             },

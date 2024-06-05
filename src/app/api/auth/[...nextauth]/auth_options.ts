@@ -40,6 +40,7 @@ export const authOptions = {
                 body: JSON.stringify({
                     userId,
                     avatarUrl: user.image,
+                    username: user.name
                 }),
             });
 

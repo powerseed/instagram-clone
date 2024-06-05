@@ -2,14 +2,44 @@
 
 import styles from './styles.module.css';
 import './user_slider_styles.css'
-import { slides, posts } from '@/app/(main)/content';
+import { slides, predefined_posts } from '@/app/(main)/content';
 import MediaCard from '@/components/ui/home/media_card/media_card';
 import Slider from "react-slick";
 import { useSession } from "next-auth/react";
 import BottomInfoSection from '@/components/ui/bottom_info_section';
+import { useEffect, useState } from 'react';
+import { Post } from '@/lib/types';
 
 export default function Home() {
+  let [posts, setPosts] = useState<Post[]>([]);
+  let [error, setError] = useState<string | undefined>(undefined);
   const { data: session } = useSession();
+
+  useEffect(() => {
+    if (!session) {
+      return;
+    }
+
+    const getPosts = async () => {
+      try {
+        const response = await fetch(`/api/post/get?userId=${session.user.id}`);
+
+        if (!response.ok) {
+          throw new Error();
+        }
+
+        let { posts } = await response.json();
+
+        setPosts(posts);
+        setError(undefined);
+      }
+      catch (error) {
+        setError(`Some internal error occurred, please try again later. `)
+      }
+    }
+
+    getPosts();
+  }, [session]);
 
   if (!session) {
     return;
@@ -79,21 +109,38 @@ export default function Home() {
 
           <div className='flex flex-col space-y-5 items-center w-full'>
             {
-              posts.map((post, index) => {
+              posts && posts.map((post, index) => {
                 return (
                   <MediaCard
                     key={index}
-                    avatar={post.avatar}
+                    avatarUrl={post.avatarUrl}
                     username={post.username}
                     isVerified={post.isVerified}
                     created_on={post.created_on}
-                    annotation={post.annotation}
-                    images={post.images}
+                    text={post.text}
+                    mediaUrls={post.mediaUrls}
                     likedBy={post.likedBy}
                     commentNumber={post.commentNumber}
                   />
                 )
+              })
+            }
 
+            {
+              predefined_posts.map((post, index) => {
+                return (
+                  <MediaCard
+                    key={index}
+                    avatarUrl={post.avatarUrl}
+                    username={post.username}
+                    isVerified={post.isVerified}
+                    created_on={post.created_on}
+                    text={post.text}
+                    mediaUrls={post.mediaUrls}
+                    likedBy={post.likedBy}
+                    commentNumber={post.commentNumber}
+                  />
+                )
               })
             }
           </div>

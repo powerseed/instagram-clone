@@ -3,7 +3,13 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
     try {
-        const { posts, error } = await getPosts();
+        const userId = await req.nextUrl.searchParams.get('userId');
+
+        if (!userId) {
+            throw new Error('User id is missing when fetch posts. ')
+        }
+
+        const { posts, error } = await getPosts([userId]);
 
         if (error) {
             throw new Error(error)

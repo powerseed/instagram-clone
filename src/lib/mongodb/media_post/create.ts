@@ -1,4 +1,4 @@
-import { Collection, Db } from "mongodb";
+import { Collection, Db, ObjectId } from "mongodb";
 import clientPromise from "../connect";
 
 let client;
@@ -28,7 +28,7 @@ export async function createMediaPost(postId: string, mediaKey: string) {
 
         const { insertedId } = await collection!.insertOne(
             {
-                postId,
+                postId: new ObjectId(postId),
                 mediaKey
             }
         )
