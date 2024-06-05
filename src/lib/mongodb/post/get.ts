@@ -1,6 +1,7 @@
 import { Collection, Db } from "mongodb";
 import clientPromise from "../connect";
 import { Post } from "@/lib/types";
+import { count } from "console";
 
 let client;
 let db: Db | undefined;
@@ -34,6 +35,14 @@ export async function getPosts(userIds: string[]) {
                         from: 'user',
                         localField: 'userId',
                         foreignField: 'userId',
+                        pipeline: [
+                            {
+                                $project: {
+                                    avatarUrl: 1,
+                                    username: 1
+                                }
+                            }
+                        ],
                         as: 'post_user'
                     }
                 },
@@ -42,6 +51,13 @@ export async function getPosts(userIds: string[]) {
                         from: 'media_post',
                         localField: '_id',
                         foreignField: 'postId',
+                        pipeline: [
+                            {
+                                $project: {
+                                    mediaKey: 1
+                                }
+                            }
+                        ],
                         as: 'post_media'
                     }
                 },
@@ -50,8 +66,13 @@ export async function getPosts(userIds: string[]) {
                         from: 'comment',
                         localField: '_id',
                         foreignField: 'postId',
+                        pipeline: [
+                            {
+                                $count: "count"
+                            }
+                        ],
                         as: 'post_comment'
-                    }
+                    },
                 },
                 {
                     $match: {
@@ -71,19 +92,16 @@ export async function getPosts(userIds: string[]) {
                     text: document.text,
                     mediaUrls: [],
                     likedBy: undefined,
-                    commentNumber: 0
+                    commentNumber: document.post_comment.length === 0 ? 0 : document.post_comment[0].count
                 }
 
                 document.post_media.forEach((post_media: any) => {
                     post.mediaUrls.push(`https://${process.env.AWS_S3_BUCKET_NAME}.s3.amazonaws.com/${post_media.mediaKey}`);
                 });
 
-                post.commentNumber = document.post_comment.length;
-
                 return post;
             })
             .toArray();
-
         return { posts: result };
     } catch (error) {
         return {
