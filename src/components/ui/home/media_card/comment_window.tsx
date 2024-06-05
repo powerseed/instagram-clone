@@ -14,7 +14,6 @@ type CommentProps = {
     username: string,
     isVerified: boolean,
     created_on: Date,
-    annotation: string | undefined,
     images: string[],
     closeCommentPanel: () => void
 }
@@ -66,11 +65,10 @@ export default function CommentWindow(props: CommentProps) {
 
                     <div className="py-2 border-b-[1px] px-[15px]">
                         <Header
-                            avatar={props.avatar}
+                            avatarUrl={props.avatar}
                             username={props.username}
                             isVerified={props.isVerified}
                             created_on={props.created_on}
-                            annotation={props.annotation}
                             isDisplayedInComment={true}
                         />
                     </div>

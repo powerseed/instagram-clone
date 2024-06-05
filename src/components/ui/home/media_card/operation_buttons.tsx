@@ -67,7 +67,6 @@ export default function OperationButtons(props: OperationButtonsProps) {
                                 username={props.username!}
                                 isVerified={props.isVerified!}
                                 created_on={props.created_on!}
-                                annotation={props.annotation}
                                 images={props.images}
                                 closeCommentPanel={() => setIsCommentOpen(false)}
                             />
