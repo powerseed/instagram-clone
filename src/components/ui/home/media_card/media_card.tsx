@@ -51,10 +51,6 @@ export default function MediaCard(props: MediaCardProps) {
         className: "bg-black rounded-none sm:rounded"
     };
 
-    function handlePostClick() {
-
-    }
-
     return (
         <>
             <div className="flex flex-col space-y-3 w-[450px] max-w-full h-max-[850px]">
@@ -123,7 +119,7 @@ export default function MediaCard(props: MediaCardProps) {
                 </div>
 
                 <div className='hidden sm:block'>
-                    <Textarea isEmojiPickerBeforeInputField={false} placeholder="Add a comment..." handlePostClick={handlePostClick} />
+                    <Textarea isEmojiPickerBeforeInputField={false} placeholder="Add a comment..." />
                 </div>
 
                 <hr />
