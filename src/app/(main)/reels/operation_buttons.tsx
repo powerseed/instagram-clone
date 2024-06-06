@@ -10,6 +10,7 @@ enum OperationsOnButtonsForPost {
 }
 
 type OperationButtonsProps = {
+    postId: string,
     comment_count: number,
     avatar: string
 }
@@ -68,7 +69,7 @@ export default function OperationButtons(props: OperationButtonsProps) {
                 {
                     isCommentOpen &&
                     <div className="absolute bottom-0 right-full 2xl:left-full mx-4">
-                        <CommentWindow closeThisMenu={() => setIsCommentOpen(false)} />
+                        <CommentWindow closeThisMenu={() => setIsCommentOpen(false)} postId={props.postId} />
                     </div>
                 }
             </div>

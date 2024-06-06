@@ -24,7 +24,7 @@ export default function Reels() {
                                 </div>
 
                                 <div className="hidden sm:flex items-end">
-                                    <OperationButtons {...content} />
+                                    <OperationButtons {...content} postId={content.id} />
                                 </div>
                             </div>
                         )

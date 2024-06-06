@@ -9,3 +9,12 @@ export type Post = {
     likedBy: string | undefined,
     commentNumber: number
 }
+
+export type Comment = {
+    id: string,
+    avatarUrl: string
+    username: string
+    isVerified: false,
+    created_on: Date,
+    text: string | undefined,
+}

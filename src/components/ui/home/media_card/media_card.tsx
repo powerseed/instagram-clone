@@ -159,6 +159,7 @@ export default function MediaCard(props: MediaCardProps) {
             {
                 isCommentOpen &&
                 <CommentWindow
+                    postId={props.postId}
                     avatar={props.avatarUrl}
                     username={props.username}
                     isVerified={props.isVerified}

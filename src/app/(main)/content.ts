@@ -1,6 +1,6 @@
 export const video_card_content = [
     {
-        id: 1,
+        id: '666140a84108934faad5ccd8',
         video_src: 'https://videos.pexels.com/video-files/19817057/19817057-uhd_2160_3840_25fps.mp4',
         comment_count: 410,
         avatar: '/home/voompla.jpg',
@@ -10,7 +10,7 @@ export const video_card_content = [
         notation: 'Original audio'
     },
     {
-        id: 2,
+        id: '666140b54108934faad5ccd9',
         video_src: 'https://videos.pexels.com/video-files/3343679/3343679-hd_1920_1080_30fps.mp4',
         comment_count: 8541,
         avatar: '/home/thegiancarloesposito.jpg',
@@ -20,7 +20,7 @@ export const video_card_content = [
         notation: 'Original audio'
     },
     {
-        id: 3,
+        id: '666140c24108934faad5ccda',
         video_src: 'https://videos.pexels.com/video-files/1578318/1578318-hd_1920_1080_30fps.mp4',
         comment_count: 22885,
         avatar: '/home/pughsmile.jpg',
@@ -30,7 +30,7 @@ export const video_card_content = [
         notation: 'Original audio'
     },
     {
-        id: 4,
+        id: '666140cc4108934faad5ccdb',
         video_src: 'https://videos.pexels.com/video-files/856382/856382-hd_1920_1080_30fps.mp4',
         comment_count: 845163,
         avatar: '/home/survivingrat.jpg',
@@ -40,7 +40,7 @@ export const video_card_content = [
         notation: 'Original audio'
     },
     {
-        id: 5,
+        id: '666140d84108934faad5ccdc',
         video_src: 'https://videos.pexels.com/video-files/19560682/19560682-uhd_3840_2160_30fps.mp4',
         comment_count: 15,
         avatar: '/home/tacoweekyyc.jpg',
@@ -50,7 +50,7 @@ export const video_card_content = [
         notation: 'Original audio'
     },
     {
-        id: 6,
+        id: '666140e14108934faad5ccdd',
         video_src: 'https://videos.pexels.com/video-files/18921733/18921733-uhd_3840_2160_24fps.mp4',
         comment_count: 3326,
         avatar: '/home/mitchmackieyyc.jpg',
@@ -102,7 +102,7 @@ export const slides = [
 
 export const predefined_posts = [
     {
-        id: 'c6a30530-ba22-436e-b117-eb54191087a0',
+        id: '666140fe4108934faad5ccde',
         avatarUrl: '/home/voompla.jpg',
         username: 'voompla',
         isVerified: true,
@@ -114,7 +114,7 @@ export const predefined_posts = [
         commentNumber: 218
     },
     {
-        id: 'e5976941-e7fd-4ba1-8fb4-6e1629cb9280',
+        id: '666141074108934faad5ccdf',
         avatarUrl: '/home/aaronpaul.jpg',
         username: 'aaronpaul',
         isVerified: true,
@@ -126,7 +126,7 @@ export const predefined_posts = [
         commentNumber: 14
     },
     {
-        id: '74e9b499-533c-44e6-ba0d-d9ac2640f6dc',
+        id: '666141114108934faad5cce0',
         avatarUrl: '/home/arang2o_o.jpg',
         username: 'arang2o_o',
         isVerified: false,
@@ -138,7 +138,7 @@ export const predefined_posts = [
         commentNumber: 174
     },
     {
-        id: '24f5c821-ea31-4147-9b8d-22d6cfab3d2a',
+        id: '666141194108934faad5cce1',
         avatarUrl: '/home/rheaseehornlover.jpg',
         username: 'rheaseehornlover',
         isVerified: true,
@@ -150,7 +150,7 @@ export const predefined_posts = [
         commentNumber: 724
     },
     {
-        id: '284efa2f-2827-4ced-a6a7-10d973627acb',
+        id: '666141224108934faad5cce2',
         avatarUrl: '/home/thegiancarloesposito.jpg',
         username: 'thegiancarloesposito',
         isVerified: true,

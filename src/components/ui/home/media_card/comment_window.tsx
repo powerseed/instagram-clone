@@ -8,8 +8,10 @@ import './media_slider_in_card_styles.css';
 import Comment from "./comment";
 import { comments } from './content';
 import { OverlayContext } from "@/app/(main)/overlay_context_provider";
+import { useSession } from "next-auth/react";
 
 type CommentProps = {
+    postId: string,
     avatar: string,
     username: string,
     isVerified: boolean,
@@ -22,6 +24,7 @@ export default function CommentWindow(props: CommentProps) {
     let commentRef = useRef<HTMLDivElement>(null);
     let textareaRef = useRef<TextareaHandle>(null);
     const { setIsOverlayOpen } = useContext(OverlayContext);
+    const { data: session } = useSession();
 
     useEffect(() => {
         setIsOverlayOpen(true);
@@ -47,8 +50,26 @@ export default function CommentWindow(props: CommentProps) {
         textareaRef.current!.focusOnTextArea();
     }
 
-    function postComment() {
+    async function postComment(text: string) {
+        let response = await fetch('/api/comment/create', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                userId: session?.user?.id,
+                postId: props.postId,
+                createdOn: new Date,
+                text
+            }),
+        });
 
+        if (!response.ok) {
+            alert('Failed to create the comment. ');
+        }
+        else {
+            textareaRef.current?.clearTextarea();
+        }
     }
 
     return (
@@ -108,7 +129,7 @@ export default function CommentWindow(props: CommentProps) {
                     </div>
 
                     <div className="px-[15px] border-t-[1px] py-3">
-                        <Textarea ref={textareaRef} isEmojiPickerBeforeInputField={true} placeholder="Add a comment..." handlePostClick={() => postComment()} />
+                        <Textarea ref={textareaRef} isEmojiPickerBeforeInputField={true} placeholder="Add a comment..." handlePostClick={postComment} />
                     </div>
                 </div>
             </div>
