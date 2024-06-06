@@ -1,7 +1,6 @@
 import { Collection, Db } from "mongodb";
 import clientPromise from "../connect";
 import { Post } from "@/lib/types";
-import { count } from "console";
 
 let client;
 let db: Db | undefined;
