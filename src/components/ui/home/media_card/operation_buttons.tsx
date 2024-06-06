@@ -1,5 +1,4 @@
 import { MouseEvent, useState } from "react";
-import CommentWindow from "./comment_window";
 import LikeButton from "./like_button";
 import Share from "./share";
 
@@ -15,11 +14,11 @@ type OperationButtonsProps = {
     created_on?: Date,
     annotation?: string,
     images: string[],
-    isDisplayedInComment: boolean
+    isDisplayedInComment: boolean,
+    onCommentClick?: () => void
 }
 
 export default function OperationButtons(props: OperationButtonsProps) {
-    let [isCommentOpen, setIsCommentOpen] = useState(false);
     let [isShareOpen, setIsShareOpen] = useState(false);
     let [isSaved, setIsSaved] = useState(false);
 
@@ -57,20 +56,8 @@ export default function OperationButtons(props: OperationButtonsProps) {
                         <img id="comment" className="cursor-pointer" src="/home/comment.svg" alt="Comment" width={24} height={24}
                             onMouseOver={(event) => onButtonsForPostHoverOrLeave(event, OperationsOnButtonsForPost.HOVER)}
                             onMouseLeave={(event) => onButtonsForPostHoverOrLeave(event, OperationsOnButtonsForPost.LEAVE)}
-                            onClick={() => setIsCommentOpen(!isCommentOpen)}
+                            onClick={props.onCommentClick}
                         />
-
-                        {
-                            isCommentOpen &&
-                            <CommentWindow
-                                avatar={props.avatar!}
-                                username={props.username!}
-                                isVerified={props.isVerified!}
-                                created_on={props.created_on!}
-                                images={props.images}
-                                closeCommentPanel={() => setIsCommentOpen(false)}
-                            />
-                        }
                     </div>
                 }
 

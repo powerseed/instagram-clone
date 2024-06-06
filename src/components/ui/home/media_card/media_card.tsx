@@ -10,7 +10,8 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { useSession } from 'next-auth/react';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
+import CommentWindow from "./comment_window";
 
 type MediaCardProps = {
     postId: string,
@@ -27,6 +28,7 @@ type MediaCardProps = {
 export default function MediaCard(props: MediaCardProps) {
     const { data: session } = useSession();
     let textareaRef = useRef<TextareaHandle>(null);
+    let [isCommentOpen, setIsCommentOpen] = useState(false);
 
     TimeAgo.setDefaultLocale(en.locale);
     TimeAgo.addLocale(en);
@@ -127,6 +129,7 @@ export default function MediaCard(props: MediaCardProps) {
                         annotation={props.text}
                         images={props.mediaUrls}
                         isDisplayedInComment={false}
+                        onCommentClick={() => setIsCommentOpen(!isCommentOpen)}
                     />
                 </div>
 
@@ -142,7 +145,7 @@ export default function MediaCard(props: MediaCardProps) {
                     </div>
                 }
 
-                <div className='text-[13px] text-gray-500 !mt-[10px] px-4 sm:px-0'>
+                <div className='text-[13px] text-gray-500 !mt-[10px] px-4 sm:px-0 cursor-pointer' onClick={() => setIsCommentOpen(!isCommentOpen)}>
                     View all {props.commentNumber} comments
                 </div>
 
@@ -152,6 +155,18 @@ export default function MediaCard(props: MediaCardProps) {
 
                 <hr />
             </div>
+
+            {
+                isCommentOpen &&
+                <CommentWindow
+                    avatar={props.avatarUrl}
+                    username={props.username}
+                    isVerified={props.isVerified}
+                    created_on={props.created_on}
+                    images={props.mediaUrls}
+                    closeCommentPanel={() => setIsCommentOpen(false)}
+                />
+            }
         </>
     )
 }

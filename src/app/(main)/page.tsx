@@ -107,22 +107,24 @@ export default function Home() {
             </Slider>
           </div>
 
-          <div className='flex flex-col space-y-5 items-center w-full'>
+          <div className='flex flex-col items-center w-full'>
             {
               posts && posts.map((post, index) => {
                 return (
-                  <MediaCard
-                    key={index}
-                    postId={post.id}
-                    avatarUrl={post.avatarUrl}
-                    username={post.username}
-                    isVerified={post.isVerified}
-                    created_on={post.created_on}
-                    text={post.text}
-                    mediaUrls={post.mediaUrls}
-                    likedBy={post.likedBy}
-                    commentNumber={post.commentNumber}
-                  />
+                  <div className='mb-5'>
+                    <MediaCard
+                      key={index}
+                      postId={post.id}
+                      avatarUrl={post.avatarUrl}
+                      username={post.username}
+                      isVerified={post.isVerified}
+                      created_on={post.created_on}
+                      text={post.text}
+                      mediaUrls={post.mediaUrls}
+                      likedBy={post.likedBy}
+                      commentNumber={post.commentNumber}
+                    />
+                  </div>
                 )
               })
             }
