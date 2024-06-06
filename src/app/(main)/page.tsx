@@ -111,9 +111,8 @@ export default function Home() {
             {
               posts && posts.map((post, index) => {
                 return (
-                  <div className='mb-5'>
+                  <div key={index} className='mb-5'>
                     <MediaCard
-                      key={index}
                       postId={post.id}
                       avatarUrl={post.avatarUrl}
                       username={post.username}
