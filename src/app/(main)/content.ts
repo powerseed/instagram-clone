@@ -102,6 +102,7 @@ export const slides = [
 
 export const predefined_posts = [
     {
+        id: 'c6a30530-ba22-436e-b117-eb54191087a0',
         avatarUrl: '/home/voompla.jpg',
         username: 'voompla',
         isVerified: true,
@@ -113,6 +114,7 @@ export const predefined_posts = [
         commentNumber: 218
     },
     {
+        id: 'e5976941-e7fd-4ba1-8fb4-6e1629cb9280',
         avatarUrl: '/home/aaronpaul.jpg',
         username: 'aaronpaul',
         isVerified: true,
@@ -124,6 +126,7 @@ export const predefined_posts = [
         commentNumber: 14
     },
     {
+        id: '74e9b499-533c-44e6-ba0d-d9ac2640f6dc',
         avatarUrl: '/home/arang2o_o.jpg',
         username: 'arang2o_o',
         isVerified: false,
@@ -135,6 +138,7 @@ export const predefined_posts = [
         commentNumber: 174
     },
     {
+        id: '24f5c821-ea31-4147-9b8d-22d6cfab3d2a',
         avatarUrl: '/home/rheaseehornlover.jpg',
         username: 'rheaseehornlover',
         isVerified: true,
@@ -146,6 +150,7 @@ export const predefined_posts = [
         commentNumber: 724
     },
     {
+        id: '284efa2f-2827-4ced-a6a7-10d973627acb',
         avatarUrl: '/home/thegiancarloesposito.jpg',
         username: 'thegiancarloesposito',
         isVerified: true,

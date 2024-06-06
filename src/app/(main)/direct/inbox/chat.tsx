@@ -86,7 +86,7 @@ export default function Chat(props: MessageDetailProps) {
 
                 <div className="flex py-[10px] px-[20px] mx-4 mb-4 rounded-full border-[1px]">
                     <div className="flex-1">
-                        <Textarea isEmojiPickerBeforeInputField={true} placeholder="Message..." />
+                        <Textarea isEmojiPickerBeforeInputField={true} placeholder="Message..." handlePostClick={() => {}}/>
                     </div>
 
                     <div className="flex space-x-3">

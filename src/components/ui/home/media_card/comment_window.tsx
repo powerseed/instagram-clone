@@ -47,6 +47,10 @@ export default function CommentWindow(props: CommentProps) {
         textareaRef.current!.focusOnTextArea();
     }
 
+    function postComment() {
+
+    }
+
     return (
         <div className={`${styles.popup_scaling_down} fixed flex justify-center items-center top-0 bottom-0 left-0 right-0 w-screen h-screen bg-black/70 z-[var(--windows-z-index)]`}>
             <div ref={commentRef} className='h-full flex max-h-full sm:max-h-[calc(100vh-50px)] max-w-full sm:max-w-[calc(100%-128px)]'>
@@ -104,7 +108,7 @@ export default function CommentWindow(props: CommentProps) {
                     </div>
 
                     <div className="px-[15px] border-t-[1px] py-3">
-                        <Textarea ref={textareaRef} isEmojiPickerBeforeInputField={true} placeholder="Add a comment..." />
+                        <Textarea ref={textareaRef} isEmojiPickerBeforeInputField={true} placeholder="Add a comment..." handlePostClick={() => postComment()} />
                     </div>
                 </div>
             </div>

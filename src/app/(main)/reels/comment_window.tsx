@@ -37,6 +37,10 @@ export default function CommentWindow({ closeThisMenu }: { closeThisMenu: () => 
         textareaRef.current!.focusOnTextArea();
     }
 
+    function postComment() {
+
+    }
+
     return (
         <div ref={thisRef} className="w-[343px] h-[480px] py-[25px] flex flex-col space-y-4 content-stretch justify-stretch bg-white text-[14px] rounded-2xl shadow-[0px_0.5px_10px_0.5px_rgba(0,0,0,0.3)]">
             <div className="relative flex justify-center items-center px-[30px]">
@@ -68,7 +72,7 @@ export default function CommentWindow({ closeThisMenu }: { closeThisMenu: () => 
 
             <div className="px-[30px]">
                 <div className="pl-[15px] py-[5px] border-[1px] rounded-3xl">
-                    <Textarea ref={textareaRef} isEmojiPickerBeforeInputField={false} placeholder="Add a comment..." />
+                    <Textarea ref={textareaRef} isEmojiPickerBeforeInputField={false} placeholder="Add a comment..." handlePostClick={() => postComment()} />
                 </div>
             </div>
         </div>

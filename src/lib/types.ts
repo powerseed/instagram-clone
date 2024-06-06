@@ -1,4 +1,5 @@
 export type Post = {
+    id: string,
     avatarUrl: string
     username: string
     isVerified: false,

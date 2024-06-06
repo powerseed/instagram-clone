@@ -5,12 +5,14 @@ import { MouseEvent, forwardRef, useEffect, useImperativeHandle, useRef, useStat
 
 type TextareaProps = {
     isEmojiPickerBeforeInputField: boolean,
-    placeholder: string
+    placeholder: string,
+    handlePostClick: (text: string) => void
 }
 
 export type TextareaHandle = {
     addMentionStringToInputfield: (mentionString: string) => void;
     focusOnTextArea: () => void;
+    clearTextarea: () => void;
 };
 
 const Textarea = forwardRef<TextareaHandle, TextareaProps>((props: TextareaProps, ref) => {
@@ -54,6 +56,9 @@ const Textarea = forwardRef<TextareaHandle, TextareaProps>((props: TextareaProps
             },
             focusOnTextArea() {
                 textareaRef.current?.focus();
+            },
+            clearTextarea() {
+                setComment('');
             }
         }
     });
@@ -95,7 +100,8 @@ const Textarea = forwardRef<TextareaHandle, TextareaProps>((props: TextareaProps
                 </div>
 
                 {
-                    comment && <div className='text-sky-600 hover:text-black cursor-pointer font-medium'>
+                    comment &&
+                    <div className='text-sky-600 hover:text-black cursor-pointer font-medium' onClick={() => props.handlePostClick(comment)}>
                         Post
                     </div>
                 }

@@ -84,6 +84,7 @@ export async function getPosts(userIds: string[]) {
             .limit(10)
             .map((document) => {
                 const post: Post = {
+                    id: document._id,
                     avatarUrl: document.post_user[0].avatarUrl,
                     username: document.post_user[0].username,
                     isVerified: false,

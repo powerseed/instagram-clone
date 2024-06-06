@@ -5,12 +5,15 @@ import en from 'javascript-time-ago/locale/en';
 import './media_slider_in_card_styles.css';
 import Header from './header';
 import OperationButtons from './operation_buttons';
-import Textarea from './textarea';
+import Textarea, { TextareaHandle } from './textarea';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
+import { useSession } from 'next-auth/react';
+import { useRef } from 'react';
 
 type MediaCardProps = {
+    postId: string,
     avatarUrl: string,
     username: string,
     isVerified: boolean,
@@ -22,6 +25,9 @@ type MediaCardProps = {
 }
 
 export default function MediaCard(props: MediaCardProps) {
+    const { data: session } = useSession();
+    let textareaRef = useRef<TextareaHandle>(null);
+
     TimeAgo.setDefaultLocale(en.locale);
     TimeAgo.addLocale(en);
 
@@ -50,6 +56,28 @@ export default function MediaCard(props: MediaCardProps) {
         draggable: false,
         className: "bg-black rounded-none sm:rounded"
     };
+
+    async function postComment(text: string) {
+        let response = await fetch('/api/comment/create', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                userId: session?.user?.id,
+                postId: props.postId,
+                createdOn: new Date,
+                text
+            }),
+        });
+
+        if (!response.ok) {
+            alert('Failed to create the comment. ');
+        }
+        else {
+            textareaRef.current?.clearTextarea();
+        }
+    }
 
     return (
         <>
@@ -119,7 +147,7 @@ export default function MediaCard(props: MediaCardProps) {
                 </div>
 
                 <div className='hidden sm:block'>
-                    <Textarea isEmojiPickerBeforeInputField={false} placeholder="Add a comment..." />
+                    <Textarea ref={textareaRef} isEmojiPickerBeforeInputField={false} placeholder="Add a comment..." handlePostClick={postComment} />
                 </div>
 
                 <hr />

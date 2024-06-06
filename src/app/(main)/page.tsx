@@ -113,6 +113,7 @@ export default function Home() {
                 return (
                   <MediaCard
                     key={index}
+                    postId={post.id}
                     avatarUrl={post.avatarUrl}
                     username={post.username}
                     isVerified={post.isVerified}
@@ -131,6 +132,7 @@ export default function Home() {
                 return (
                   <MediaCard
                     key={index}
+                    postId={post.id}
                     avatarUrl={post.avatarUrl}
                     username={post.username}
                     isVerified={post.isVerified}
