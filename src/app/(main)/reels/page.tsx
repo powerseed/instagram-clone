@@ -13,22 +13,24 @@ export default function Reels() {
     }
 
     return (
-        <div className={`${styles.hide_scroll} h-[calc(100vh-var(--bottom-bar-height))] md:h-screen mx-0 sm:mx-[32px] py-0 sm:py-[32px] snap-y snap-mandatory overflow-y-auto`}>
-            {
-                (video_card_content).map((content) => {
-                    return (
-                        <div key={content.id} className="flex justify-center snap-center h-full sm:mb-4">
-                            <div className="sm:aspect-[0.56] sm:mr-6">
-                                <VideoCard key={content.id} {...content} isMuted={isMuted} switchMute={switchMute} />
-                            </div>
+        <div className="w-full">
+            <div className={`${styles.hide_scroll} h-[calc(100vh-var(--bottom-bar-height))] md:h-screen mx-0 sm:mx-[32px] py-0 sm:py-[32px] snap-y snap-mandatory overflow-y-auto`}>
+                {
+                    (video_card_content).map((content) => {
+                        return (
+                            <div key={content.id} className="flex justify-center snap-center h-full sm:mb-4">
+                                <div className="sm:aspect-[0.56] sm:mr-6">
+                                    <VideoCard key={content.id} {...content} isMuted={isMuted} switchMute={switchMute} />
+                                </div>
 
-                            <div className="hidden sm:flex items-end">
-                                <OperationButtons {...content} />
+                                <div className="hidden sm:flex items-end">
+                                    <OperationButtons {...content} />
+                                </div>
                             </div>
-                        </div>
-                    )
-                })
-            }
+                        )
+                    })
+                }
+            </div>
         </div>
     )
 }
