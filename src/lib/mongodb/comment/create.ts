@@ -26,11 +26,6 @@ export async function createComment(userId: string, postId: string, createdOn: s
             await init();
         }
 
-        console.log(userId);
-        console.log(postId);
-        console.log(createdOn);
-        console.log(text);
-
         const { insertedId } = await collection!.insertOne(
             {
                 userId,
@@ -42,7 +37,6 @@ export async function createComment(userId: string, postId: string, createdOn: s
 
         return { commentId: insertedId };
     } catch (error) {
-        console.log(error);
         return {
             error: 'Failed to create comment. '
         }

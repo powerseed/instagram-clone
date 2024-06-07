@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import Header from "./header";
 import OperationButtons from "./operation_buttons";
 import ReactTimeAgo from "react-time-ago";
@@ -6,9 +6,10 @@ import Textarea, { TextareaHandle } from "./textarea";
 import styles from './styles.module.css';
 import './media_slider_in_card_styles.css';
 import Comment from "./comment";
-import { comments } from './content';
+import { predefined_comments } from './content';
 import { OverlayContext } from "@/app/(main)/overlay_context_provider";
 import { useSession } from "next-auth/react";
+import { Comment as CommentType } from '@/lib/types';
 
 type CommentProps = {
     postId: string,
@@ -25,6 +26,8 @@ export default function CommentWindow(props: CommentProps) {
     let textareaRef = useRef<TextareaHandle>(null);
     const { setIsOverlayOpen } = useContext(OverlayContext);
     const { data: session } = useSession();
+    let [comments, setComments] = useState<CommentType[]>([]);
+    let [error, setError] = useState<string | undefined>(undefined);
 
     useEffect(() => {
         setIsOverlayOpen(true);
@@ -44,6 +47,28 @@ export default function CommentWindow(props: CommentProps) {
             document.removeEventListener('click', closeCommentEventListener);
         }
     });
+
+    useEffect(() => {
+        const getComments = async () => {
+            try {
+                const response = await fetch(`/api/comment/get?postId=${props.postId}`);
+
+                if (!response.ok) {
+                    throw new Error();
+                }
+
+                let { comments } = await response.json();
+
+                setComments(comments);
+                setError(undefined);
+            }
+            catch (error) {
+                setError(`Some internal error occurred, please try again later. `)
+            }
+        }
+
+        getComments();
+    }, []);
 
     function placeUsernameInInputField(mentionString: string) {
         textareaRef.current!.addMentionStringToInputfield(mentionString);
@@ -105,11 +130,11 @@ export default function CommentWindow(props: CommentProps) {
                                     <Comment
                                         key={index}
                                         username={comment.username}
-                                        avatar={comment.avatar}
-                                        content={comment.content}
-                                        created_on={comment.created_on}
-                                        like_count={comment.like_count}
-                                        reply_count={comment.reply_count}
+                                        avatar={comment.avatarUrl}
+                                        content={comment.text}
+                                        created_on={comment.createdOn}
+                                        like_count={comment.likeCount}
+                                        reply_count={comment.replyCount}
                                         onReplyClick={placeUsernameInInputField}
                                     />
                                 )

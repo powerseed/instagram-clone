@@ -15,6 +15,8 @@ export type Comment = {
     avatarUrl: string
     username: string
     isVerified: false,
-    created_on: Date,
-    text: string | undefined,
+    createdOn: Date,
+    text: string,
+    likeCount: number,
+    replyCount: number
 }

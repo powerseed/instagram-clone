@@ -1,4 +1,4 @@
-export const comments = [
+export const predefined_comments = [
     {
         username: 'carrosandpics',
         avatar: './home/aaronpaul.jpg',
