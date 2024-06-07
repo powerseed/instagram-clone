@@ -1,8 +1,9 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Textarea, { TextareaHandle } from "@/components/ui/home/media_card/textarea";
-import { comments } from "@/app/(main)/content";
+import { predefined_comments } from "@/app/(main)/content";
 import Comment from "@/components/ui/home/media_card/comment";
 import { useSession } from "next-auth/react";
+import { Comment as CommentType } from '@/lib/types';
 
 type CommentWindowProps = {
     postId: string,
@@ -13,6 +14,8 @@ export default function CommentWindow(props: CommentWindowProps) {
     const thisRef = useRef<HTMLDivElement>(null);
     let textareaRef = useRef<TextareaHandle>(null);
     const { data: session } = useSession();
+    let [comments, setComments] = useState<CommentType[]>([]);
+    let [error, setError] = useState<string | undefined>(undefined);
 
     useEffect(() => {
         const wheelEventListener = (event: WheelEvent) => {
@@ -38,6 +41,28 @@ export default function CommentWindow(props: CommentWindowProps) {
             document.removeEventListener('click', commentClickEventListener);
         }
     })
+
+    useEffect(() => {
+        const getComments = async () => {
+            try {
+                const response = await fetch(`/api/comment/get?postId=${props.postId}`);
+
+                if (!response.ok) {
+                    throw new Error();
+                }
+
+                let { comments } = await response.json();
+
+                setComments(comments);
+                setError(undefined);
+            }
+            catch (error) {
+                setError(`Some internal error occurred, please try again later. `)
+            }
+        }
+
+        getComments();
+    }, []);
 
     function placeUsernameInInputField(mentionString: string) {
         textareaRef.current!.addMentionStringToInputfield(mentionString);
@@ -76,18 +101,34 @@ export default function CommentWindow(props: CommentWindowProps) {
                 </div>
             </div>
 
-            <div className="overflow-y-auto overscroll-contain px-[30px]">
+            <div className="grow overflow-y-auto overscroll-contain px-[30px]">
                 {
-                    comments.map((comment, index) => {
+                    comments.map((comment) => {
+                        return (
+                            <Comment
+                                key={comment.id}
+                                username={comment.username}
+                                avatar={comment.avatarUrl}
+                                content={comment.text}
+                                created_on={comment.createdOn}
+                                like_count={comment.likeCount}
+                                reply_count={comment.replyCount}
+                                onReplyClick={placeUsernameInInputField}
+                            />
+                        )
+                    })
+                }
+                {
+                    predefined_comments.map((comment, index) => {
                         return (
                             <Comment
                                 key={index}
                                 username={comment.username}
-                                avatar={comment.avatar}
-                                content={comment.content}
-                                created_on={comment.created_on}
-                                like_count={comment.like_count}
-                                reply_count={comment.reply_count}
+                                avatar={comment.avatarUrl}
+                                content={comment.text}
+                                created_on={comment.createdOn}
+                                like_count={comment.likeCount}
+                                reply_count={comment.replyCount}
                                 onReplyClick={placeUsernameInInputField}
                             />
                         )
