@@ -163,7 +163,7 @@ export default function Home() {
             </div>
 
             <div className="flex items-center text-[12px]">
-              <a href="" className="text-sky-500 hover:text-black font-medium">Switch</a>
+              <div className="text-sky-500 hover:text-black font-medium cursor-pointer">Switch</div>
             </div>
           </div>
 
@@ -174,7 +174,7 @@ export default function Home() {
               </div>
 
               <div className="text-[12px]">
-                <a href="" className="hover:text-gray-500">See All</a>
+                <div className="hover:text-gray-500 cursor-pointer">See All</div>
               </div>
             </div>
 
@@ -192,7 +192,7 @@ export default function Home() {
                 </div>
 
                 <div className="flex items-center text-[12px]">
-                  <a href="" className="text-sky-500 hover:text-black font-medium">Follow</a>
+                  <div className="text-sky-500 hover:text-black font-medium cursor-pointer">Follow</div>
                 </div>
               </div>
 
@@ -209,7 +209,7 @@ export default function Home() {
                 </div>
 
                 <div className="flex items-center text-[12px]">
-                  <a href="" className="text-sky-500 hover:text-black font-medium">Follow</a>
+                  <div className="text-sky-500 hover:text-black font-medium cursor-pointer">Follow</div>
                 </div>
               </div>
 
@@ -226,7 +226,7 @@ export default function Home() {
                 </div>
 
                 <div className="flex items-center text-[12px]">
-                  <a href="" className="text-sky-500 hover:text-black font-medium">Follow</a>
+                  <div className="text-sky-500 hover:text-black font-medium cursor-pointer">Follow</div>
                 </div>
               </div>
 
@@ -243,7 +243,7 @@ export default function Home() {
                 </div>
 
                 <div className="flex items-center text-[12px]">
-                  <a href="" className="text-sky-500 hover:text-black font-medium">Follow</a>
+                  <div className="text-sky-500 hover:text-black font-medium cursor-pointer">Follow</div>
                 </div>
               </div>
 
@@ -260,7 +260,7 @@ export default function Home() {
                 </div>
 
                 <div className="flex items-center text-[12px]">
-                  <a href="" className="text-sky-500 hover:text-black font-medium">Follow</a>
+                  <div className="text-sky-500 hover:text-black font-medium cursor-pointer">Follow</div>
                 </div>
               </div>
             </div>
