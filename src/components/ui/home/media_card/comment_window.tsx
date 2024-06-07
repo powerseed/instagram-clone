@@ -125,7 +125,23 @@ export default function CommentWindow(props: CommentProps) {
 
                     <div className={`grow overflow-y-auto overscroll-contain px-[15px] ${styles.comment_list}`}>
                         {
-                            comments.map((comment, index) => {
+                            comments.map((comment) => {
+                                return (
+                                    <Comment
+                                        key={comment.id}
+                                        username={comment.username}
+                                        avatar={comment.avatarUrl}
+                                        content={comment.text}
+                                        created_on={comment.createdOn}
+                                        like_count={comment.likeCount}
+                                        reply_count={comment.replyCount}
+                                        onReplyClick={placeUsernameInInputField}
+                                    />
+                                )
+                            })
+                        }
+                        {
+                            predefined_comments.map((comment, index) => {
                                 return (
                                     <Comment
                                         key={index}

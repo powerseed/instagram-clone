@@ -1,99 +1,111 @@
 export const predefined_comments = [
     {
+        id: '',
         username: 'carrosandpics',
-        avatar: './home/aaronpaul.jpg',
-        content: '👏👏',
-        created_on: new Date('April 6, 2024 03:24:00'),
-        like_count: 6,
-        reply_count: 0
+        avatarUrl: './home/aaronpaul.jpg',
+        text: '👏👏',
+        createdOn: new Date('April 6, 2024 03:24:00'),
+        likeCount: 6,
+        replyCount: 0
     },
     {
+        id: '',
         username: 'pryamo888',
-        avatar: './home/arang2o_o.jpg',
-        content: 'Which actually means celebrating..2 in 1! :) ❤️❤️🔥😍😍',
-        created_on: new Date('Feb 10, 2024 03:24:00'),
-        like_count: 1,
-        reply_count: 0
+        avatarUrl: './home/arang2o_o.jpg',
+        text: 'Which actually means celebrating..2 in 1! :) ❤️❤️🔥😍😍',
+        createdOn: new Date('Feb 10, 2024 03:24:00'),
+        likeCount: 1,
+        replyCount: 0
     },
     {
+        id: '',
         username: 'madinahon_2010',
-        avatar: './home/hesam_mew.jpg',
-        content: '🔥🔥🔥🔥😍😍😍😍❤️❤️❤️❤️',
-        created_on: new Date('April 18, 2024 03:24:00'),
-        like_count: 9,
-        reply_count: 0
+        avatarUrl: './home/hesam_mew.jpg',
+        text: '🔥🔥🔥🔥😍😍😍😍❤️❤️❤️❤️',
+        createdOn: new Date('April 18, 2024 03:24:00'),
+        likeCount: 9,
+        replyCount: 0
     },
     {
+        id: '',
         username: 'jaclynmonaepaszczak',
-        avatar: './home/jose_montes_martinez.jpg',
-        content: '함자매 키스준비?😚🐷🐻💋그래도 남친 필요없잖아!!!!!😂🐷🐻🔥',
-        created_on: new Date('April 18, 2024 08:24:00'),
-        like_count: 6,
-        reply_count: 0
+        avatarUrl: './home/jose_montes_martinez.jpg',
+        text: '함자매 키스준비?😚🐷🐻💋그래도 남친 필요없잖아!!!!!😂🐷🐻🔥',
+        createdOn: new Date('April 18, 2024 08:24:00'),
+        likeCount: 6,
+        replyCount: 0
     },
     {
+        id: '',
         username: 'bichon_nana_jelly',
-        avatar: './home/voompla.jpg',
-        content: '綺麗な歯で素敵な笑顔🤎🐻🐷🤍',
-        created_on: new Date('April 18, 2024 06:24:00'),
-        like_count: 3,
-        reply_count: 0
+        avatarUrl: './home/voompla.jpg',
+        text: '綺麗な歯で素敵な笑顔🤎🐻🐷🤍',
+        createdOn: new Date('April 18, 2024 06:24:00'),
+        likeCount: 3,
+        replyCount: 0
     },
     {
+        id: '',
         username: 'tomomixxx8',
-        avatar: './home/survivingrat.jpg',
-        content: '🤍🤍',
-        created_on: new Date('April 6, 2024 03:24:00'),
-        like_count: 6,
-        reply_count: 0
+        avatarUrl: './home/survivingrat.jpg',
+        text: '🤍🤍',
+        createdOn: new Date('April 6, 2024 03:24:00'),
+        likeCount: 6,
+        replyCount: 0
     },
     {
+        id: '',
         username: 'atusaaschury',
-        avatar: './home/thegiancarloesposito.jpg',
-        content: 'Der Link bring dich zu der acting Schule und deren Kurse und nicht zu diesem spezifischen project!',
-        created_on: new Date('April 6, 2024 03:24:00'),
-        like_count: 6,
-        reply_count: 0
+        avatarUrl: './home/thegiancarloesposito.jpg',
+        text: 'Der Link bring dich zu der acting Schule und deren Kurse und nicht zu diesem spezifischen project!',
+        createdOn: new Date('April 6, 2024 03:24:00'),
+        likeCount: 6,
+        replyCount: 0
     },
     {
+        id: '',
         username: 'stevecoronel',
-        avatar: './home/mitchmackieyyc.jpg',
-        content: '😂😂😂❤️❤️',
-        created_on: new Date('March 4, 2024 03:24:00'),
-        like_count: 1,
-        reply_count: 0
+        avatarUrl: './home/mitchmackieyyc.jpg',
+        text: '😂😂😂❤️❤️',
+        createdOn: new Date('March 4, 2024 03:24:00'),
+        likeCount: 1,
+        replyCount: 0
     },
     {
+        id: '',
         username: 'normsherry2024',
-        avatar: './home/blessy_diaries.jpg',
-        content: 'Like a fragrance ad',
-        created_on: new Date('April 6, 2024 03:24:00'),
-        like_count: 8,
-        reply_count: 0
+        avatarUrl: './home/blessy_diaries.jpg',
+        text: 'Like a fragrance ad',
+        createdOn: new Date('April 6, 2024 03:24:00'),
+        likeCount: 8,
+        replyCount: 0
     },
     {
+        id: '',
         username: 'wherescameaux',
-        avatar: './home/fernandesjunior806.jpg',
-        content: '👏👏👏👏👏😂😂😂',
-        created_on: new Date('April 17, 2024 03:24:00'),
-        like_count: 6,
-        reply_count: 0
+        avatarUrl: './home/fernandesjunior806.jpg',
+        text: '👏👏👏👏👏😂😂😂',
+        createdOn: new Date('April 17, 2024 03:24:00'),
+        likeCount: 6,
+        replyCount: 0
     },
     {
+        id: '',
         username: 'pietri_car_oscar2635',
-        avatar: './home/mercedesbenzusa.jpg',
-        content: '👏👏',
-        created_on: new Date('April 6, 2024 03:24:00'),
-        like_count: 6,
-        reply_count: 0
+        avatarUrl: './home/mercedesbenzusa.jpg',
+        text: '👏👏',
+        createdOn: new Date('April 6, 2024 03:24:00'),
+        likeCount: 6,
+        replyCount: 0
     },
     {
+        id: '',
         username: 'quach8685',
-        avatar: './home/rheaseehornlover.jpg',
-        content: '👏👏',
-        created_on: new Date('April 6, 2024 03:24:00'),
-        like_count: 6,
-        reply_count: 0
+        avatarUrl: './home/rheaseehornlover.jpg',
+        text: '👏👏',
+        createdOn: new Date('April 6, 2024 03:24:00'),
+        likeCount: 6,
+        replyCount: 0
     }
 ]
 
