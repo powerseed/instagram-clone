@@ -28,6 +28,7 @@ export default function CommentWindow(props: CommentProps) {
     const { data: session } = useSession();
     let [comments, setComments] = useState<CommentType[]>([]);
     let [error, setError] = useState<string | undefined>(undefined);
+    let [refreshComments, setRefreshComments] = useState(true);
 
     useEffect(() => {
         setIsOverlayOpen(true);
@@ -68,7 +69,7 @@ export default function CommentWindow(props: CommentProps) {
         }
 
         getComments();
-    }, []);
+    }, [refreshComments]);
 
     function placeUsernameInInputField(mentionString: string) {
         textareaRef.current!.addMentionStringToInputfield(mentionString);
@@ -94,6 +95,7 @@ export default function CommentWindow(props: CommentProps) {
         }
         else {
             textareaRef.current?.clearTextarea();
+            setRefreshComments(!refreshComments);
         }
     }
 
