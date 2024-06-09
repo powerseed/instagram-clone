@@ -7,41 +7,67 @@ import MediaCard from '@/components/ui/home/media_card/media_card';
 import Slider from "react-slick";
 import { useSession } from "next-auth/react";
 import BottomInfoSection from '@/components/ui/bottom_info_section';
-import { useEffect, useState } from 'react';
+import { useEffect, useReducer, useRef, useState } from 'react';
 import { Post } from '@/lib/types';
+import { Session } from 'next-auth';
+import { useInView } from 'react-intersection-observer';
 
 export default function Home() {
-  let [posts, setPosts] = useState<Post[]>([]);
-  let [error, setError] = useState<string | undefined>(undefined);
-  const { data: session } = useSession();
+  const { data } = useSession();
+
+  let postsRef = useRef<Post[]>([]);
+  let pageIndexRef = useRef<number>(0);
+  const sessionRef = useRef<Session | null>(data);
+
+  let [hasInitializedPosts, setHasInitializedPosts] = useState<boolean>(false);
+  const [, forceUpdate] = useReducer(x => x + 1, 0);
+
+  const { ref: infiniteScrollingAnchorRef, inView: isInfiniteScrollingAnchorRefInView } = useInView()
+
+  const pageSize: number = 5;
+
+  async function getPosts() {
+    if (!sessionRef.current) {
+      return;
+    };
+
+    try {
+      const response = await fetch(`/api/post/get?userId=${sessionRef.current.user.id}&pageIndex=${pageIndexRef.current}&pageSize=${pageSize}`);
+
+      if (!response.ok) {
+        throw new Error();
+      }
+
+      let { posts: newPosts } = await response.json();
+
+      postsRef.current = [...postsRef.current, ...newPosts];
+      pageIndexRef.current = pageIndexRef.current + 1;
+      forceUpdate();
+    }
+    catch (error) {
+      console.log(error)
+    }
+  }
 
   useEffect(() => {
-    if (!session) {
-      return;
+    sessionRef.current = data;
+    forceUpdate();
+  }, [data]);
+
+  useEffect(() => {
+    if (sessionRef.current && !hasInitializedPosts) {
+      getPosts();
+      setHasInitializedPosts(true);
     }
+  }, [sessionRef.current]);
 
-    const getPosts = async () => {
-      try {
-        const response = await fetch(`/api/post/get?userId=${session.user.id}`);
-
-        if (!response.ok) {
-          throw new Error();
-        }
-
-        let { posts } = await response.json();
-
-        setPosts(posts);
-        setError(undefined);
-      }
-      catch (error) {
-        setError(`Some internal error occurred, please try again later. `)
-      }
+  useEffect(() => {
+    if (isInfiniteScrollingAnchorRefInView) {
+      getPosts();
     }
+  }, [isInfiniteScrollingAnchorRefInView])
 
-    getPosts();
-  }, [session]);
-
-  if (!session) {
+  if (!sessionRef.current) {
     return;
   }
 
@@ -109,15 +135,16 @@ export default function Home() {
 
           <div className='flex flex-col items-center w-full'>
             {
-              posts && posts.map((post, index) => {
+              predefined_posts.map((post, index) => {
                 return (
                   <div key={index} className='mb-5'>
                     <MediaCard
+                      key={index}
                       postId={post.id}
                       avatarUrl={post.avatarUrl}
                       username={post.username}
                       isVerified={post.isVerified}
-                      created_on={post.created_on}
+                      createdOn={post.createdOn.toString()}
                       text={post.text}
                       mediaUrls={post.mediaUrls}
                       likedBy={post.likedBy}
@@ -127,22 +154,22 @@ export default function Home() {
                 )
               })
             }
-
             {
-              predefined_posts.map((post, index) => {
+              postsRef.current && postsRef.current.map((post, index) => {
                 return (
-                  <MediaCard
-                    key={index}
-                    postId={post.id}
-                    avatarUrl={post.avatarUrl}
-                    username={post.username}
-                    isVerified={post.isVerified}
-                    created_on={post.created_on}
-                    text={post.text}
-                    mediaUrls={post.mediaUrls}
-                    likedBy={post.likedBy}
-                    commentNumber={post.commentNumber}
-                  />
+                  <div key={index} className='mb-5'>
+                    <MediaCard
+                      postId={post.id}
+                      avatarUrl={post.avatarUrl}
+                      username={post.username}
+                      isVerified={post.isVerified}
+                      createdOn={post.createdOn}
+                      text={post.text}
+                      mediaUrls={post.mediaUrls}
+                      likedBy={post.likedBy}
+                      commentNumber={post.commentNumber}
+                    />
+                  </div>
                 )
               })
             }
@@ -153,12 +180,12 @@ export default function Home() {
           <div className="flex justify-between">
             <div className="flex">
               <div className="mr-[12px]">
-                <img className='rounded-full' src={session.user?.image ? session.user?.image : '/profile.jpg'} alt="avatar" width='44' height='44' />
+                <img className='rounded-full' src={sessionRef.current.user.image ? sessionRef.current.user.image : '/profile.jpg'} alt="avatar" width='44' height='44' />
               </div>
 
               <div className="text-[14px]">
-                <a href="" className="font-medium">{session.user?.name}</a>
-                <p className="text-gray-500">{session.user?.name}</p>
+                <a href="" className="font-medium">{sessionRef.current.user.name}</a>
+                <p className="text-gray-500">{sessionRef.current.user.name}</p>
               </div>
             </div>
 
@@ -286,6 +313,8 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+      <div ref={infiniteScrollingAnchorRef}></div>
 
       <BottomInfoSection />
     </div>

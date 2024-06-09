@@ -16,7 +16,7 @@ type CommentProps = {
     avatar: string,
     username: string,
     isVerified: boolean,
-    created_on: Date,
+    createdOn: string,
     images: string[],
     closeCommentPanel: () => void
 }
@@ -120,7 +120,7 @@ export default function CommentWindow(props: CommentProps) {
                             avatarUrl={props.avatar}
                             username={props.username}
                             isVerified={props.isVerified}
-                            created_on={props.created_on}
+                            createdOn={props.createdOn}
                             isDisplayedInComment={true}
                         />
                     </div>
@@ -134,9 +134,9 @@ export default function CommentWindow(props: CommentProps) {
                                         username={comment.username}
                                         avatar={comment.avatarUrl}
                                         content={comment.text}
-                                        created_on={comment.createdOn}
-                                        like_count={comment.likeCount}
-                                        reply_count={comment.replyCount}
+                                        createdOn={comment.createdOn}
+                                        likeCount={comment.likeCount}
+                                        replyCount={comment.replyCount}
                                         onReplyClick={placeUsernameInInputField}
                                     />
                                 )
@@ -150,9 +150,9 @@ export default function CommentWindow(props: CommentProps) {
                                         username={comment.username}
                                         avatar={comment.avatarUrl}
                                         content={comment.text}
-                                        created_on={comment.createdOn}
-                                        like_count={comment.likeCount}
-                                        reply_count={comment.replyCount}
+                                        createdOn={comment.createdOn}
+                                        likeCount={comment.likeCount}
+                                        replyCount={comment.replyCount}
                                         onReplyClick={placeUsernameInInputField}
                                     />
                                 )
@@ -168,7 +168,7 @@ export default function CommentWindow(props: CommentProps) {
                     </div>
 
                     <div className="px-[15px] text-[12px] text-gray-400 py-2">
-                        <ReactTimeAgo date={props.created_on} timeStyle="twitter" />
+                        <ReactTimeAgo date={Date.parse(props.createdOn)} timeStyle="twitter" />
                     </div>
 
                     <div className="px-[15px] border-t-[1px] py-3">

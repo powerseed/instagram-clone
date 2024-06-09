@@ -21,12 +21,12 @@ async function init() {
     }
 }
 
-export async function getPosts(userIds: string[]) {
+export async function getPosts(userIds: string[], pageIndex: number, pageSize: number) {
     try {
         if (postCollection === undefined) {
             await init();
         }
-
+        
         const result = await postCollection!
             .aggregate([
                 {
@@ -81,14 +81,20 @@ export async function getPosts(userIds: string[]) {
                     }
                 }
             ])
-            .limit(10)
+            .sort(
+                {
+                    createdOn: -1
+                }
+            )
+            .skip(pageIndex * pageSize)
+            .limit(pageSize)
             .map((document) => {
                 const post: Post = {
                     id: document._id,
                     avatarUrl: document.post_user[0].avatarUrl,
                     username: document.post_user[0].username,
                     isVerified: false,
-                    created_on: new Date(document.createdOn),
+                    createdOn: document.createdOn,
                     text: document.text,
                     mediaUrls: [],
                     likedBy: undefined,
@@ -102,7 +108,8 @@ export async function getPosts(userIds: string[]) {
                 return post;
             })
             .toArray();
-        return { posts: result };
+
+            return { posts: result };
     } catch (error) {
         return {
             error: 'Failed to fetch posts. '

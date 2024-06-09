@@ -4,7 +4,7 @@ export const messages = [
         nickname: 'Mitchell Mackie',
         username: 'mitchmackieyyc',
         avatar: '/home/mitchmackieyyc.jpg',
-        last_active_on: new Date('April 6, 2024 03:24:00'),
+        lastActiveOn: new Date('April 6, 2024 03:24:00'),
         messages: [
             {
                 text: `Hello!! 
@@ -12,12 +12,12 @@ export const messages = [
 Hope you are doing well!! You reached out a few days ago on tiktok about condos in the $300K’s 
             
 I’d this something you are still interested in?!`,
-                created_on: new Date('April 6, 2024 03:24:00'),
+                createdOn: new Date('April 6, 2024 03:24:00'),
                 isFromCurrentUser: false
             },
             {
                 text: `Nullam at arcu mauris. Nulla sit amet nulla id tellus aliquam aliquam. Donec et semper justo, eget interdum libero. Integer pretium sagittis augue, in lacinia neque scelerisque in. Pellentesque vel odio a est aliquam sollicitudin. `,
-                created_on: new Date('April 6, 2024 03:24:00'),
+                createdOn: new Date('April 6, 2024 03:24:00'),
                 isFromCurrentUser: true
             }
         ]
@@ -27,16 +27,16 @@ I’d this something you are still interested in?!`,
         nickname: 'normsherry2024',
         username: 'normsherry2024',
         avatar: '/home/blessy_diaries.jpg',
-        last_active_on: new Date('March 4, 2024 03:24:00'),
+        lastActiveOn: new Date('March 4, 2024 03:24:00'),
         messages: [
             {
                 text: `Praesent rhoncus arcu ac velit hendrerit, in mattis sem tempus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris et tempor libero. `,
-                created_on: new Date('April 6, 2024 03:24:00'),
+                createdOn: new Date('April 6, 2024 03:24:00'),
                 isFromCurrentUser: false
             },
             {
                 text: `Donec pretium ornare ante, nec porta lectus rhoncus a. In vehicula cursus ex a rutrum. Aenean viverra lobortis nulla ac rhoncus. Donec tempor aliquam mattis. `,
-                created_on: new Date('April 6, 2024 03:24:00'),
+                createdOn: new Date('April 6, 2024 03:24:00'),
                 isFromCurrentUser: false
             }
         ]
@@ -46,16 +46,16 @@ I’d this something you are still interested in?!`,
         nickname: 'wherescameaux',
         username: 'wherescameaux',
         avatar: '/home/fernandesjunior806.jpg',
-        last_active_on: new Date('April 17, 2024 03:24:00'),
+        lastActiveOn: new Date('April 17, 2024 03:24:00'),
         messages: [
             {
                 text: `Nam mollis arcu quis dolor tempor, a gravida quam hendrerit. Vivamus sit amet fringilla lectus, id pellentesque enim. Sed sed mauris eget sapien varius bibendum eu eu leo.`,
-                created_on: new Date('April 6, 2024 03:24:00'),
+                createdOn: new Date('April 6, 2024 03:24:00'),
                 isFromCurrentUser: true
             },
             {
                 text: `Nullam at arcu mauris. Nulla sit amet nulla id tellus aliquam aliquam. Donec et semper justo, eget interdum libero. Integer pretium sagittis augue, in lacinia neque scelerisque in. Pellentesque vel odio a est aliquam sollicitudin. `,
-                created_on: new Date('April 6, 2024 03:24:00'),
+                createdOn: new Date('April 6, 2024 03:24:00'),
                 isFromCurrentUser: true
             }
         ]

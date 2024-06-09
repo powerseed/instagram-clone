@@ -5,9 +5,9 @@ type CommentProps = {
     username: string,
     avatar: string,
     content: string,
-    created_on: Date,
-    like_count: number,
-    reply_count: number,
+    createdOn: Date,
+    likeCount: number,
+    replyCount: number,
     onReplyClick: Function
 }
 
@@ -28,11 +28,11 @@ export default function Comment(props: CommentProps) {
 
                         <div className="flex text-[12px] space-x-3 text-gray-500">
                             <div className="cursor-pointer">
-                                <ReactTimeAgo date={props.created_on} timeStyle="twitter" />
+                                <ReactTimeAgo date={props.createdOn} timeStyle="twitter" />
                             </div>
 
                             <div className="font-medium cursor-pointer">
-                                {props.like_count} like{props.like_count == 1 ? '' : 's'}
+                                {props.likeCount} like{props.likeCount == 1 ? '' : 's'}
                             </div>
 
                             <div className="font-medium cursor-pointer" onClick={() => props.onReplyClick(" @" + props.username)}>
@@ -47,7 +47,7 @@ export default function Comment(props: CommentProps) {
                 </div>
 
                 {
-                    props.reply_count > 0 &&
+                    props.replyCount > 0 &&
                     <div className="flex text-[12px] font-medium text-gray-500 ml-[5px]">
                         <div className="flex items-center space-x-2">
                             <div className="w-[24px] h-[1px] border-[0.5px] border-gray-500"></div>

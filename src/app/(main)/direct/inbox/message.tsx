@@ -3,7 +3,7 @@ import { useState } from "react"
 
 type MessageProps = {
     avatar: string,
-    created_on: Date,
+    createdOn: Date,
     text: string,
     isFromCurrentUser: boolean
 }

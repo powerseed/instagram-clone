@@ -18,7 +18,7 @@ type MediaCardProps = {
     avatarUrl: string,
     username: string,
     isVerified: boolean,
-    created_on: Date,
+    createdOn: string,
     text: string | undefined,
     mediaUrls: string[],
     likedBy: string | undefined,
@@ -89,11 +89,10 @@ export default function MediaCard(props: MediaCardProps) {
                         avatarUrl={props.avatarUrl}
                         username={props.username}
                         isVerified={props.isVerified}
-                        created_on={props.created_on}
+                        createdOn={props.createdOn}
                         isDisplayedInComment={false}
                     />
                 </div>
-
 
                 <div className='media-slider-in-card'>
                     <Slider {...settings}
@@ -125,7 +124,7 @@ export default function MediaCard(props: MediaCardProps) {
                         avatar={props.avatarUrl}
                         username={props.username}
                         isVerified={props.isVerified}
-                        created_on={props.created_on}
+                        createdOn={props.createdOn}
                         annotation={props.text}
                         images={props.mediaUrls}
                         isDisplayedInComment={false}
@@ -163,7 +162,7 @@ export default function MediaCard(props: MediaCardProps) {
                     avatar={props.avatarUrl}
                     username={props.username}
                     isVerified={props.isVerified}
-                    created_on={props.created_on}
+                    createdOn={props.createdOn}
                     images={props.mediaUrls}
                     closeCommentPanel={() => setIsCommentOpen(false)}
                 />

@@ -8,7 +8,7 @@ import { Switch } from "@/components/ui/switch"
 
 type Message = {
     text: string,
-    created_on: Date,
+    createdOn: Date,
     isFromCurrentUser: boolean
 }
 
@@ -17,7 +17,7 @@ type MessageDetailProps = {
     avatar: string,
     nickname: string,
     username: string,
-    last_active_on: Date,
+    lastActiveOn: Date,
     messages: Message[]
 }
 
@@ -42,7 +42,7 @@ export default function Chat(props: MessageDetailProps) {
                             </div>
 
                             <div className='text-[12px] text-gray-400'>
-                                Active <ReactTimeAgo date={props.last_active_on} timeStyle="twitter" />
+                                Active <ReactTimeAgo date={props.lastActiveOn} timeStyle="twitter" />
                             </div>
                         </div>
                     </div>

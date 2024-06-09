@@ -112,9 +112,9 @@ export default function CommentWindow(props: CommentWindowProps) {
                                 username={comment.username}
                                 avatar={comment.avatarUrl}
                                 content={comment.text}
-                                created_on={comment.createdOn}
-                                like_count={comment.likeCount}
-                                reply_count={comment.replyCount}
+                                createdOn={comment.createdOn}
+                                likeCount={comment.likeCount}
+                                replyCount={comment.replyCount}
                                 onReplyClick={placeUsernameInInputField}
                             />
                         )
@@ -128,9 +128,9 @@ export default function CommentWindow(props: CommentWindowProps) {
                                 username={comment.username}
                                 avatar={comment.avatarUrl}
                                 content={comment.text}
-                                created_on={comment.createdOn}
-                                like_count={comment.likeCount}
-                                reply_count={comment.replyCount}
+                                createdOn={comment.createdOn}
+                                likeCount={comment.likeCount}
+                                replyCount={comment.replyCount}
                                 onReplyClick={placeUsernameInInputField}
                             />
                         )

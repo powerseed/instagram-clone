@@ -3,7 +3,7 @@ export type Post = {
     avatarUrl: string
     username: string
     isVerified: false,
-    created_on: Date,
+    createdOn: string,
     text: string | undefined,
     mediaUrls: string[],
     likedBy: string | undefined,

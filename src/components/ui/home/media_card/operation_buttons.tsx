@@ -11,7 +11,7 @@ type OperationButtonsProps = {
     avatar?: string,
     username?: string,
     isVerified?: boolean,
-    created_on?: Date,
+    createdOn?: string,
     annotation?: string,
     images: string[],
     isDisplayedInComment: boolean,

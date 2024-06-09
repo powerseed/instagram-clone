@@ -7,7 +7,7 @@ type HeaderProps = {
     avatarUrl: string,
     username: string,
     isVerified: boolean,
-    created_on: Date,
+    createdOn: string,
     isDisplayedInComment: boolean
 }
 
@@ -37,7 +37,7 @@ export default function Header(props: HeaderProps) {
                         {
                             !props.isDisplayedInComment &&
                             <div className={`text-gray-400 ${styles.create_date}`}>
-                                <ReactTimeAgo date={props.created_on} timeStyle="twitter" />
+                                <ReactTimeAgo date={Date.parse(props.createdOn)} timeStyle="twitter" />
                             </div>
                         }
                     </div>

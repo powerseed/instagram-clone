@@ -6,7 +6,7 @@ type MessageItemProps = {
     id: number,
     avatar: string,
     nickname: string,
-    last_active_on: Date,
+    lastActiveOn: Date,
     isSelected: boolean,
     selectThisMessageItem: (selectedMessageItemId: number) => void
 }
@@ -31,7 +31,7 @@ export default function MessageItem (props: MessageItemProps) {
                 </div>
 
                 <div className='text-[12px] text-gray-400'>
-                    Active <ReactTimeAgo date={props.last_active_on} timeStyle="twitter" />
+                    Active <ReactTimeAgo date={props.lastActiveOn} timeStyle="twitter" />
                 </div>
             </div>
         </div>
