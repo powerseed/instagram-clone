@@ -111,7 +111,7 @@ export default function MediaCard(props: MediaCardProps) {
                     >
                         {props.mediaUrls.map((mediaUrl, index) => {
                             return (
-                                <div key={index} className='mb-[-7px]'>
+                                <div key={index} className='mb-[-7px] !flex !justify-center'>
                                     <img className='rounded-none sm:rounded' src={mediaUrl} alt={index.toString()} />
                                 </div>
                             )
