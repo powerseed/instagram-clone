@@ -5,7 +5,7 @@ type CommentProps = {
     username: string,
     avatar: string,
     content: string,
-    createdOn: Date,
+    createdOn: string,
     likeCount: number,
     replyCount: number,
     onReplyClick: Function
@@ -28,7 +28,7 @@ export default function Comment(props: CommentProps) {
 
                         <div className="flex text-[12px] space-x-3 text-gray-500">
                             <div className="cursor-pointer">
-                                <ReactTimeAgo date={props.createdOn} timeStyle="twitter" />
+                                <ReactTimeAgo date={Date.parse(props.createdOn)} timeStyle="twitter" />
                             </div>
 
                             <div className="font-medium cursor-pointer">

@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useReducer, useRef, useState } from "react";
 import Header from "./header";
 import OperationButtons from "./operation_buttons";
 import ReactTimeAgo from "react-time-ago";
@@ -10,6 +10,7 @@ import { predefined_comments } from './content';
 import { OverlayContext } from "@/app/(main)/overlay_context_provider";
 import { useSession } from "next-auth/react";
 import { Comment as CommentType } from '@/lib/types';
+import { useInView } from "react-intersection-observer";
 
 type CommentProps = {
     postId: string,
@@ -22,13 +23,19 @@ type CommentProps = {
 }
 
 export default function CommentWindow(props: CommentProps) {
-    let commentRef = useRef<HTMLDivElement>(null);
-    let textareaRef = useRef<TextareaHandle>(null);
-    const { setIsOverlayOpen } = useContext(OverlayContext);
     const { data: session } = useSession();
-    let [comments, setComments] = useState<CommentType[]>([]);
-    let [error, setError] = useState<string | undefined>(undefined);
-    let [refreshComments, setRefreshComments] = useState(true);
+    const { setIsOverlayOpen } = useContext(OverlayContext);
+
+    let thisRef = useRef<HTMLDivElement>(null);
+    let textareaRef = useRef<TextareaHandle>(null);
+    let commentsRef = useRef<CommentType[]>([]);
+    let commentsContainer = useRef<HTMLDivElement>(null);
+
+    let pageIndexRef = useRef<number>(0);
+    const pageSize: number = 10;
+
+    const [, forceUpdate] = useReducer(x => x + 1, 0);
+    const { ref: infiniteScrollingAnchorRef, inView: isInfiniteScrollingAnchorRefInView } = useInView()
 
     useEffect(() => {
         setIsOverlayOpen(true);
@@ -36,7 +43,7 @@ export default function CommentWindow(props: CommentProps) {
         let closeCommentEventListener = (event: MouseEvent) => {
             var clickedElement = document.elementFromPoint(event.clientX, event.clientY);
 
-            if (!(commentRef.current?.contains(clickedElement))) {
+            if (!(thisRef.current?.contains(clickedElement))) {
                 props.closeCommentPanel();
             }
         };
@@ -47,29 +54,33 @@ export default function CommentWindow(props: CommentProps) {
             setIsOverlayOpen(false);
             document.removeEventListener('click', closeCommentEventListener);
         }
-    });
+    }, []);
 
     useEffect(() => {
-        const getComments = async () => {
-            try {
-                const response = await fetch(`/api/comment/get?postId=${props.postId}`);
-
-                if (!response.ok) {
-                    throw new Error();
-                }
-
-                let { comments } = await response.json();
-
-                setComments(comments);
-                setError(undefined);
-            }
-            catch (error) {
-                setError(`Some internal error occurred, please try again later. `)
-            }
+        if (isInfiniteScrollingAnchorRefInView) {
+            getComments();
         }
+    }, [isInfiniteScrollingAnchorRefInView])
 
-        getComments();
-    }, [refreshComments]);
+    async function getComments() {
+        try {
+            const response = await fetch(`/api/comment/get?postId=${props.postId}&pageIndex=${pageIndexRef.current}&pageSize=${pageSize}`);
+
+            if (!response.ok) {
+                throw new Error();
+            }
+
+            let { comments: newComments } = await response.json();
+
+            commentsRef.current = [...commentsRef.current, ...newComments];
+            pageIndexRef.current = pageIndexRef.current + 1;
+
+            forceUpdate();
+        }
+        catch (error) {
+            console.log(`Some internal error occurred, please try again later. `)
+        }
+    }
 
     function placeUsernameInInputField(mentionString: string) {
         textareaRef.current!.addMentionStringToInputfield(mentionString);
@@ -77,6 +88,8 @@ export default function CommentWindow(props: CommentProps) {
     }
 
     async function postComment(text: string) {
+        const createdOn = new Date();
+
         let response = await fetch('/api/comment/create', {
             method: 'POST',
             headers: {
@@ -85,7 +98,7 @@ export default function CommentWindow(props: CommentProps) {
             body: JSON.stringify({
                 userId: session?.user?.id,
                 postId: props.postId,
-                createdOn: new Date,
+                createdOn,
                 text
             }),
         });
@@ -95,13 +108,29 @@ export default function CommentWindow(props: CommentProps) {
         }
         else {
             textareaRef.current?.clearTextarea();
-            setRefreshComments(!refreshComments);
+
+            const { commentId } = await response.json();
+
+            const newComment: CommentType = {
+                id: commentId,
+                avatarUrl: session?.user?.image || '/profile.jpg',
+                username: session?.user?.name!,
+                isVerified: false,
+                createdOn: createdOn.toString(),
+                text,
+                likeCount: 0,
+                replyCount: 0
+            }
+
+            commentsRef.current.unshift(newComment);
+            forceUpdate();
+            commentsContainer.current?.scroll({ top: 0, behavior: 'smooth' });
         }
     }
 
     return (
         <div className={`${styles.popup_scaling_down} fixed flex justify-center items-center top-0 bottom-0 left-0 right-0 w-screen h-screen bg-black/70 z-[var(--windows-z-index)]`}>
-            <div ref={commentRef} className='h-full flex max-h-full sm:max-h-[calc(100vh-50px)] max-w-full sm:max-w-[calc(100%-128px)]'>
+            <div ref={thisRef} className='h-full flex max-h-full sm:max-h-[calc(100vh-50px)] max-w-full sm:max-w-[calc(100%-128px)]'>
                 <div className="hidden sm:flex flex-1 h-full bg-black items-center">
                     <img className="max-w-full max-h-full" src={props.images[0]} />
                 </div>
@@ -125,23 +154,7 @@ export default function CommentWindow(props: CommentProps) {
                         />
                     </div>
 
-                    <div className={`grow overflow-y-auto overscroll-contain px-[15px] ${styles.comment_list}`}>
-                        {
-                            comments.map((comment) => {
-                                return (
-                                    <Comment
-                                        key={comment.id}
-                                        username={comment.username}
-                                        avatar={comment.avatarUrl}
-                                        content={comment.text}
-                                        createdOn={comment.createdOn}
-                                        likeCount={comment.likeCount}
-                                        replyCount={comment.replyCount}
-                                        onReplyClick={placeUsernameInInputField}
-                                    />
-                                )
-                            })
-                        }
+                    <div ref={commentsContainer} className={`grow overflow-y-auto overscroll-contain px-[15px] ${styles.comment_list}`}>
                         {
                             predefined_comments.map((comment, index) => {
                                 return (
@@ -158,6 +171,23 @@ export default function CommentWindow(props: CommentProps) {
                                 )
                             })
                         }
+                        {
+                            commentsRef.current.map((comment) => {
+                                return (
+                                    <Comment
+                                        key={comment.id}
+                                        username={comment.username}
+                                        avatar={comment.avatarUrl}
+                                        content={comment.text}
+                                        createdOn={comment.createdOn}
+                                        likeCount={comment.likeCount}
+                                        replyCount={comment.replyCount}
+                                        onReplyClick={placeUsernameInInputField}
+                                    />
+                                )
+                            })
+                        }
+                        <div ref={infiniteScrollingAnchorRef} className="invisible w-full h-[1px]"></div>
                     </div>
 
                     <div className="px-[15px] border-t-[1px] py-3">

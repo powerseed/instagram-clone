@@ -15,8 +15,10 @@ export default function CommentWindow(props: CommentWindowProps) {
     let textareaRef = useRef<TextareaHandle>(null);
     const { data: session } = useSession();
     let [comments, setComments] = useState<CommentType[]>([]);
-    let [error, setError] = useState<string | undefined>(undefined);
     let [refreshComments, setRefreshComments] = useState(true);
+
+    let [pageIndex, setPageIndex] = useState<number>(0);
+    const pageSize: number = 10;
 
     useEffect(() => {
         const wheelEventListener = (event: WheelEvent) => {
@@ -46,7 +48,7 @@ export default function CommentWindow(props: CommentWindowProps) {
     useEffect(() => {
         const getComments = async () => {
             try {
-                const response = await fetch(`/api/comment/get?postId=${props.postId}`);
+                const response = await fetch(`/api/comment/get?postId=${props.postId}&pageIndex=${pageIndex}&pageSize=${pageSize}`);
 
                 if (!response.ok) {
                     throw new Error();
@@ -55,10 +57,9 @@ export default function CommentWindow(props: CommentWindowProps) {
                 let { comments } = await response.json();
 
                 setComments(comments);
-                setError(undefined);
             }
             catch (error) {
-                setError(`Some internal error occurred, please try again later. `)
+                console.log(`Some internal error occurred, please try again later. `)
             }
         }
 

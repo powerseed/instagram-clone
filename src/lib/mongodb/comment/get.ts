@@ -21,7 +21,7 @@ async function init() {
     }
 }
 
-export async function getComments(postId: string) {
+export async function getComments(postId: string, pageIndex: number, pageSize: number) {
     try {
         if (commentCollection === undefined) {
             await init();
@@ -53,14 +53,20 @@ export async function getComments(postId: string) {
                     }
                 }
             ])
-            .limit(10)
+            .sort(
+                {
+                    createdOn: -1
+                }
+            )
+            .skip(pageIndex * pageSize)
+            .limit(pageSize)
             .map((document) => {
                 const comment: Comment = {
                     id: document._id,
                     avatarUrl: document.comment_user[0].avatarUrl,
                     username: document.comment_user[0].username,
                     isVerified: false,
-                    createdOn: new Date(document.createdOn),
+                    createdOn: document.createdOn,
                     text: document.text,
                     likeCount: 0,
                     replyCount: 0

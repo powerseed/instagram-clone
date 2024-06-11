@@ -314,7 +314,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div ref={infiniteScrollingAnchorRef}></div>
+      <div ref={infiniteScrollingAnchorRef} className="invisible w-full h-[1px]"></div>
 
       <BottomInfoSection />
     </div>
