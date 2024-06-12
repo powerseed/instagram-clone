@@ -30,7 +30,7 @@ export default function SelectMedia(props: SelectMediaProps) {
                 <div className="text-[20px]">Drag photos and videos here</div>
 
                 <div className="text-center w-[160px] rounded-lg bg-sky-500 hover:bg-sky-600 text-white text-[13px] font-[500] py-[5px] cursor-pointer">
-                    <label htmlFor="media-uploader">
+                    <label className="cursor-pointer" htmlFor="media-uploader">
                         Select from computer
                     </label>
                     <input id="media-uploader" type="file" accept="image/*, video/*" className="hidden" />
