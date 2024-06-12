@@ -4,6 +4,7 @@ import { predefined_comments } from "@/app/(main)/content";
 import Comment from "@/components/ui/home/media_card/comment";
 import { useSession } from "next-auth/react";
 import { Comment as CommentType } from '@/lib/types';
+import { useInView } from "react-intersection-observer";
 
 type CommentWindowProps = {
     postId: string,
@@ -11,12 +12,14 @@ type CommentWindowProps = {
 }
 
 export default function CommentWindow(props: CommentWindowProps) {
+    const { data: session } = useSession();
+
     const thisRef = useRef<HTMLDivElement>(null);
     let textareaRef = useRef<TextareaHandle>(null);
-    const { data: session } = useSession();
-    let [comments, setComments] = useState<CommentType[]>([]);
-    let [refreshComments, setRefreshComments] = useState(true);
+    let commentsContainer = useRef<HTMLDivElement>(null);
+    const { ref: infiniteScrollingAnchorRef, inView: isInfiniteScrollingAnchorRefInView } = useInView()
 
+    let [comments, setComments] = useState<CommentType[]>([]);
     let [pageIndex, setPageIndex] = useState<number>(0);
     const pageSize: number = 10;
 
@@ -43,28 +46,31 @@ export default function CommentWindow(props: CommentWindowProps) {
             document.removeEventListener('wheel', wheelEventListener);
             document.removeEventListener('click', commentClickEventListener);
         }
-    })
+    }, [])
 
     useEffect(() => {
-        const getComments = async () => {
-            try {
-                const response = await fetch(`/api/comment/get?postId=${props.postId}&pageIndex=${pageIndex}&pageSize=${pageSize}`);
-
-                if (!response.ok) {
-                    throw new Error();
-                }
-
-                let { comments } = await response.json();
-
-                setComments(comments);
-            }
-            catch (error) {
-                console.log(`Some internal error occurred, please try again later. `)
-            }
+        if (isInfiniteScrollingAnchorRefInView) {
+            getComments();
         }
+    }, [isInfiniteScrollingAnchorRefInView])
 
-        getComments();
-    }, [refreshComments]);
+    async function getComments() {
+        try {
+            const response = await fetch(`/api/comment/get?postId=${props.postId}&pageIndex=${pageIndex}&pageSize=${pageSize}`);
+
+            if (!response.ok) {
+                throw new Error();
+            }
+
+            let { comments: newComments } = await response.json();
+
+            setComments([...comments, ...newComments]);
+            setPageIndex(pageIndex + 1);
+        }
+        catch (error) {
+            console.log(`Some internal error occurred, please try again later. `)
+        }
+    }
 
     function placeUsernameInInputField(mentionString: string) {
         textareaRef.current!.addMentionStringToInputfield(mentionString);
@@ -72,6 +78,8 @@ export default function CommentWindow(props: CommentWindowProps) {
     }
 
     async function postComment(text: string) {
+        const createdOn = new Date();
+
         let response = await fetch('/api/comment/create', {
             method: 'POST',
             headers: {
@@ -80,7 +88,7 @@ export default function CommentWindow(props: CommentWindowProps) {
             body: JSON.stringify({
                 userId: session?.user?.id,
                 postId: props.postId,
-                createdOn: new Date,
+                createdOn,
                 text
             }),
         });
@@ -90,7 +98,22 @@ export default function CommentWindow(props: CommentWindowProps) {
         }
         else {
             textareaRef.current?.clearTextarea();
-            setRefreshComments(!refreshComments);
+
+            const { commentId } = await response.json();
+
+            const newComment: CommentType = {
+                id: commentId,
+                avatarUrl: session?.user.image || '/profile.jpg',
+                username: session?.user.name!,
+                isVerified: false,
+                createdOn: createdOn.toString(),
+                text,
+                likeCount: 0,
+                replyCount: 0
+            };
+
+            setComments([newComment, ...comments]);
+            commentsContainer.current?.scroll({ top: 0, behavior: 'smooth' });
         }
     }
 
@@ -104,23 +127,7 @@ export default function CommentWindow(props: CommentWindowProps) {
                 </div>
             </div>
 
-            <div className="grow overflow-y-auto overscroll-contain px-[30px]">
-                {
-                    comments.map((comment) => {
-                        return (
-                            <Comment
-                                key={comment.id}
-                                username={comment.username}
-                                avatar={comment.avatarUrl}
-                                content={comment.text}
-                                createdOn={comment.createdOn}
-                                likeCount={comment.likeCount}
-                                replyCount={comment.replyCount}
-                                onReplyClick={placeUsernameInInputField}
-                            />
-                        )
-                    })
-                }
+            <div ref={commentsContainer} className="grow overflow-y-auto overscroll-contain px-[30px]">
                 {
                     predefined_comments.map((comment, index) => {
                         return (
@@ -137,6 +144,23 @@ export default function CommentWindow(props: CommentWindowProps) {
                         )
                     })
                 }
+                {
+                    comments.map((comment) => {
+                        return (
+                            <Comment
+                                key={comment.id}
+                                username={comment.username}
+                                avatar={comment.avatarUrl}
+                                content={comment.text}
+                                createdOn={comment.createdOn}
+                                likeCount={comment.likeCount}
+                                replyCount={comment.replyCount}
+                                onReplyClick={placeUsernameInInputField}
+                            />
+                        )
+                    })
+                }
+                <div ref={infiniteScrollingAnchorRef} className="invisible w-full h-[1px]"></div>
             </div>
 
             <div className="px-[30px]">
