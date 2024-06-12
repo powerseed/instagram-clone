@@ -1,4 +1,4 @@
-import { useContext, useEffect, useReducer, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import Header from "./header";
 import OperationButtons from "./operation_buttons";
 import ReactTimeAgo from "react-time-ago";
@@ -28,13 +28,12 @@ export default function CommentWindow(props: CommentProps) {
 
     let thisRef = useRef<HTMLDivElement>(null);
     let textareaRef = useRef<TextareaHandle>(null);
-    let commentsRef = useRef<CommentType[]>([]);
     let commentsContainer = useRef<HTMLDivElement>(null);
 
-    let pageIndexRef = useRef<number>(0);
+    let [comments, setComments] = useState<CommentType[]>([]);
+    let [pageIndex, setPageIndex] = useState<number>(0);
     const pageSize: number = 10;
 
-    const [, forceUpdate] = useReducer(x => x + 1, 0);
     const { ref: infiniteScrollingAnchorRef, inView: isInfiniteScrollingAnchorRefInView } = useInView()
 
     useEffect(() => {
@@ -64,7 +63,7 @@ export default function CommentWindow(props: CommentProps) {
 
     async function getComments() {
         try {
-            const response = await fetch(`/api/comment/get?postId=${props.postId}&pageIndex=${pageIndexRef.current}&pageSize=${pageSize}`);
+            const response = await fetch(`/api/comment/get?postId=${props.postId}&pageIndex=${pageIndex}&pageSize=${pageSize}`);
 
             if (!response.ok) {
                 throw new Error();
@@ -72,10 +71,8 @@ export default function CommentWindow(props: CommentProps) {
 
             let { comments: newComments } = await response.json();
 
-            commentsRef.current = [...commentsRef.current, ...newComments];
-            pageIndexRef.current = pageIndexRef.current + 1;
-
-            forceUpdate();
+            setComments([...comments, ...newComments]);
+            setPageIndex(pageIndex + 1);
         }
         catch (error) {
             console.log(`Some internal error occurred, please try again later. `)
@@ -122,8 +119,7 @@ export default function CommentWindow(props: CommentProps) {
                 replyCount: 0
             }
 
-            commentsRef.current.unshift(newComment);
-            forceUpdate();
+            setComments([newComment, ...comments]);
             commentsContainer.current?.scroll({ top: 0, behavior: 'smooth' });
         }
     }
@@ -172,7 +168,7 @@ export default function CommentWindow(props: CommentProps) {
                             })
                         }
                         {
-                            commentsRef.current.map((comment) => {
+                            comments.map((comment) => {
                                 return (
                                     <Comment
                                         key={comment.id}

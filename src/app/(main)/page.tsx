@@ -7,32 +7,28 @@ import MediaCard from '@/components/ui/home/media_card/media_card';
 import Slider from "react-slick";
 import { useSession } from "next-auth/react";
 import BottomInfoSection from '@/components/ui/bottom_info_section';
-import { useEffect, useReducer, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Post } from '@/lib/types';
-import { Session } from 'next-auth';
 import { useInView } from 'react-intersection-observer';
 
 export default function Home() {
-  const { data } = useSession();
+  const { data: session } = useSession();
 
-  let postsRef = useRef<Post[]>([]);
-  let pageIndexRef = useRef<number>(0);
-  const sessionRef = useRef<Session | null>(data);
-
+  let [posts, setPosts] = useState<Post[]>([]);
+  let [pageIndex, setPageIndex] = useState<number>(0);
   let [hasInitializedPosts, setHasInitializedPosts] = useState<boolean>(false);
-  const [, forceUpdate] = useReducer(x => x + 1, 0);
 
   const { ref: infiniteScrollingAnchorRef, inView: isInfiniteScrollingAnchorRefInView } = useInView()
 
-  const pageSize: number = 5;
+  const pageSize: number = 1;
 
   async function getPosts() {
-    if (!sessionRef.current) {
+    if (!session) {
       return;
     };
 
     try {
-      const response = await fetch(`/api/post/get?userId=${sessionRef.current.user.id}&pageIndex=${pageIndexRef.current}&pageSize=${pageSize}`);
+      const response = await fetch(`/api/post/get?userId=${session.user.id}&pageIndex=${pageIndex}&pageSize=${pageSize}`);
 
       if (!response.ok) {
         throw new Error();
@@ -40,9 +36,8 @@ export default function Home() {
 
       let { posts: newPosts } = await response.json();
 
-      postsRef.current = [...postsRef.current, ...newPosts];
-      pageIndexRef.current = pageIndexRef.current + 1;
-      forceUpdate();
+      setPosts([...posts, ...newPosts]);
+      setPageIndex(pageIndex + 1);
     }
     catch (error) {
       console.log(error)
@@ -50,16 +45,11 @@ export default function Home() {
   }
 
   useEffect(() => {
-    sessionRef.current = data;
-    forceUpdate();
-  }, [data]);
-
-  useEffect(() => {
-    if (sessionRef.current && !hasInitializedPosts) {
+    if (session && !hasInitializedPosts) {
       getPosts();
       setHasInitializedPosts(true);
     }
-  }, [sessionRef.current]);
+  }, [session]);
 
   useEffect(() => {
     if (isInfiniteScrollingAnchorRefInView) {
@@ -67,7 +57,7 @@ export default function Home() {
     }
   }, [isInfiniteScrollingAnchorRefInView])
 
-  if (!sessionRef.current) {
+  if (!session) {
     return;
   }
 
@@ -155,7 +145,7 @@ export default function Home() {
               })
             }
             {
-              postsRef.current && postsRef.current.map((post, index) => {
+              posts && posts.map((post, index) => {
                 return (
                   <div key={index} className='mb-5'>
                     <MediaCard
@@ -180,12 +170,12 @@ export default function Home() {
           <div className="flex justify-between">
             <div className="flex">
               <div className="mr-[12px]">
-                <img className='rounded-full' src={sessionRef.current.user.image ? sessionRef.current.user.image : '/profile.jpg'} alt="avatar" width='44' height='44' />
+                <img className='rounded-full' src={session.user.image ? session.user.image : '/profile.jpg'} alt="avatar" width='44' height='44' />
               </div>
 
               <div className="text-[14px]">
-                <a href="" className="font-medium">{sessionRef.current.user.name}</a>
-                <p className="text-gray-500">{sessionRef.current.user.name}</p>
+                <a href="" className="font-medium">{session.user.name}</a>
+                <p className="text-gray-500">{session.user.name}</p>
               </div>
             </div>
 
