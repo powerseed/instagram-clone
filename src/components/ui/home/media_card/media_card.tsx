@@ -10,7 +10,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { useSession } from 'next-auth/react';
-import { useRef, useState } from 'react';
+import { SyntheticEvent, useEffect, useRef, useState } from 'react';
 import CommentWindow from "./comment_window";
 
 type MediaCardProps = {
@@ -29,6 +29,7 @@ export default function MediaCard(props: MediaCardProps) {
     const { data: session } = useSession();
     let textareaRef = useRef<TextareaHandle>(null);
     let [isCommentOpen, setIsCommentOpen] = useState(false);
+    let [sliderHeight, setSliderHeight] = useState<number>(0);
 
     TimeAgo.setDefaultLocale(en.locale);
     TimeAgo.addLocale(en);
@@ -81,9 +82,16 @@ export default function MediaCard(props: MediaCardProps) {
         }
     }
 
+    function handleMediaLoad(event: SyntheticEvent<HTMLImageElement>) {
+        const imgElement = event.target as HTMLImageElement;
+        if (imgElement.height > sliderHeight) {
+            setSliderHeight(imgElement.height);
+        }
+    }
+
     return (
         <>
-            <div className="flex flex-col space-y-3 w-[450px] max-w-full h-max-[850px]">
+            <div className='flex flex-col space-y-3 w-[450px]'>
                 <div className='px-4 sm:px-0'>
                     <Header
                         avatarUrl={props.avatarUrl}
@@ -94,7 +102,7 @@ export default function MediaCard(props: MediaCardProps) {
                     />
                 </div>
 
-                <div className='media-slider-in-card'>
+                <div className={`media-slider-in-card h-[${Math.min(sliderHeight, 450)}px]`}>
                     <Slider {...settings}
                         prevArrow={
                             <SliderNavigationButton>
@@ -109,13 +117,19 @@ export default function MediaCard(props: MediaCardProps) {
                             </SliderNavigationButton>
                         }
                     >
-                        {props.mediaUrls.map((mediaUrl, index) => {
-                            return (
-                                <div key={index} className='mb-[-7px] !flex !justify-center'>
-                                    <img className='rounded-none sm:rounded' src={mediaUrl} alt={index.toString()} />
-                                </div>
-                            )
-                        })}
+                        {
+                            props.mediaUrls.map((mediaUrl, index) => {
+                                return (
+                                    <div key={index} className='h-full mb-[-7px] !flex !justify-center'>
+                                        <img className='rounded-none sm:rounded object-contain'
+                                            src={mediaUrl}
+                                            alt={index.toString()}
+                                            onLoad={handleMediaLoad}
+                                        />
+                                    </div>
+                                )
+                            })
+                        }
                     </Slider>
                 </div>
 
