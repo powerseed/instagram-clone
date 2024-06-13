@@ -31,6 +31,8 @@ export default function MediaCard(props: MediaCardProps) {
     let [isCommentOpen, setIsCommentOpen] = useState(false);
     let [sliderHeight, setSliderHeight] = useState<number>(0);
 
+    const sliderMaxHeight = 450;
+
     TimeAgo.setDefaultLocale(en.locale);
     TimeAgo.addLocale(en);
 
@@ -85,7 +87,7 @@ export default function MediaCard(props: MediaCardProps) {
     function handleMediaLoad(event: SyntheticEvent<HTMLImageElement>) {
         const imgElement = event.target as HTMLImageElement;
         if (imgElement.height > sliderHeight) {
-            setSliderHeight(imgElement.height);
+            setSliderHeight(Math.min(imgElement.height, sliderMaxHeight));
         }
     }
 
@@ -102,7 +104,7 @@ export default function MediaCard(props: MediaCardProps) {
                     />
                 </div>
 
-                <div className={`media-slider-in-card h-[${Math.min(sliderHeight, 450)}px]`}>
+                <div className={`media-slider-in-card h-[${sliderHeight}px]`}>
                     <Slider {...settings}
                         prevArrow={
                             <SliderNavigationButton>
