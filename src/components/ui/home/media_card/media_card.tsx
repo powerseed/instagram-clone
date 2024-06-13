@@ -28,6 +28,7 @@ type MediaCardProps = {
 export default function MediaCard(props: MediaCardProps) {
     const { data: session } = useSession();
     let textareaRef = useRef<TextareaHandle>(null);
+    let sliderContainerRef = useRef<HTMLDivElement>(null);
     let [isCommentOpen, setIsCommentOpen] = useState(false);
     let [sliderHeight, setSliderHeight] = useState<number>(0);
 
@@ -35,6 +36,10 @@ export default function MediaCard(props: MediaCardProps) {
 
     TimeAgo.setDefaultLocale(en.locale);
     TimeAgo.addLocale(en);
+
+    useEffect(() => {
+        sliderContainerRef.current!.style.height = sliderHeight + 'px';
+    }, [sliderHeight])
 
     const SliderNavigationButton = (
         props: {
@@ -86,8 +91,10 @@ export default function MediaCard(props: MediaCardProps) {
 
     function handleMediaLoad(event: SyntheticEvent<HTMLImageElement>) {
         const imgElement = event.target as HTMLImageElement;
-        if (imgElement.height > sliderHeight) {
-            setSliderHeight(Math.min(imgElement.height, sliderMaxHeight));
+
+        if (imgElement.naturalHeight > sliderHeight) {
+            const newHeight = Math.min(imgElement.naturalHeight, sliderMaxHeight);
+            setSliderHeight(newHeight);
         }
     }
 
@@ -104,7 +111,7 @@ export default function MediaCard(props: MediaCardProps) {
                     />
                 </div>
 
-                <div className={`media-slider-in-card h-[${sliderHeight}px]`}>
+                <div ref={sliderContainerRef} className='media-slider-in-card'>
                     <Slider {...settings}
                         prevArrow={
                             <SliderNavigationButton>
