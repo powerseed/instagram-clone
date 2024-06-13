@@ -20,8 +20,8 @@ export default function CreatePostWindow({ closeThisWindow }: { closeThisWindow:
     let [areDimensionsCalculated, setAreDimensionsCalculated] = useState<boolean>(false);
 
     let [currentStep, setCurrentStep] = useState<StepsForCreatingAPost>(StepsForCreatingAPost.SELECT_MEDIA);
-    let [uploadedMediaUrl, setUploadedMediaUrl] = useState<string | undefined>(undefined);
-    let [croppedMediaFile, setCroppedMediaFile] = useState<File | undefined>(undefined);
+    let [uploadedMediaUrls, setUploadedMediaUrls] = useState<string[]>([]);
+    let [croppedMediaFiles, setCroppedMediaFiles] = useState<File[]>([]);
 
     useEffect(() => {
         calculateDimensions();
@@ -85,8 +85,8 @@ export default function CreatePostWindow({ closeThisWindow }: { closeThisWindow:
         }
     }
 
-    function handleMediaUpload(uploadedMediaUrl: string) {
-        setUploadedMediaUrl(uploadedMediaUrl);
+    function handleMediaUpload(uploadedMediaUrls: string[]) {
+        setUploadedMediaUrls(uploadedMediaUrls);
         setCurrentStep(StepsForCreatingAPost.CROP_MEDIA);
     }
 
@@ -114,14 +114,14 @@ export default function CreatePostWindow({ closeThisWindow }: { closeThisWindow:
                                 />;
                             case StepsForCreatingAPost.CROP_MEDIA:
                                 return <CropMedia
-                                    mediaUrl={uploadedMediaUrl!}
+                                    mediaUrls={uploadedMediaUrls!}
                                     goPreviousStep={handleGoPreviousStep}
                                     goNextStep={handleGoNextStep}
-                                    setCroppedMediaFile={setCroppedMediaFile}
+                                    setCroppedMediaFiles={setCroppedMediaFiles}
                                 />;
                             case StepsForCreatingAPost.CREATE_NEW_POST:
                                 return <AddInfo
-                                    mediaFile={croppedMediaFile!}
+                                    mediaFiles={croppedMediaFiles}
                                     goPreviousStep={handleGoPreviousStep}
                                     closeThisWindow={closeThisWindow}
                                 />;

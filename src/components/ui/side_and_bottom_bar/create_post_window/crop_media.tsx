@@ -1,11 +1,11 @@
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import Cropper from "react-easy-crop";
 
 type CropMediaProps = {
-    mediaUrl: string,
+    mediaUrls: string[],
     goPreviousStep: () => void,
     goNextStep: () => void,
-    setCroppedMediaFile: (file: File) => void
+    setCroppedMediaFiles: (files: File[]) => void
 }
 
 type CropArea = {
@@ -18,13 +18,25 @@ type CropArea = {
 export default function CropMedia(props: CropMediaProps) {
     const [crop, setCrop] = useState({ x: 0, y: 0 })
     const [zoom, setZoom] = useState(1);
-    const [croppedAreaPixels, setCroppedAreaPixels] = useState<CropArea | undefined>(undefined);
+    const [cropperDimension, setCropperDimension] = useState<{ width: number, height: number } | undefined>(undefined);
+    let [displayedCropperIndex, setDisplayedCropperIndex] = useState<number>(0);
 
-    const onCropComplete = (croppedArea: CropArea, croppedAreaPixels: CropArea) => {
-        setCroppedAreaPixels(croppedAreaPixels);
+    const mediaIndexMapsCroppedAreaPixels = useRef<Map<number, CropArea>>(new Map<number, CropArea>());
+
+    function onCropComplete(mediaIndex: number, croppedAreaPixels: CropArea) {
+        if (!isNaN(croppedAreaPixels.x) && !isNaN(croppedAreaPixels.y)) {
+            mediaIndexMapsCroppedAreaPixels.current.set(mediaIndex, croppedAreaPixels);
+        }
+
+        if (!cropperDimension && croppedAreaPixels.width && croppedAreaPixels.height) {
+            setCropperDimension({
+                width: croppedAreaPixels.width,
+                height: croppedAreaPixels.height,
+            })
+        }
     }
 
-    async function getCroppedImg(imageSrc: string, cropArea: CropArea) {
+    async function getCroppedImg(imageSrc: string, index: number, cropArea: CropArea) {
         const image: HTMLImageElement = await createImage(imageSrc);
 
         const canvas = document.createElement('canvas')
@@ -55,7 +67,7 @@ export default function CropMedia(props: CropMediaProps) {
 
         const file: File = await new Promise((resolve) => {
             croppedCanvas.toBlob((blob) => {
-                let file = new File([blob!], "1.jpg", { type: "image/jpeg" });
+                let file = new File([blob!], index + ".jpg", { type: "image/jpeg" });
                 resolve(file);
             }, 'image/jpeg');
         });
@@ -75,12 +87,49 @@ export default function CropMedia(props: CropMediaProps) {
     }
 
     async function handleNextClick() {
-        const file = await getCroppedImg(
-            props.mediaUrl,
-            croppedAreaPixels!,
-        );
-        props.setCroppedMediaFile(file);
+        const filesPromises = props.mediaUrls.map(async (mediaUrl, index) => {
+            let croppedAreaPixels: CropArea | undefined = mediaIndexMapsCroppedAreaPixels.current.get(index);
+
+            if (croppedAreaPixels === undefined) {
+                const mediaWidth: number = await getMediaWidth(mediaUrl);
+
+                croppedAreaPixels = {
+                    x: (mediaWidth / 2) - (cropperDimension?.width! / 2),
+                    y: 0,
+                    width: cropperDimension?.width!,
+                    height: cropperDimension?.height!,
+                }
+            };
+
+            return getCroppedImg(
+                mediaUrl,
+                index,
+                croppedAreaPixels,
+            );
+        })
+
+        props.setCroppedMediaFiles(await Promise.all(filesPromises));
         props.goNextStep();
+    }
+
+    function getMediaWidth(mediaUrl: string) {
+        return new Promise<number>((resolve) => {
+            const image = new Image();
+
+            image.onload = () => {
+                resolve(image.width);
+            };
+
+            image.src = mediaUrl;
+        })
+    }
+
+    function handleLeftArrowClick() {
+        setDisplayedCropperIndex(displayedCropperIndex - 1);
+    }
+
+    function handleRightArrowClick() {
+        setDisplayedCropperIndex(displayedCropperIndex + 1);
     }
 
     return (
@@ -99,34 +148,51 @@ export default function CropMedia(props: CropMediaProps) {
                 </div>
             </div>
 
-            <div className="grow flex justify-center items-center overflow-hidden">
-                <Cropper
-                    image={props.mediaUrl}
-                    crop={crop}
-                    zoom={zoom}
-                    aspect={1 / 1}
-                    onCropChange={setCrop}
-                    onCropComplete={onCropComplete}
-                    onZoomChange={setZoom}
-                    minZoom={1}
-                    objectFit='vertical-cover'
-                    style={{
-                        containerStyle: {
-                            position: 'relative',
-                            width: '100%',
-                            height: '100%',
-                            overflow: 'hidden',
-                            borderRadius: '0rem 0rem 1rem 1rem'
-                        },
-                        mediaStyle: {
-                            maxWidth: 'unset'
-                        },
-                        cropAreaStyle: {
-                            width: '100%',
-                            height: '100%'
-                        }
-                    }}
-                />
+            <div className="relative grow flex justify-center items-center overflow-hidden">
+                <div className={`${displayedCropperIndex === 0 ? 'hidden' : 'block'} 
+                    absolute left-[10px] px-[8px] py-[8px] bg-black/[0.6] rounded-full cursor-pointer hover:opacity-80 z-10`}
+                    onClick={handleLeftArrowClick}>
+                    <img src="/create_post/left-arrow.svg" alt="Previous" width={16} height={16} />
+                </div>
+
+                {
+                    props.mediaUrls.map((mediaUrl, index) => {
+                        return <Cropper
+                            key={index}
+                            image={mediaUrl}
+                            crop={crop}
+                            zoom={zoom}
+                            aspect={1 / 1}
+                            onCropChange={setCrop}
+                            onCropComplete={(croppedArea, croppedAreaPixels) => onCropComplete(index, croppedAreaPixels)}
+                            onZoomChange={setZoom}
+                            minZoom={1}
+                            objectFit='vertical-cover'
+                            style={{
+                                containerStyle: {
+                                    display: index === displayedCropperIndex ? 'flex' : 'none',
+                                    position: 'relative',
+                                    width: '100%',
+                                    height: '100%',
+                                    overflow: 'hidden',
+                                    borderRadius: '0rem 0rem 1rem 1rem'
+                                },
+                                mediaStyle: {
+                                    maxWidth: 'unset'
+                                },
+                                cropAreaStyle: {
+                                    width: '100%',
+                                    height: '100%'
+                                }
+                            }}
+                        />
+                    })
+                }
+
+                <div className={`${displayedCropperIndex === props.mediaUrls.length - 1 ? 'hidden' : 'block'} absolute right-[10px] px-[8px] py-[8px] bg-black/[0.6] rounded-full cursor-pointer hover:opacity-80 z-10`}
+                    onClick={handleRightArrowClick}>
+                    <img src="/create_post/right-arrow.svg" alt="Previous" width={16} height={16} />
+                </div>
             </div>
         </div>
     )

@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 
 type SelectMediaProps = {
-    handleMediaUpload: (uploadedMediaUrl: string) => void
+    handleMediaUpload: (uploadedMediaUrls: string[]) => void
 }
 
 export default function SelectMedia(props: SelectMediaProps) {
@@ -12,9 +12,8 @@ export default function SelectMedia(props: SelectMediaProps) {
             if (!mediaUploader!.files) {
                 return;
             }
-            const media = mediaUploader!.files[0];
-            const mediaUrl = URL.createObjectURL(media);
-            props.handleMediaUpload(mediaUrl);
+            const mediaUrls = Array.from(mediaUploader!.files).map(file => URL.createObjectURL(file));
+            props.handleMediaUpload(mediaUrls);
         }
     })
 
@@ -29,12 +28,10 @@ export default function SelectMedia(props: SelectMediaProps) {
 
                 <div className="text-[20px]">Drag photos and videos here</div>
 
-                <div className="text-center w-[160px] rounded-lg bg-sky-500 hover:bg-sky-600 text-white text-[13px] font-[500] py-[5px] cursor-pointer">
-                    <label className="cursor-pointer" htmlFor="media-uploader">
-                        Select from computer
-                    </label>
-                    <input id="media-uploader" type="file" accept="image/*, video/*" className="hidden" />
-                </div>
+                <label className="flex items-center justify-center rounded-lg bg-sky-500 hover:bg-sky-600 text-white text-[13px] font-[500] w-[160px] h-[30px] cursor-pointer" htmlFor="media-uploader">
+                    Select from computer
+                </label>
+                <input multiple id="media-uploader" type="file" accept="image/*, video/*" className="hidden" />
             </div>
         </div>
     )
