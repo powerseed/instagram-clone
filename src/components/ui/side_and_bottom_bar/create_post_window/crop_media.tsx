@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react"
+import { useRef, useState } from "react"
 import Cropper from "react-easy-crop";
 
 type CropMediaProps = {
@@ -36,9 +36,7 @@ export default function CropMedia(props: CropMediaProps) {
         }
     }
 
-    async function getCroppedImg(imageSrc: string, index: number, cropArea: CropArea) {
-        const image: HTMLImageElement = await createImage(imageSrc);
-
+    async function getCroppedImg(image: HTMLImageElement, index: number, cropArea: CropArea) {
         const canvas = document.createElement('canvas')
         const ctx = canvas.getContext('2d')
 
@@ -88,21 +86,23 @@ export default function CropMedia(props: CropMediaProps) {
 
     async function handleNextClick() {
         const filesPromises = props.mediaUrls.map(async (mediaUrl, index) => {
+            const image: HTMLImageElement = await createImage(mediaUrl);
+
             let croppedAreaPixels: CropArea | undefined = mediaIndexMapsCroppedAreaPixels.current.get(index);
 
             if (croppedAreaPixels === undefined) {
-                const mediaWidth: number = await getMediaWidth(mediaUrl);
+                const croppedAreaWidth = Math.min(image.height, image.width);
 
                 croppedAreaPixels = {
-                    x: (mediaWidth / 2) - (cropperDimension?.width! / 2),
+                    x: cropperDimension?.width! < image.width ? (image.width / 2) - (croppedAreaWidth / 2) : 0,
                     y: 0,
-                    width: cropperDimension?.width!,
-                    height: cropperDimension?.height!,
+                    width: croppedAreaWidth,
+                    height: image.height,
                 }
             };
 
             return getCroppedImg(
-                mediaUrl,
+                image,
                 index,
                 croppedAreaPixels,
             );
@@ -110,18 +110,6 @@ export default function CropMedia(props: CropMediaProps) {
 
         props.setCroppedMediaFiles(await Promise.all(filesPromises));
         props.goNextStep();
-    }
-
-    function getMediaWidth(mediaUrl: string) {
-        return new Promise<number>((resolve) => {
-            const image = new Image();
-
-            image.onload = () => {
-                resolve(image.width);
-            };
-
-            image.src = mediaUrl;
-        })
     }
 
     function handleLeftArrowClick() {

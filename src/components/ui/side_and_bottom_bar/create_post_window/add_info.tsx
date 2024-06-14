@@ -2,6 +2,7 @@ import { useSession } from "next-auth/react";
 import { useState } from "react";
 
 type AddInfoProps = {
+    modalHeight: number,
     mediaFiles: File[],
     goPreviousStep: () => void,
     closeThisWindow: () => void
@@ -9,6 +10,9 @@ type AddInfoProps = {
 
 export default function AddInfo(props: AddInfoProps) {
     const charLimit = 2200;
+    const headerHeightInPx = 45;
+    const mainHeight = props.modalHeight - headerHeightInPx;
+
     let [charCount, setCharCount] = useState<number>(0);
     let [text, setText] = useState<string>('');
     let [displayedMediaIndex, setDisplayedMediaIndex] = useState<number>(0);
@@ -103,7 +107,8 @@ export default function AddInfo(props: AddInfoProps) {
 
     return (
         <div className='flex flex-col h-full rounded-2xl bg-white opacity-100 text-[14px] divide-y divide-solid'>
-            <div className="flex justify-between items-center border-b-[1px] px-4 py-2 text-[16px] font-[500]">
+            <div className={`flex justify-between items-center border-b-[1px] px-4 py-2 text-[16px] font-[500]`}
+                style={{ height: headerHeightInPx }}>
                 <div className="cursor-pointer" onClick={props.goPreviousStep}>
                     <img src="/side_and_bottom_bar/create_post_window/left-arrow.svg" alt="Previous" width={28} height={28} />
                 </div>
@@ -117,22 +122,24 @@ export default function AddInfo(props: AddInfoProps) {
                 </div>
             </div>
 
-            <div className="grow flex">
+            <div className='flex' style={{ height: mainHeight }}>
                 <div className="relative flex justify-center items-center w-[calc(100%-340px)] border-r-[1px]">
                     <div className={`${displayedMediaIndex === 0 ? 'hidden' : 'block'} absolute left-[10px] px-[8px] py-[8px] bg-black/[0.6] rounded-full cursor-pointer hover:opacity-80`}
                         onClick={handleLeftArrowClick}>
                         <img src="/create_post/left-arrow.svg" alt="Previous" width={16} height={16} />
                     </div>
+
                     {
                         props.mediaFiles.map((mediaFile, index) => {
                             return <img
                                 key={index}
-                                className={`h-full rounded-bl-2xl ${displayedMediaIndex === index ? 'block' : 'hidden'}`}
+                                className={`w-full h-full object-contain rounded-bl-2xl ${displayedMediaIndex === index ? 'block' : 'hidden'}`}
                                 src={URL.createObjectURL(mediaFile)}
                                 alt="Cropped Image"
                             />
                         })
                     }
+
                     <div className={`${displayedMediaIndex === props.mediaFiles.length - 1 ? 'hidden' : 'block'} absolute right-[10px] px-[8px] py-[8px] bg-black/[0.6] rounded-full cursor-pointer hover:opacity-80`}
                         onClick={handleRightArrowClick}>
                         <img src="/create_post/right-arrow.svg" alt="Previous" width={16} height={16} />

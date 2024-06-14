@@ -14,9 +14,9 @@ export default function CreatePostWindow({ closeThisWindow }: { closeThisWindow:
     const { setIsOverlayOpen } = useContext(OverlayContext);
     let thisRef = useRef<HTMLDivElement>(null);
 
-    let [modalHeight, setModalHeight] = useState<string | undefined>(undefined);
-    let [modalWidthWithRightCol, setModalWidthWithRightCol] = useState<string | undefined>(undefined);
-    let [modalWidthWithoutRightCol, setModalWidthWithoutRightCol] = useState<string | undefined>(undefined);
+    let [modalHeight, setModalHeight] = useState<number | undefined>(undefined);
+    let [modalWidthWithRightCol, setModalWidthWithRightCol] = useState<number | undefined>(undefined);
+    let [modalWidthWithoutRightCol, setModalWidthWithoutRightCol] = useState<number | undefined>(undefined);
     let [areDimensionsCalculated, setAreDimensionsCalculated] = useState<boolean>(false);
 
     let [currentStep, setCurrentStep] = useState<StepsForCreatingAPost>(StepsForCreatingAPost.SELECT_MEDIA);
@@ -66,21 +66,21 @@ export default function CreatePostWindow({ closeThisWindow }: { closeThisWindow:
         let titleHeight = 43;
         let modalHeight = modalWidthWithoutRightCol + titleHeight;
 
-        setModalHeight(modalHeight + 'px');
-        setModalWidthWithoutRightCol(modalWidthWithoutRightCol + 'px');
-        setModalWidthWithRightCol(modalWidthWithRightCol + 'px');
+        setModalHeight(modalHeight);
+        setModalWidthWithoutRightCol(modalWidthWithoutRightCol);
+        setModalWidthWithRightCol(modalWidthWithRightCol);
     }
 
     function setDimentions() {
-        thisRef.current!.style.height = modalHeight!;
+        thisRef.current!.style.height = modalHeight! + 'px';
 
         switch (currentStep) {
             case StepsForCreatingAPost.SELECT_MEDIA:
             case StepsForCreatingAPost.CROP_MEDIA:
-                thisRef.current!.style.width = modalWidthWithoutRightCol!;
+                thisRef.current!.style.width = modalWidthWithoutRightCol! + 'px';
                 break;
             case StepsForCreatingAPost.CREATE_NEW_POST:
-                thisRef.current!.style.width = modalWidthWithRightCol!;
+                thisRef.current!.style.width = modalWidthWithRightCol! + 'px';
                 break;
         }
     }
@@ -121,6 +121,7 @@ export default function CreatePostWindow({ closeThisWindow }: { closeThisWindow:
                                 />;
                             case StepsForCreatingAPost.CREATE_NEW_POST:
                                 return <AddInfo
+                                    modalHeight={modalHeight!}
                                     mediaFiles={croppedMediaFiles}
                                     goPreviousStep={handleGoPreviousStep}
                                     closeThisWindow={closeThisWindow}
