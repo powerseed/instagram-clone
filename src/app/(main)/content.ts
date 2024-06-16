@@ -61,45 +61,6 @@ export const video_card_content = [
     },
 ]
 
-export const slides = [
-    {
-        text: 'hesam_mew',
-        img: `hesam_mew.jpg`
-    },
-    {
-        text: 'rheaseehornlover',
-        img: `rheaseehornlover.jpg`
-    },
-    {
-        text: 'aaronpaul',
-        img: `aaronpaul.jpg`
-    },
-    {
-        text: 'mitchmackieyyc',
-        img: `mitchmackieyyc.jpg`
-    },
-    {
-        text: 'voompla',
-        img: `voompla.jpg`
-    },
-    {
-        text: 'thegiancarloesposito',
-        img: `thegiancarloesposito.jpg`
-    },
-    {
-        text: 'mercedesbenzusa',
-        img: `mercedesbenzusa.jpg`
-    },
-    {
-        text: 'arang2o_o',
-        img: `arang2o_o.jpg`
-    },
-    {
-        text: 'instagram',
-        img: `instagram.jpg`
-    }
-];
-
 export const predefined_posts = [
     {
         id: '666140fe4108934faad5ccde',

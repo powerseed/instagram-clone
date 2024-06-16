@@ -2,13 +2,13 @@
 
 import styles from './styles.module.css';
 import './user_slider_styles.css'
-import { slides, predefined_posts } from '@/app/(main)/content';
+import { predefined_posts } from '@/app/(main)/content';
 import MediaCard from '@/components/ui/home/media_card/media_card';
 import Slider from "react-slick";
 import { useSession } from "next-auth/react";
 import BottomInfoSection from '@/components/ui/bottom_info_section';
 import { useEffect, useState } from 'react';
-import { Post } from '@/lib/types';
+import { Post, Following } from '@/lib/types';
 import { useInView } from 'react-intersection-observer';
 
 export default function Home() {
@@ -16,7 +16,9 @@ export default function Home() {
 
   let [posts, setPosts] = useState<Post[]>([]);
   let [pageIndex, setPageIndex] = useState<number>(0);
+  let [followings, setFollowings] = useState<Following[]>([]);
   let [hasInitializedPosts, setHasInitializedPosts] = useState<boolean>(false);
+  let [hasInitializedFollowings, setHasInitializedFollowings] = useState<boolean>(false);
 
   const { ref: infiniteScrollingAnchorRef, inView: isInfiniteScrollingAnchorRefInView } = useInView()
 
@@ -44,10 +46,40 @@ export default function Home() {
     }
   }
 
+  async function getFollowings() {
+    if (!session) {
+      return;
+    };
+
+    try {
+      const response = await fetch(`/api/user/get?userId=${session.user.id}`);
+
+      if (!response.ok) {
+        throw new Error();
+      }
+
+      let { users } = await response.json();
+
+      setFollowings(users);
+    }
+    catch (error) {
+      console.log(error)
+    }
+  }
+
   useEffect(() => {
-    if (session && !hasInitializedPosts) {
+    if (!session) {
+      return;
+    }
+
+    if (!hasInitializedPosts) {
       getPosts();
       setHasInitializedPosts(true);
+    }
+
+    if (!hasInitializedFollowings) {
+      getFollowings();
+      setHasInitializedFollowings(true);
     }
   }, [session]);
 
@@ -106,15 +138,15 @@ export default function Home() {
               }
             >
               {
-                slides.map(slide => {
+                followings.map(following => {
                   return (
-                    <div key={slide.text} className='!flex flex-col items-center space-y-1 !w-[70px] cursor-pointer'>
+                    <div key={following.username} className='!flex flex-col items-center space-y-1 !w-[70px] cursor-pointer'>
                       <div className='avatar-container flex justify-center items-center w-[65.5px] h-[65.5px]'>
-                        <img className='avatar' src={`/home/${slide.img}`} alt={slide.text} width={62} height={62} />
+                        <img className='avatar' src={following.avatarUrl} alt={following.username} width={62} height={62} />
                       </div>
 
                       <div className='flex justify-center w-full'>
-                        <p className='text-[11px] truncate'>{slide.text}</p>
+                        <p className='text-[11px] truncate'>{following.username}</p>
                       </div>
                     </div>
                   )
