@@ -73,13 +73,13 @@ export async function getPosts(userIds: string[], pageIndex: number, pageSize: n
                         as: 'post_comment'
                     },
                 },
-                {
-                    $match: {
-                        userId: {
-                            $in: userIds
-                        }
-                    }
-                }
+                // {
+                //     $match: {
+                //         userId: {
+                //             $in: userIds
+                //         }
+                //     }
+                // }
             ])
             .sort(
                 {

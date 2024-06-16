@@ -61,69 +61,6 @@ export const video_card_content = [
     },
 ]
 
-export const predefined_posts = [
-    {
-        id: '666140fe4108934faad5ccde',
-        avatarUrl: '/home/voompla.jpg',
-        username: 'voompla',
-        isVerified: true,
-        createdOn: new Date('April 6, 2024 03:24:00'),
-        annotation: "Original audio",
-        text: undefined,
-        mediaUrls: ["/home/voompla-1.jpg", "/home/voompla-2.jpg", "/home/voompla-3.jpg"],
-        likedBy: 'iammelissaruiz',
-        commentNumber: 218
-    },
-    {
-        id: '666141074108934faad5ccdf',
-        avatarUrl: '/home/aaronpaul.jpg',
-        username: 'aaronpaul',
-        isVerified: true,
-        createdOn: new Date('March 16, 2024 08:55:12'),
-        annotation: "Miami, Florida",
-        text: undefined,
-        mediaUrls: ["/home/aaronpaul-1.jpg"],
-        likedBy: 'michaelmando',
-        commentNumber: 14
-    },
-    {
-        id: '666141114108934faad5cce0',
-        avatarUrl: '/home/arang2o_o.jpg',
-        username: 'arang2o_o',
-        isVerified: false,
-        createdOn: new Date('Feb 29, 2024 03:24:00'),
-        annotation: "Original audio",
-        text: undefined,
-        mediaUrls: ["/home/arang2o_o-1.jpg", "/home/arang2o_o-2.jpg"],
-        likedBy: 'sandra202328',
-        commentNumber: 174
-    },
-    {
-        id: '666141194108934faad5cce1',
-        avatarUrl: '/home/rheaseehornlover.jpg',
-        username: 'rheaseehornlover',
-        isVerified: true,
-        createdOn: new Date('Jan 3, 2024 03:24:00'),
-        annotation: undefined,
-        text: undefined,
-        mediaUrls: ["/home/rheaseehornlover-1.jpg"],
-        likedBy: 'ceron_2199',
-        commentNumber: 724
-    },
-    {
-        id: '666141224108934faad5cce2',
-        avatarUrl: '/home/thegiancarloesposito.jpg',
-        username: 'thegiancarloesposito',
-        isVerified: true,
-        createdOn: new Date('April 1, 2024 03:24:00'),
-        annotation: "Original audio",
-        text: undefined,
-        mediaUrls: ["/home/thegiancarloesposito-1.jpg"],
-        likedBy: 'michaelmando',
-        commentNumber: 88
-    }
-]
-
 export const predefined_comments = [
     {
         id: '',

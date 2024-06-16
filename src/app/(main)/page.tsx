@@ -2,7 +2,6 @@
 
 import styles from './styles.module.css';
 import './user_slider_styles.css'
-import { predefined_posts } from '@/app/(main)/content';
 import MediaCard from '@/components/ui/home/media_card/media_card';
 import Slider from "react-slick";
 import { useSession } from "next-auth/react";
@@ -156,26 +155,6 @@ export default function Home() {
           </div>
 
           <div className='flex flex-col items-center w-full'>
-            {
-              predefined_posts.map((post, index) => {
-                return (
-                  <div key={index} className='mb-5'>
-                    <MediaCard
-                      key={index}
-                      postId={post.id}
-                      avatarUrl={post.avatarUrl}
-                      username={post.username}
-                      isVerified={post.isVerified}
-                      createdOn={post.createdOn.toString()}
-                      text={post.text}
-                      mediaUrls={post.mediaUrls}
-                      likedBy={post.likedBy}
-                      commentNumber={post.commentNumber}
-                    />
-                  </div>
-                )
-              })
-            }
             {
               posts && posts.map((post, index) => {
                 return (
