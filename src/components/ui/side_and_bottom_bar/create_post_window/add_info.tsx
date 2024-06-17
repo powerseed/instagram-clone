@@ -6,7 +6,7 @@ type AddInfoProps = {
     mainHeightInPx: number,
     mediaFiles: File[],
     goPreviousStep: () => void,
-    postPost: (postPostPromise: Promise<void>) => void
+    postPost: (postPostPromise: () => Promise<void>) => void
 }
 
 export default function AddInfo(props: AddInfoProps) {
@@ -21,8 +21,8 @@ export default function AddInfo(props: AddInfoProps) {
         return;
     }
 
-    async function handleShareClick() {
-        const postPostPromise = new Promise<void>(async (resolve, reject) => {
+    function postPostAsyncFunction(): Promise<void> {
+        return new Promise<void>(async (resolve) => {
             // Create the post
             let response = await fetch('/api/post/create', {
                 method: 'POST',
@@ -57,8 +57,6 @@ export default function AddInfo(props: AddInfoProps) {
 
             resolve();
         })
-
-        props.postPost(postPostPromise);
     }
 
     async function uploadMediaToAwsS3(postId: string, mediaFile: File) {
@@ -119,7 +117,7 @@ export default function AddInfo(props: AddInfoProps) {
                     Create new post
                 </div>
 
-                <div className="cursor-pointer text-sky-500 text-[14px]" onClick={handleShareClick}>
+                <div className="cursor-pointer text-sky-500 text-[14px]" onClick={() => props.postPost(postPostAsyncFunction)}>
                     Share
                 </div>
             </div>

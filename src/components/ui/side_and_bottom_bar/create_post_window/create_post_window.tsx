@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useReducer, useRef, useState } from "react";
 import { OverlayContext } from "@/app/(main)/overlay_context_provider";
 import SelectMedia from "./select_media";
 import CropMedia from "./crop_media";
@@ -24,8 +24,9 @@ export default function CreatePostWindow({ closeThisWindow }: { closeThisWindow:
     let [modalWidthWithRightCol, setModalWidthWithRightCol] = useState<number | undefined>(undefined);
     let [modalWidthWithoutRightCol, setModalWidthWithoutRightCol] = useState<number | undefined>(undefined);
     let [areDimensionsCalculated, setAreDimensionsCalculated] = useState<boolean>(false);
+    let [, forceUpdate] = useReducer(x => x + 1, 0);
 
-    let [currentStep, setCurrentStep] = useState<StepsForCreatingAPost>(StepsForCreatingAPost.SELECT_MEDIA);
+    let currentStep = useRef<StepsForCreatingAPost>(StepsForCreatingAPost.SELECT_MEDIA);
     let [uploadedMediaUrls, setUploadedMediaUrls] = useState<string[]>([]);
     let [croppedMediaFiles, setCroppedMediaFiles] = useState<File[]>([]);
 
@@ -43,7 +44,7 @@ export default function CreatePostWindow({ closeThisWindow }: { closeThisWindow:
         if (areDimensionsCalculated) {
             setDimentions();
         }
-    }, [areDimensionsCalculated, currentStep])
+    }, [areDimensionsCalculated, currentStep.current])
 
     function calculateDimensions() {
         const maxWidthPercentageOfVw = 0.9;
@@ -81,7 +82,7 @@ export default function CreatePostWindow({ closeThisWindow }: { closeThisWindow:
     function setDimentions() {
         thisRef.current!.style.height = modalHeight! + 'px';
 
-        switch (currentStep) {
+        switch (currentStep.current) {
             case StepsForCreatingAPost.SELECT_MEDIA:
             case StepsForCreatingAPost.CROP_MEDIA:
             case StepsForCreatingAPost.SHARING:
@@ -96,27 +97,32 @@ export default function CreatePostWindow({ closeThisWindow }: { closeThisWindow:
 
     function handleMediaUpload(uploadedMediaUrls: string[]) {
         setUploadedMediaUrls(uploadedMediaUrls);
-        setCurrentStep(StepsForCreatingAPost.CROP_MEDIA);
+        currentStep.current = StepsForCreatingAPost.CROP_MEDIA;
+        forceUpdate();
     }
 
     function handleGoPreviousStep() {
-        const previousIndex: number = Object.keys(StepsForCreatingAPost).indexOf(currentStep.toString()) - 1;
+        const previousIndex: number = Object.keys(StepsForCreatingAPost).indexOf(currentStep.current.toString()) - 1;
         const previousStep: string = StepsForCreatingAPost[previousIndex];
-        setCurrentStep(StepsForCreatingAPost[previousStep as keyof typeof StepsForCreatingAPost]);
+        currentStep.current = StepsForCreatingAPost[previousStep as keyof typeof StepsForCreatingAPost];
+        forceUpdate();
     }
 
     function handleGoNextStep() {
-        const nextIndex: number = Object.keys(StepsForCreatingAPost).indexOf(currentStep.toString()) + 1;
+        const nextIndex: number = Object.keys(StepsForCreatingAPost).indexOf(currentStep.current.toString()) + 1;
         const nextStep: string = StepsForCreatingAPost[nextIndex];
-        setCurrentStep(StepsForCreatingAPost[nextStep as keyof typeof StepsForCreatingAPost]);
+        currentStep.current = StepsForCreatingAPost[nextStep as keyof typeof StepsForCreatingAPost];
+        forceUpdate();
     }
 
-    function postPost(postPostPromise: Promise<void>) {
-        setCurrentStep(StepsForCreatingAPost.SHARING);
+    async function postPost(postPostAsyncFunction: () => Promise<void>) {
+        currentStep.current = StepsForCreatingAPost.SHARING;
+        forceUpdate();
 
-        postPostPromise.then(() => {
-            setCurrentStep(StepsForCreatingAPost.POST_SHARED)
-        });
+        await postPostAsyncFunction();
+
+        currentStep.current = StepsForCreatingAPost.POST_SHARED;
+        forceUpdate();
     }
 
     return (
@@ -124,7 +130,7 @@ export default function CreatePostWindow({ closeThisWindow }: { closeThisWindow:
             <div ref={thisRef} className={`transition-all duration-500`}>
                 {
                     (() => {
-                        switch (currentStep) {
+                        switch (currentStep.current) {
                             case StepsForCreatingAPost.SELECT_MEDIA:
                                 return <SelectMedia
                                     handleMediaUpload={handleMediaUpload}
