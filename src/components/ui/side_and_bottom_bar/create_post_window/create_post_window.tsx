@@ -3,18 +3,24 @@ import { OverlayContext } from "@/app/(main)/overlay_context_provider";
 import SelectMedia from "./select_media";
 import CropMedia from "./crop_media";
 import AddInfo from "./add_info";
+import Sharing from "./sharing";
+import PostShared from "./post_shared";
 
 enum StepsForCreatingAPost {
     SELECT_MEDIA,
     CROP_MEDIA,
-    CREATE_NEW_POST
+    CREATE_NEW_POST,
+    SHARING,
+    POST_SHARED
 }
 
 export default function CreatePostWindow({ closeThisWindow }: { closeThisWindow: () => void }) {
     const { setIsOverlayOpen } = useContext(OverlayContext);
     let thisRef = useRef<HTMLDivElement>(null);
 
-    let [modalHeight, setModalHeight] = useState<number | undefined>(undefined);
+    let [modalHeight, setModalHeight] = useState<number>(0);
+    const headerHeightInPx = 45;
+    let [mainHeightInPx, setMainHeightInPx] = useState<number>(0);
     let [modalWidthWithRightCol, setModalWidthWithRightCol] = useState<number | undefined>(undefined);
     let [modalWidthWithoutRightCol, setModalWidthWithoutRightCol] = useState<number | undefined>(undefined);
     let [areDimensionsCalculated, setAreDimensionsCalculated] = useState<boolean>(false);
@@ -67,6 +73,7 @@ export default function CreatePostWindow({ closeThisWindow }: { closeThisWindow:
         let modalHeight = modalWidthWithoutRightCol + titleHeight;
 
         setModalHeight(modalHeight);
+        setMainHeightInPx(modalHeight - headerHeightInPx);
         setModalWidthWithoutRightCol(modalWidthWithoutRightCol);
         setModalWidthWithRightCol(modalWidthWithRightCol);
     }
@@ -77,6 +84,8 @@ export default function CreatePostWindow({ closeThisWindow }: { closeThisWindow:
         switch (currentStep) {
             case StepsForCreatingAPost.SELECT_MEDIA:
             case StepsForCreatingAPost.CROP_MEDIA:
+            case StepsForCreatingAPost.SHARING:
+            case StepsForCreatingAPost.POST_SHARED:
                 thisRef.current!.style.width = modalWidthWithoutRightCol! + 'px';
                 break;
             case StepsForCreatingAPost.CREATE_NEW_POST:
@@ -102,6 +111,14 @@ export default function CreatePostWindow({ closeThisWindow }: { closeThisWindow:
         setCurrentStep(StepsForCreatingAPost[nextStep as keyof typeof StepsForCreatingAPost]);
     }
 
+    function postPost(postPostPromise: Promise<void>) {
+        setCurrentStep(StepsForCreatingAPost.SHARING);
+
+        postPostPromise.then(() => {
+            setCurrentStep(StepsForCreatingAPost.POST_SHARED)
+        });
+    }
+
     return (
         <div className="fixed top-0 bottom-0 left-0 right-0 !my-0 w-screen h-screen flex justify-center items-center bg-black/70 z-[var(--windows-z-index)]">
             <div ref={thisRef} className={`transition-all duration-500`}>
@@ -121,11 +138,22 @@ export default function CreatePostWindow({ closeThisWindow }: { closeThisWindow:
                                 />;
                             case StepsForCreatingAPost.CREATE_NEW_POST:
                                 return <AddInfo
-                                    modalHeight={modalHeight!}
+                                    headerHeightInPx={headerHeightInPx}
+                                    mainHeightInPx={mainHeightInPx}
                                     mediaFiles={croppedMediaFiles}
                                     goPreviousStep={handleGoPreviousStep}
-                                    closeThisWindow={closeThisWindow}
+                                    postPost={postPost}
                                 />;
+                            case StepsForCreatingAPost.SHARING:
+                                return <Sharing
+                                    headerHeightInPx={headerHeightInPx}
+                                    mainHeightInPx={mainHeightInPx}
+                                />
+                            case StepsForCreatingAPost.POST_SHARED:
+                                return <PostShared
+                                    headerHeightInPx={headerHeightInPx}
+                                    mainHeightInPx={mainHeightInPx}
+                                />
                             default:
                                 return null;
                         }

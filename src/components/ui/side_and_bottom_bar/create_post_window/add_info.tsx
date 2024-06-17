@@ -2,16 +2,15 @@ import { useSession } from "next-auth/react";
 import { useState } from "react";
 
 type AddInfoProps = {
-    modalHeight: number,
+    headerHeightInPx: number,
+    mainHeightInPx: number,
     mediaFiles: File[],
     goPreviousStep: () => void,
-    closeThisWindow: () => void
+    postPost: (postPostPromise: Promise<void>) => void
 }
 
 export default function AddInfo(props: AddInfoProps) {
     const charLimit = 2200;
-    const headerHeightInPx = 45;
-    const mainHeight = props.modalHeight - headerHeightInPx;
 
     let [charCount, setCharCount] = useState<number>(0);
     let [text, setText] = useState<string>('');
@@ -23,39 +22,43 @@ export default function AddInfo(props: AddInfoProps) {
     }
 
     async function handleShareClick() {
-        // Create the post
-        let response = await fetch('/api/post/create', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                userId: session?.user?.id,
-                createdOn: new Date,
-                text: text
-            }),
-        });
+        const postPostPromise = new Promise<void>(async (resolve, reject) => {
+            // Create the post
+            let response = await fetch('/api/post/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    userId: session?.user?.id,
+                    createdOn: new Date,
+                    text: text
+                }),
+            });
 
-        if (!response.ok) {
-            alert('Failed to create the post. ');
-            return;
-        }
-
-        // Upload the media of the post onto AWS S3.
-        const { postId } = await response.json();
-
-        await Promise.all(props.mediaFiles.map(async (mediaFile) => {
-            try {
-                await uploadMediaToAwsS3(postId, mediaFile);
+            if (!response.ok) {
+                alert('Failed to create the post. ');
+                return;
             }
-            catch (error) {
-                if (error instanceof Error) {
-                    alert(error.message);
+
+            // Upload the media of the post onto AWS S3.
+            const { postId } = await response.json();
+
+            await Promise.all(props.mediaFiles.map(async (mediaFile) => {
+                try {
+                    await uploadMediaToAwsS3(postId, mediaFile);
                 }
-            }
-        }));
+                catch (error) {
+                    if (error instanceof Error) {
+                        alert(error.message);
+                    }
+                }
+            }));
 
-        props.closeThisWindow();
+            resolve();
+        })
+
+        props.postPost(postPostPromise);
     }
 
     async function uploadMediaToAwsS3(postId: string, mediaFile: File) {
@@ -107,8 +110,7 @@ export default function AddInfo(props: AddInfoProps) {
 
     return (
         <div className='flex flex-col h-full rounded-2xl bg-white opacity-100 text-[14px] divide-y divide-solid'>
-            <div className={`flex justify-between items-center border-b-[1px] px-4 py-2 text-[16px] font-[500]`}
-                style={{ height: headerHeightInPx }}>
+            <div className={`flex justify-between items-center border-b-[1px] px-4 py-2 text-[16px] font-[500]`} style={{ height: props.headerHeightInPx + 'px' }}>
                 <div className="cursor-pointer" onClick={props.goPreviousStep}>
                     <img src="/side_and_bottom_bar/create_post_window/left-arrow.svg" alt="Previous" width={28} height={28} />
                 </div>
@@ -122,7 +124,7 @@ export default function AddInfo(props: AddInfoProps) {
                 </div>
             </div>
 
-            <div className='flex' style={{ height: mainHeight }}>
+            <div className='flex' style={{ height: props.mainHeightInPx + 'px' }}>
                 <div className="relative flex justify-center items-center w-[calc(100%-340px)] border-r-[1px]">
                     <div className={`${displayedMediaIndex === 0 ? 'hidden' : 'block'} absolute left-[10px] px-[8px] py-[8px] bg-black/[0.6] rounded-full cursor-pointer hover:opacity-80`}
                         onClick={handleLeftArrowClick}>
