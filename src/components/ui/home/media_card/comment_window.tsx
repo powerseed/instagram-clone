@@ -6,7 +6,6 @@ import Textarea, { TextareaHandle } from "./textarea";
 import styles from './styles.module.css';
 import './media_slider_in_card_styles.css';
 import Comment from "./comment";
-import { predefined_comments } from './content';
 import { OverlayContext } from "@/app/(main)/overlay_context_provider";
 import { useSession } from "next-auth/react";
 import { Comment as CommentType } from '@/lib/types';
@@ -151,22 +150,6 @@ export default function CommentWindow(props: CommentProps) {
                     </div>
 
                     <div ref={commentsContainer} className={`grow overflow-y-auto overscroll-contain px-[15px] ${styles.comment_list}`}>
-                        {
-                            predefined_comments.map((comment, index) => {
-                                return (
-                                    <Comment
-                                        key={index}
-                                        username={comment.username}
-                                        avatar={comment.avatarUrl}
-                                        content={comment.text}
-                                        createdOn={comment.createdOn}
-                                        likeCount={comment.likeCount}
-                                        replyCount={comment.replyCount}
-                                        onReplyClick={placeUsernameInInputField}
-                                    />
-                                )
-                            })
-                        }
                         {
                             comments.map((comment) => {
                                 return (
