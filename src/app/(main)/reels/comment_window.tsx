@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import Textarea, { TextareaHandle } from "@/components/ui/home/media_card/textarea";
-import { predefined_comments } from "@/app/(main)/content";
 import Comment from "@/components/ui/home/media_card/comment";
 import { useSession } from "next-auth/react";
 import { Comment as CommentType } from '@/lib/types';
@@ -128,22 +127,6 @@ export default function CommentWindow(props: CommentWindowProps) {
             </div>
 
             <div ref={commentsContainer} className="grow overflow-y-auto overscroll-contain px-[30px]">
-                {
-                    predefined_comments.map((comment, index) => {
-                        return (
-                            <Comment
-                                key={index}
-                                username={comment.username}
-                                avatar={comment.avatarUrl}
-                                content={comment.text}
-                                createdOn={comment.createdOn}
-                                likeCount={comment.likeCount}
-                                replyCount={comment.replyCount}
-                                onReplyClick={placeUsernameInInputField}
-                            />
-                        )
-                    })
-                }
                 {
                     comments.map((comment) => {
                         return (

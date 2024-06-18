@@ -26,7 +26,7 @@ export async function getPosts(userIds: string[], pageIndex: number, pageSize: n
         if (postCollection === undefined) {
             await init();
         }
-        
+
         const result = await postCollection!
             .aggregate([
                 {
@@ -109,7 +109,7 @@ export async function getPosts(userIds: string[], pageIndex: number, pageSize: n
             })
             .toArray();
 
-            return { posts: result };
+        return { posts: result };
     } catch (error) {
         return {
             error: 'Failed to fetch posts. '

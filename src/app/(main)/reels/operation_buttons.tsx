@@ -1,4 +1,4 @@
-import { MouseEvent, useState } from "react";
+import { MouseEvent, useEffect, useState } from "react";
 import LikeButton from "@/components/ui/home/media_card/like_button";
 import MoreMenu from "./more_menu";
 import CommentWindow from "./comment_window";
@@ -11,7 +11,6 @@ enum OperationsOnButtonsForPost {
 
 type OperationButtonsProps = {
     postId: string,
-    comment_count: number,
     avatar: string
 }
 
@@ -20,7 +19,28 @@ export default function OperationButtons(props: OperationButtonsProps) {
     let [isShareOpen, setIsShareOpen] = useState(false);
     let [isSaved, setIsSaved] = useState(false);
     let [isMoreOpen, setIsMoreOpen] = useState(false);
+    let [commentCount, setCommentCount] = useState(0);
 
+    useEffect(() => {
+        getCommentCount();
+    }, []);
+
+    async function getCommentCount() {
+        try {
+            const response = await fetch(`/api/comment/count?postId=${props.postId}`);
+
+            if (!response.ok) {
+                throw new Error();
+            }
+
+            let { commentCount } = await response.json();
+
+            setCommentCount(commentCount);
+        }
+        catch (error) {
+            console.log(error)
+        }
+    }
 
     function onButtonsForPostHoverOrLeave(event: MouseEvent, operation: OperationsOnButtonsForPost) {
         let img = event.target! as HTMLImageElement;
@@ -62,7 +82,7 @@ export default function OperationButtons(props: OperationButtonsProps) {
                         Intl.NumberFormat('en-US', {
                             notation: "compact",
                             maximumFractionDigits: 1
-                        }).format(props.comment_count)
+                        }).format(commentCount)
                     }
                 </div>
 
